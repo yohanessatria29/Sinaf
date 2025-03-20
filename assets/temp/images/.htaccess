@@ -1,0 +1,4 @@
+<Directory /path/to/secret>
+    Order Deny,Allow
+    Deny from all
+</Directory>
