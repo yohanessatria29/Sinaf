@@ -24,9 +24,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |
 */
 $root  = "http://" . $_SERVER['HTTP_HOST'];
-$root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+//$root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 // CONFIG LAMA
-$config['base_url']    = $root;
+//$config['base_url']    = $root;
+$config[['base_url'] = 'http://192.168.137.2/sinaf/';
 
 // CONFIG BARU
 //$config['base_url']    = 'https://sinaf.kemkes.go.id';
