@@ -8,7 +8,8 @@ class Forgot_password extends CI_Controller
         parent::__construct();
         $this->load->library('session');
         $this->load->helper('url');
-        $this->load->library('encrypt');
+        // $this->load->library('encrypt');
+        $this->load->library('encryption');
     }
 
     public function index()
@@ -28,7 +29,8 @@ class Forgot_password extends CI_Controller
 
     public function send_mail()
     {
-        $this->load->library('encrypt');
+        // $this->load->library('encrypt');
+        $this->load->library('encryption');
         // CHECK EMAIL TERDAFTAR ATAU TIDAK
         // $email = $this->input->post('emailrecover');
         $email = str_replace("'", "", htmlspecialchars($this->input->post('emailrecover'), ENT_QUOTES));
@@ -93,7 +95,8 @@ class Forgot_password extends CI_Controller
 
     public function recoveraccount()
     {
-        $this->load->library('encrypt');
+        // $this->load->library('encrypt');
+        $this->load->library('encryption');
         $this->load->helper('security');
         $this->load->helper('date');
         $this->load->model('Model_user');
@@ -135,7 +138,8 @@ class Forgot_password extends CI_Controller
 
     public function changepassword()
     {
-        $this->load->library('encrypt');
+        // $this->load->library('encrypt');
+        $this->load->library('encryption');
         $this->load->helper('security');
         $password1 = $this->input->post('newpasswordfirst');
         $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
