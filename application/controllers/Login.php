@@ -23,18 +23,27 @@ class Login extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Mlogin', 'Mlogin');
+		// Load the database
+		$this->load->database();
 	}
 
 	function index()
 	{
-		if ($this->session->userdata('login') != TRUE) {
-			$this->load->view('auth-login');
+		if ($this->db->conn_id) {
+			echo "Connection Successful!";
 		} else {
-			$url = base_url('/pengajuan');
-			redirect($url);
-		};
-		//$this->load->view('auth-login');
+			echo "Connection Failed!";
+		}
 	}
+	// {
+	// 	if ($this->session->userdata('login') != TRUE) {
+	// 		$this->load->view('auth-login');
+	// 	} else {
+	// 		$url = base_url('/pengajuan');
+	// 		redirect($url);
+	// 	};
+	// 	//$this->load->view('auth-login');
+	// }
 
 	function autentikasi()
 	{
@@ -104,12 +113,11 @@ class Login extends CI_Controller
 						$this->session->set_userdata('lpa_id', $x['lpa_id']);
 						$this->session->set_userdata('kriteria_id', $x['kriteria_id']);
 
-						if($x['lpa_id'] == '15' || $x['lpa_id'] == '16' || $x['lpa_id'] == '17' || $x['lpa_id'] == '18' || $x['lpa_id'] == '19' || $x['lpa_id'] == '20'){
+						if ($x['lpa_id'] == '15' || $x['lpa_id'] == '16' || $x['lpa_id'] == '17' || $x['lpa_id'] == '18' || $x['lpa_id'] == '19' || $x['lpa_id'] == '20') {
 							redirect('pengajuan/surveior');
-						}else{
+						} else {
 							redirect('pengajuan');
 						}
-						
 					} else if ($x['kriteria_id'] == '2') { //Admin Kemenkes
 						$this->session->set_userdata('access', 'Kemenkes');
 						$this->session->set_userdata('kriteria', 'Admin Kemenkes');
@@ -139,32 +147,31 @@ class Login extends CI_Controller
 						$this->session->set_userdata('kriteria', 'Ketua Tim');
 						redirect('ketua');
 						// Nasrul
-					}else if ($x['kriteria_id'] == '9') { // Direktur
+					} else if ($x['kriteria_id'] == '9') { // Direktur
 						$this->session->set_userdata('access', 'Direktur');
 						$this->session->set_userdata('kriteria', 'Direktur');
 						redirect('direktur');
-					}else if ($x['kriteria_id'] == '10') { // Binwas
+					} else if ($x['kriteria_id'] == '10') { // Binwas
 						$this->session->set_userdata('access', 'Binwas');
 						$this->session->set_userdata('kriteria', 'Binwas');
 						redirect('binwas');
-					}else if ($x['kriteria_id'] == '11') { // Kesmas
+					} else if ($x['kriteria_id'] == '11') { // Kesmas
 						$this->session->set_userdata('access', 'Kesmas');
 						$this->session->set_userdata('kriteria', 'Kesmas');
 						redirect('kesmas');
-					}else if ($x['kriteria_id'] == '13') { // Primer
+					} else if ($x['kriteria_id'] == '13') { // Primer
 						$this->session->set_userdata('access', 'Mutu Primer');
 						$this->session->set_userdata('kriteria', 'Mutu Primer');
 						redirect('primer/proses');
-					}else if ($x['kriteria_id'] == '14') { // Primer
+					} else if ($x['kriteria_id'] == '14') { // Primer
 						$this->session->set_userdata('access', 'Mutu Primer');
 						$this->session->set_userdata('kriteria', 'Mutu Primer');
 						redirect('primer/proses');
-					}else if ($x['kriteria_id'] == '15') { // Primer
+					} else if ($x['kriteria_id'] == '15') { // Primer
 						$this->session->set_userdata('access', 'Mutu Primer');
 						$this->session->set_userdata('kriteria', 'Mutu Primer');
 						redirect('primer/proses');
 					}
-
 				} else {
 
 					$url = base_url('login');
