@@ -35,7 +35,6 @@ class Login extends CI_Controller
 			$url = base_url('/pengajuan');
 			redirect($url);
 		};
-		//$this->load->view('auth-login');
 	}
 
 	function autentikasi()
@@ -87,7 +86,6 @@ class Login extends CI_Controller
 		}
 		//code udin
 		$validasi_email = $this->Mlogin->query_validasi_email($email);
-		// var_dump($validasi_email);
 		if ($validasi_email->num_rows() > 0) {
 			$validate_ps = $this->Mlogin->query_validasi_password($email, $hashed);
 			if ($validate_ps->num_rows() > 0) {

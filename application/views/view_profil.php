@@ -17,6 +17,7 @@
   <body>
     <?php
     include('template/sidebar.php');
+
     if ($this->session->userdata('kriteria_id') == 3) {
       if ($datauser[0]->sertifikat_surveior != NULL) {
         $hideserti = '';
@@ -26,6 +27,11 @@
       }
     }
     ?>
+    <?php if ($this->session->flashdata('message_name') != null) { ?>
+      <div class="alert alert-<?= $this->session->flashdata('kode_name'); ?> alert-dismissible">
+        <?= $this->session->flashdata('message_name'); ?>
+      </div>
+    <?php } ?>
     <section class="section">
       <div class="container">
         <div class="row">
@@ -145,21 +151,21 @@
                               <!-- Nasrul -->
                               <?php if (empty($d->sertif_anggota)) {
 
-                                  ?>
-                                    <tr>
-                                      <td class="text-bold-500">Surat Keputusan Keanggotaan</td>
-                                      <td>:</td>
-                                      <td class="text-bold-500">Tidak Ada Dokumen Surat</td>
-                                    </tr>
+                              ?>
+                                <tr>
+                                  <td class="text-bold-500">Surat Keputusan Keanggotaan</td>
+                                  <td>:</td>
+                                  <td class="text-bold-500">Tidak Ada Dokumen Surat</td>
+                                </tr>
 
-                                  <?php    } else { ?>
-                                    <tr>
-                                      <td class="text-bold-500">Surat Keputusan Keanggotaan</td>
-                                      <td>:</td>
-                                      <td class="text-bold-500"><a class="btn btn-primary rounded-pill" target="_blank" href="<?php echo $d->sertif_anggota; ?>">Lihat Dokumen</a></td>
-                                    </tr>
+                              <?php    } else { ?>
+                                <tr>
+                                  <td class="text-bold-500">Surat Keputusan Keanggotaan</td>
+                                  <td>:</td>
+                                  <td class="text-bold-500"><a class="btn btn-primary rounded-pill" target="_blank" href="<?php echo $d->sertif_anggota; ?>">Lihat Dokumen</a></td>
+                                </tr>
 
-                                  <?php } ?>
+                              <?php } ?>
 
 
 
@@ -698,43 +704,66 @@
                         <label for="">Dokumen Sertifikat</label>
                       </div>
                       <div class="col-md-6">
-                        <a <?php echo $hideserti; ?> class="btn btn-primary rounded-pill" target="_blank" href="<?php echo base_url('/assets/uploads/berkas_akreditasi/' . $nama_sertifikat) ?>">Lihat Dokumen Sertifikat</a>
+                        <?php
+                        $link_sertifikat = $nama_sertifikat ?? '';
+
+                        // Cek apakah link eksternal (https) atau file lokal PDF
+                        $is_external = preg_match('#^https?://#i', $link_sertifikat);
+                        $is_pdf = preg_match('/\.pdf$/i', $link_sertifikat);
+
+                        if (!empty($link_sertifikat)) {
+                          $url_view = $is_external ? $link_sertifikat : base_url('/assets/uploads/berkas_akreditasi/' . $link_sertifikat);
+                          echo '<a class="btn btn-primary rounded-pill" target="_blank" href="' . $url_view . '">Lihat Dokumen Sertifikat</a>';
+                        }
+                        ?>
                       </div>
-                    </div>
-                    <div class="row">
-                      <input onchange="uploadserti(this)" type="file" name="sertifikat_surveior" id="sertifikat_surveior" accept="application/pdf">
-                      <p><small>File PDF maksimal 2mb</small></p>
+                      <?php echo form_open_multipart('Profil/uploadsertifikat') ?>
+                      <form role="form" method="post" class="login-form" name="form_valdation">
+                        <div class="row mt-2">
+                          <div class="col-md-8">
+                            <input type="url" class="form-control" name="sertifikat_surveior" id="sertifikat_surveior"
+                              placeholder="Masukkan link Google Drive atau URL PDF"
+                              value="<?= $link_sertifikat ?? '' ?>" required />
+                            <p><small>Masukkan link URL Google Drive atau file PDF. Contoh: https://drive.google.com/...</small></p>
+                          </div>
+                          <div class="col-md-4">
+                            <button type="submit" class="btn btn-success rounded-pill">Simpan Link</button>
+                          </div>
+                        </div>
+                      </form>
+
+
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          <?php
+            <?php
           }
-          ?>
+            ?>
+            </div>
+            <!-- Button trigger modal -->
         </div>
-        <!-- Button trigger modal -->
-      </div>
 
-      <div class="modal fade" tabindex="-1" role="dialog" id="modal_uploadserti">
-        <div class="modal-dialog">
-          <form class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Upload Confirmation</h5>
-              <button type="button" class="close" data-bs-dismiss="modal">
-                <span>&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" style="height: 100px">
-              <p>Apakah Anda Yakin Ingin Mengupload Dokumen ini ?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" onclick='doupload()' class="btn btn-success">Ya</button>
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tidak</button>
-            </div>
-          </form>
+        <div class="modal fade" tabindex="-1" role="dialog" id="modal_uploadserti">
+          <div class="modal-dialog">
+            <form class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Upload Confirmation</h5>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="height: 100px">
+                <p>Apakah Anda Yakin Ingin Mengupload Dokumen ini ?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" onclick='doupload()' class="btn btn-success">Ya</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tidak</button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+
     </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="<?php echo base_url('assets/js/app.js'); ?>"></script>
@@ -803,7 +832,7 @@
       }
     </script>
     <script>
-      function uploadserti(e) {
+      function uploadserti() {
         $('#modal_uploadserti').modal('show');
       }
 

@@ -30,13 +30,6 @@ class Profil extends CI_Controller
 
 
         );
-        // echo json_encode($data['datauser']); exit;
-
-        // if ($data['datauser'][0]->{'sertifikat_surveior'} == NULL) {
-        //     $this->session->set_flashdata('Status_Sertifikat', 0);
-        // } else if ($data['datauser'][0]->{'sertifikat_surveior'} != NULL) {
-        //     $this->session->set_flashdata('Status_Sertifikat', 1);
-        // }
 
         if ($this->session->userdata('kriteria_id') == 3) {
             if ($data['datauser'][0]->{'status_aktif'} == 1) {
@@ -51,11 +44,8 @@ class Profil extends CI_Controller
                 $this->session->set_flashdata('Status_Sertifikat', 1);
             }
         }
-        // var_dump($this->session->userdata());
 
         $this->load->view('view_profil', $data);
-
-        // $this->load->view('view_profil');
     }
     public function update_profil()
     {
@@ -181,34 +171,40 @@ class Profil extends CI_Controller
 
     public function uploadsertifikat()
     {
-        // var_dump($_FILES);
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name']         = TRUE;
+        // $this->load->library('upload', $config);
+        // if (!$this->upload->do_upload('file')) {
+        //     print_r($this->upload->display_errors());
+        //     exit;
+        // } else {
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
         $user_id = $this->session->userdata('user_id');
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name']         = TRUE;
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('file')) {
-            print_r($this->upload->display_errors());
-            exit;
+        $url = $this->input->post('sertifikat_surveior');
+        $data = array(
+            'nama_sertifikat' => $url
+        );
+        $where = array(
+            'users_id' => $user_id
+        );
+        $result = $this->Model_profile->edit_sertifikat('user_surveior', $where, $data);
+        if ($result) {
+            $this->session->set_flashdata('kode_name', 'success');
+            $this->session->set_flashdata('icon_name', 'check');
+            $this->session->set_flashdata('message_name', 'Sukses Input Data!');
         } else {
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
-            $data = array(
-                'nama_sertifikat' => $fileName
-            );
-            $where = array(
-                'users_id' => $user_id
-            );
-            $result = $this->Model_profile->edit_sertifikat('user_surveior', $where, $data);
-            if ($result == TRUE) {
-                echo "true";
-            } else {
-                echo $result;
-            }
+            $this->session->set_flashdata('kode_name', 'danger');
+            $this->session->set_flashdata('icon_name', 'check');
+            $this->session->set_flashdata('message_name', 'Input Data Gagal!');
         }
+
+        redirect('Profil');
+        // }
     }
 }

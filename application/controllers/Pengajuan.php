@@ -2239,13 +2239,12 @@ class Pengajuan extends CI_Controller
 
     public function simpanSurveior()
     {
-        // var_dump($this->input->post());
-
         $this->load->library('form_validation');
         $this->load->helper('security');
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
+            print_r($this->input->post());
             if ($this->input->post('keaktifan_surveior') != NULL && $this->input->post('keaktifan_surveior') === 'on') {
                 $keaktifan_surveior = 1;
             } else {
@@ -2255,536 +2254,273 @@ class Pengajuan extends CI_Controller
             $pwd = substr(str_shuffle($data), 0, 7);
             $post = $this->input->post();
             $users_id = $this->session->userdata('id');
-            $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-            $config['allowed_types']        = 'pdf|xls|xlsx';
-            $config['max_size']             = 2048;
-            $config['max_width']            = 1080;
-            $config['max_height']           = 1080;
-            $config['overwrite']            = true;
-            $config['encrypt_name'] = TRUE;
+            // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+            // $config['allowed_types']        = 'pdf|xls|xlsx';
+            // $config['max_size']             = 2048;
+            // $config['max_width']            = 1080;
+            // $config['max_height']           = 1080;
+            // $config['overwrite']            = true;
+            // $config['encrypt_name'] = TRUE;
 
             $password1 = $pwd;
             $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
             $hashed    = hash('sha256', $password1 . $salt);
 
-            //$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
-
             //Upload url_sertifikat_surveior
-            if (!empty($_FILES['url_sertifikat_surveior']['name'])) {
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('url_sertifikat_surveior')) {
-                    print_r($this->upload->display_errors());
-                    exit;
-                }
-                $attachment = $this->upload->data();
-                $fileName = $attachment['file_name'];
-
-                //$url_sertifikat_surveior =  $url.$fileName;
-                $url_sertifikat_surveior =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-            } else {
-                if (isset($post['old_url_sertifikat_surveior'])) {
-                    $url_sertifikat_surveior = $post['old_url_sertifikat_surveior'];
-                } else {
-                    $url_sertifikat_surveior = '';
-                }
-            }
+            // if (!empty($_FILES['url_sertifikat_surveior']['name'])) {
+            //     $this->load->library('upload', $config);
+            //     if (!$this->upload->do_upload('url_sertifikat_surveior')) {
+            //         print_r($this->upload->display_errors());
+            //         exit;
+            //     }
+            //     $attachment = $this->upload->data();
+            //     $fileName = $attachment['file_name'];
+            //     $url_sertifikat_surveior =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+            // } else {
+            //     if (isset($post['old_url_sertifikat_surveior'])) {
+            //         $url_sertifikat_surveior = $post['old_url_sertifikat_surveior'];
+            //     } else {
+            //         $url_sertifikat_surveior = '';
+            //     }
+            // }
 
             //Upload url_surat_keputusan_keanggotaan
-            if (!empty($_FILES['url_surat_keputusan_keanggotaan']['name'])) {
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('url_surat_keputusan_keanggotaan')) {
-                    print_r($this->upload->display_errors());
-                    exit;
-                }
-                $attachment = $this->upload->data();
-                $fileName = $attachment['file_name'];
+            // if (!empty($_FILES['url_surat_keputusan_keanggotaan']['name'])) {
+            //     $this->load->library('upload', $config);
+            //     if (!$this->upload->do_upload('url_surat_keputusan_keanggotaan')) {
+            //         print_r($this->upload->display_errors());
+            //         exit;
+            //     }
+            //     $attachment = $this->upload->data();
+            //     $fileName = $attachment['file_name'];
+            //     $url_surat_keputusan_keanggotaan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+            // } else {
+            //     if (isset($post['old_url_surat_keputusan_keanggotaan'])) {
+            //         $url_surat_keputusan_keanggotaan = $post['old_url_surat_keputusan_keanggotaan'];
+            //     } else {
+            //         $url_surat_keputusan_keanggotaan = '';
+            //     }
+            // }
 
-                //$url_dokumen_kontrak =  $url.$fileName;
-                $url_surat_keputusan_keanggotaan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-            } else {
-                if (isset($post['old_url_surat_keputusan_keanggotaan'])) {
-                    $url_surat_keputusan_keanggotaan = $post['old_url_surat_keputusan_keanggotaan'];
-                } else {
-                    $url_surat_keputusan_keanggotaan = '';
-                }
-            }
-            $datab = array(
-                'nik' => $post['nik'],
-                // 'id' => $users_id,
-                'nama' => $post['nama'],
-                'email' => $post['email'],
-                'username' => $post['email'],
-                'password' => $pwd,
-                'kriteria_id' => '3',
-                'lpa_id' => $this->session->userdata('lpa_id'),
-                'user_status' => '1',
-                'validate' => '2',
-                'password_enkripsi' => $hashed
+            // $datab = array(
+            //     'nik' => $post['nik'],
+            //     'nama' => $post['nama'],
+            //     'email' => $post['email'],
+            //     'username' => $post['email'],
+            //     'password' => $pwd,
+            //     'kriteria_id' => '3',
+            //     'lpa_id' => $this->session->userdata('lpa_id'),
+            //     'user_status' => '1',
+            //     'validate' => '2',
+            //     'password_enkripsi' => $hashed
 
-            );
+            // );
 
-            if (!empty($post['id'])) {
-                // var_dump($this->input->post());
-                $wheres = array(
-                    'id' => $post['users_id'],
-                );
-                $wheref = array(
-                    'users_id' => $post['id'],
-                );
-                $datac = array(
-                    // 'nik' =>$post['nik'],
-                    'nama' => $post['nama'],
-                    'email' => $post['email'],
-                    'username' => $post['email']
+            // if (!empty($post['id'])) {
+            //     $wheres = array(
+            //         'id' => $post['users_id'],
+            //     );
+            //     $wheref = array(
+            //         'users_id' => $post['id'],
+            //     );
+            //     $datac = array(
+            //         'nama' => $post['nama'],
+            //         'email' => $post['email'],
+            //         'username' => $post['email']
 
-                );
+            //     );
 
-                $this->Model_sina->edit_data('users', $wheres, $datac);
-                $users_id = $this->db->insert_id();
-                $datas = array(
-                    // 'nik' =>$post['nik'],
-                    'nama' => $post['nama'],
-                    'email' => $post['email'],
-                    'no_hp' => $post['no_hp'],
-                    // 'provinsi_id' => $post['propinsi'],
-                    // 'kabkota_id' => $post['kota'],
-                    'keaktifan' => $post['keaktifan'],
-                    'url_sertifikat_surveior' => $url_sertifikat_surveior,
-                    'url_surat_keputusan_keanggotaan' => $url_surat_keputusan_keanggotaan,
-                    'status_aktif' => $keaktifan_surveior
-                );
-                $this->Model_sina->edit_data('user_surveior', $wheref, $datas);
+            //     $this->Model_sina->edit_data('users', $wheres, $datac);
+            //     $users_id = $this->db->insert_id();
+            //     $datas = array(
+            //         // 'nik' =>$post['nik'],
+            //         'nama' => $post['nama'],
+            //         'email' => $post['email'],
+            //         'no_hp' => $post['no_hp'],
+            //         'keaktifan' => $post['keaktifan'],
+            //         'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
+            //         'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
+            //         'status_aktif' => $keaktifan_surveior
+            //     );
+            //     $this->Model_sina->edit_data('user_surveior', $wheref, $datas);
 
-                $uniqfasyankes = [];
-                $uniqfasyankes = array_unique($post['fasyankes']);
-                $count = 0;
-                $query = [];
-                foreach ($post['id_bidang'] as $bidangid) {
-                    $choose = "";
-                    $where = array(
-                        'users_id' => $post['users_id'],
-                        'id_bidang' => $bidangid
-                    );
-                    foreach ($uniqfasyankes as $fasyankesid) {
-                        // echo $fasyankesid;
-                        if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
-                            $choose = 'true';
-                        }
-                    }
-                    if ($choose == true) {
-                        $databi = array(
-                            'is_checked' => '1'
-                        );
-                    } else {
-                        $databi = array(
-                            'is_checked' => '0'
-                        );
-                        $count++;
-                    }
+            //     $uniqfasyankes = [];
+            //     $uniqfasyankes = array_unique($post['fasyankes']);
+            //     $count = 0;
+            //     $query = [];
+            //     foreach ($post['id_bidang'] as $bidangid) {
+            //         $choose = "";
+            //         $where = array(
+            //             'users_id' => $post['users_id'],
+            //             'id_bidang' => $bidangid
+            //         );
+            //         foreach ($uniqfasyankes as $fasyankesid) {
+            //             // echo $fasyankesid;
+            //             if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
+            //                 $choose = 'true';
+            //             }
+            //         }
+            //         if ($choose == true) {
+            //             $databi = array(
+            //                 'is_checked' => '1'
+            //             );
+            //         } else {
+            //             $databi = array(
+            //                 'is_checked' => '0'
+            //             );
+            //             $count++;
+            //         }
 
-                    $query[] = array(
-                        'where' => $where,
-                        'data' => $databi
-                    );
-                }
-                if ($count < 10) {
-                    foreach ($query as $query) {
-                        // $this->Model_sina->edit_data('user_surveior_bidang_detail', $query['where'], $query['data']);
-                        // var_dump($test);
-                    }
-                    $this->session->set_flashdata('kode_name', 'success');
-                    $this->session->set_flashdata('icon_name', 'check');
-                    $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
-                    redirect('Pengajuan/editsurveior/' . $post['id_user_surveior']);
-                } else {
-                    $this->session->set_flashdata('kode_name', 'success');
-                    $this->session->set_flashdata('icon_name', 'check');
-                    // $this->session->set_flashdata('message_name', 'Gagal Ubah Data, Pilih Salah Satu Bidang!');
-                    $this->session->set_flashdata('message_name', 'Berhasil Simpan Data');
+            //         $query[] = array(
+            //             'where' => $where,
+            //             'data' => $databi
+            //         );
+            //     }
+            //     if ($count < 10) {
+            //         foreach ($query as $query) {
+            //         }
+            //         $this->session->set_flashdata('kode_name', 'success');
+            //         $this->session->set_flashdata('icon_name', 'check');
+            //         $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
+            //         redirect('Pengajuan/editsurveior/' . $post['id_user_surveior']);
+            //     } else {
+            //         $this->session->set_flashdata('kode_name', 'success');
+            //         $this->session->set_flashdata('icon_name', 'check');
+            //         $this->session->set_flashdata('message_name', 'Berhasil Simpan Data');
 
-                    redirect('Pengajuan/editsurveior/' . $post['id_user_surveior']);
-                }
+            //         redirect('Pengajuan/editsurveior/' . $post['id_user_surveior']);
+            //     }
+            // } else {
+            //     if (isset($post['fasyankes_id'])) {
+            //         $this->Model_sina->input_data('users', $datab);
+            //         $users_id = $this->db->insert_id();
+            //         $no = 1;
+            //         $datas = array(
+            //             'nik' => $post['nik'],
+            //             'users_id' => $users_id,
+            //             'nama' => $post['nama'],
+            //             'email' => $post['email'],
+            //             'no_hp' => $post['no_hp'],
+            //             'lpa_id' => $this->session->userdata('lpa_id'),
+            //             'provinsi_id' => $post['propinsi'],
+            //             'kabkota_id' => $post['kota'],
+            //             'keaktifan' => $post['keaktifan'],
+            //             'fasyankes_id' => $no,
+            //             'bidang_id'        => $no,
+            //             'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
+            //             'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
+            //             'status_aktif' => $keaktifan_surveior
+            //         );
+            //         $this->Model_sina->input_data('user_surveior', $datas);
+            //         $id_user_surveior = $this->db->insert_id();
+            //         $fasyankes_id = $this->db->insert_id();
+            //         $bidang_id = $this->db->insert_id();
+            //         // SCIRPT INPUT BIDANG ZK
+            //         $uniqfasyankes = [];
+            //         $uniqfasyankes = array_unique($post['fasyankes']);
+            //         $count = 0;
+            //         $query = [];
+            //         foreach ($post['id_bidang'] as $bidangid) {
+            //             $choose = "";
+            //             $where = array(
+            //                 'id_bidang' => $bidangid
+            //             );
+            //             foreach ($uniqfasyankes as $fasyankesid) {
+            //                 if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
+            //                     $choose = 'true';
+            //                 }
+            //             }
+            //             if ($choose == true) {
+            //                 $databi = array(
+            //                     'is_checked' => '1'
+            //                 );
+            //             } else {
+            //                 $databi = array(
+            //                     'is_checked' => '0'
+            //                 );
+            //                 $count++;
+            //             }
 
-                // $this->session->set_flashdata('kode_name', 'success');
-                // $this->session->set_flashdata('icon_name', 'check');
-                // $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
+            //             $query[] = array(
+            //                 'id_user_surveior' => $id_user_surveior,
+            //                 'users_id' => $users_id,
+            //                 'id_fasyankes_surveior' => $post['fasyankes'][$bidangid],
+            //                 'id_bidang' => $bidangid,
+            //                 'nama_bidang' => $post['nama_bidang'][$bidangid],
+            //                 'is_checked' => $databi['is_checked']
+            //             );
+            //         }
+            //         if ($count < 10) {
+            //             foreach ($query as $query) {
+            //                 $this->Model_sina->input_data('user_surveior_bidang_detail', $query);
+            //             }
 
-                // redirect('pengajuan/surveior/' . $post['id']);
+            //             $this->load->helper('date');
+            //             date_default_timezone_set("Asia/Jakarta");
+            //             $data = $this->session->flashdata('datapengguna');
 
+            //             $emailpengguna = $post['email'];
+            //             $namapengguna = $post['nama'];
+            //             $notelp = $post['no_hp'];
 
-                // $id_user_surveior = $this->db->insert_id();
-                // $fasyankes_id = $this->db->insert_id();
-                // $bidang_id = $this->db->insert_id();
+            //             $subject = 'Akreditasi Fasyankes ACCOUNT';
 
-                // 	// if ($idfasyankes == $ids) {
-                // 	// 	// echo 'sama';
-                // 	// 	$where = array(
-                // 	// 		'users_id' => $post['users_id'],
-                // 	// 		'id_bidang' => $ids
-                // 	// 	);
-                // 	// 	$databi = array(
-                // 	// 		'is_checked' => '1'
-                // 	// 	);
-                // 	// 	// if (isset($post['fasyankes_id'][$ids]) && $post['bidangid'][$ids] == 1) {
-                // 	// 	// 	// echo '1';
-                // 	// 	// 	$databi = array(
-                // 	// 	// 		'is_checked' => '1'
-                // 	// 	// 	);
-                // 	// 	// } else {
-                // 	// 	// 	// echo '0';
-                // 	// 	// 	$databi = array(
-                // 	// 	// 		'is_checked' => '0'
-                // 	// 	// 	);
-                // 	// 	// }
-
-                // 	// 	// var_dump($databi);
-                // 	// 	// var_dump($where);
-                // 	// 	// $this->Model_sina->edit_data('user_surveior_bidang_detail', $where, $databi);
-                // 	// } else {
-                // 	// 	$where = array(
-                // 	// 		'users_id' => $post['users_id'],
-                // 	// 		'id_bidang' => $ids
-                // 	// 	);
-                // 	// 	$databi = array(
-                // 	// 		'is_checked' => '0'
-                // 	// 	);
-                // 	// 	// var_dump($databi);
-                // 	// 	// var_dump($where);
-                // 	// }
-                // 	// var_dump($databi);
-                // 	// echo '|batas|';
-                // 	}
-                // 	// $query = $this->Model_sina->edit_data('user_surveior_bidang_detail', $where, $databi);
-                // 	// var_dump($query);
-                // 	// var_dump($where);
-                // 	// var_dump($databi);
-                // 	// $databi = array(
-
-                // 	// 	'is_checked' => (!empty($post['is_checked'][$ids]) ? $post['is_checked'][$ids] : 0)
-
-                // 	// );
-                // 	// var_dump($where);
-                // 	// var_dump($databi);
-
-                // 	// 	// $this->Model_sina->input_data('user_surveior_fasyankes_detail',$dataf);
-                // 	// var_dump($query);
-                // }
-            } else {
-                if (isset($post['fasyankes_id'])) {
-                    $this->Model_sina->input_data('users', $datab);
-                    // $message1 = "sudah benar";
-                    // 	echo "<script type='text/javascript'>alert('$message1');</script>";
-                    $users_id = $this->db->insert_id();
-                    $no = 1;
-                    $datas = array(
-                        'nik' => $post['nik'],
-                        'users_id' => $users_id,
-                        'nama' => $post['nama'],
-                        'email' => $post['email'],
-                        'no_hp' => $post['no_hp'],
-                        'lpa_id' => $this->session->userdata('lpa_id'),
-                        'provinsi_id' => $post['propinsi'],
-                        'kabkota_id' => $post['kota'],
-                        'keaktifan' => $post['keaktifan'],
-                        'fasyankes_id' => $no,
-                        'bidang_id'        => $no,
-                        'url_sertifikat_surveior' => $url_sertifikat_surveior,
-                        'url_surat_keputusan_keanggotaan' => $url_surat_keputusan_keanggotaan,
-                        'status_aktif' => $keaktifan_surveior
-                    );
-
-                    //$users_ida = $this->Model_sina->getLastID('users',$users_id);
-                    // $datas['users_id'] = $users_id;
-                    // $message2 = "Sudah benar 2";
-                    // 	echo "<script type='text/javascript'>alert('$message2');</script>";
-                    $this->Model_sina->input_data('user_surveior', $datas);
-                    $id_user_surveior = $this->db->insert_id();
-                    $fasyankes_id = $this->db->insert_id();
-                    $bidang_id = $this->db->insert_id();
-                    // SCIRPT INPUT BIDANG ZK
-                    $uniqfasyankes = [];
-                    $uniqfasyankes = array_unique($post['fasyankes']);
-                    $count = 0;
-                    $query = [];
-                    foreach ($post['id_bidang'] as $bidangid) {
-                        $choose = "";
-                        $where = array(
-                            // 'users_id' => $post['users_id'],
-                            'id_bidang' => $bidangid
-                        );
-                        foreach ($uniqfasyankes as $fasyankesid) {
-                            if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
-                                $choose = 'true';
-                            }
-                        }
-                        if ($choose == true) {
-                            $databi = array(
-                                'is_checked' => '1'
-                            );
-                        } else {
-                            $databi = array(
-                                'is_checked' => '0'
-                            );
-                            $count++;
-                        }
-
-                        // $query[] = array(
-                        // 	'where' => $where,
-                        // 	'data' => $databi
-                        // );
-                        $query[] = array(
-                            'id_user_surveior' => $id_user_surveior,
-                            'users_id' => $users_id,
-                            'id_fasyankes_surveior' => $post['fasyankes'][$bidangid],
-                            'id_bidang' => $bidangid,
-                            'nama_bidang' => $post['nama_bidang'][$bidangid],
-                            'is_checked' => $databi['is_checked']
-                        );
-                    }
-                    if ($count < 10) {
-                        foreach ($query as $query) {
-                            // $this->Model_sina->edit_data('user_surveior_bidang_detail', $query['where'], $query['data']);
-                            // var_dump($query);
-                            // $testquery = $this->Model_sina->input_data('user_surveior_bidang_detail', $query);
-                            // var_dump($testquery);
-                            $this->Model_sina->input_data('user_surveior_bidang_detail', $query);
-                        }
-
-                        $this->load->helper('date');
-                        date_default_timezone_set("Asia/Jakarta");
-                        $data = $this->session->flashdata('datapengguna');
-                        // $namapengguna = $data['nama'];
-                        // $emailpengguna = $data['email'];
-                        // $notelp = $data['no_telp'];
-                        $emailpengguna = $post['email'];
-                        $namapengguna = $post['nama'];
-                        $notelp = $post['no_hp'];
-
-                        $subject = 'Akreditasi Fasyankes ACCOUNT';
-
-                        // Compose a simple HTML email message
-                        $message = '<html><body>';
-                        $message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
-                        $message .= '<p>Account Surveior Lembaga anda telah di validasi, </p>';
-                        $message .= '<p>Silahkan login pada halaman website : sinaf.kemkes.go.id .</p>';
-                        $message .= '<p><b>Menggunakan Username : ' . $emailpengguna . '  dan Menggunakan password : ' . $pwd . ' </b></p>';
-                        // $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
-                        $message .= '<b>===============================================================</b> <br> <br>';
-                        $message .= '<b style="color:blue;">If you need help, please contact the site administrator.</b>';
-                        $message .= '</body></html>';
+            //             // Compose a simple HTML email message
+            //             $message = '<html><body>';
+            //             $message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
+            //             $message .= '<p>Account Surveior Lembaga anda telah di validasi, </p>';
+            //             $message .= '<p>Silahkan login pada halaman website : sinaf.kemkes.go.id .</p>';
+            //             $message .= '<p><b>Menggunakan Username : ' . $emailpengguna . '  dan Menggunakan password : ' . $pwd . ' </b></p>';
+            //             // $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
+            //             $message .= '<b>===============================================================</b> <br> <br>';
+            //             $message .= '<b style="color:blue;">If you need help, please contact the site administrator.</b>';
+            //             $message .= '</body></html>';
 
 
-                        $config = [
-                            'mailtype' => 'html',
-                            'charset' => 'iso-8859-1',
-                            'protocol' => 'smtp',
-                            // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
-                            'smtp_host' => 'ssl://mail.kemkes.go.id',
-                            'smtp_user' => 'infoyankes@kemkes.go.id',
-                            'smtp_pass' => 'n3nceY@D',
-                            'smtp_port' => 465,
-                            'smtp_timeout' => 60
-                        ];
+            //             $config = [
+            //                 'mailtype' => 'html',
+            //                 'charset' => 'iso-8859-1',
+            //                 'protocol' => 'smtp',
+            //                 // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
+            //                 'smtp_host' => 'ssl://mail.kemkes.go.id',
+            //                 'smtp_user' => 'infoyankes@kemkes.go.id',
+            //                 'smtp_pass' => 'n3nceY@D',
+            //                 'smtp_port' => 465,
+            //                 'smtp_timeout' => 60
+            //             ];
 
-                        $this->load->library('email', $config);
-                        $this->email->initialize($config);
+            //             $this->load->library('email', $config);
+            //             $this->email->initialize($config);
 
-                        $this->email->from('infoyankes@kemkes.go.id');
-                        $this->email->to($emailpengguna);
-                        $this->email->subject($subject);
-                        $this->email->message($message);
-                        $this->email->set_newline("\r\n");
-                        $send = $this->email->send();
-                        if ($send) {
-                            // SUCCESS REDIRECT KEMANA ?????
-                            $this->session->set_flashdata('kode_name', 'success');
-                            $this->session->set_flashdata('icon_name', 'check');
-                            $this->session->set_flashdata('message_name', 'Sukses Input Data Surveior!');
-                            redirect('pengajuan/surveior');
-                        }
-                        // SUCCESS REDIRECT KEMANA ?????
+            //             $this->email->from('infoyankes@kemkes.go.id');
+            //             $this->email->to($emailpengguna);
+            //             $this->email->subject($subject);
+            //             $this->email->message($message);
+            //             $this->email->set_newline("\r\n");
+            //             $send = $this->email->send();
+            //             if ($send) {
+            //                 // SUCCESS REDIRECT KEMANA ?????
+            //                 $this->session->set_flashdata('kode_name', 'success');
+            //                 $this->session->set_flashdata('icon_name', 'check');
+            //                 $this->session->set_flashdata('message_name', 'Sukses Input Data Surveior!');
+            //                 redirect('pengajuan/surveior');
+            //             }
+            //             // SUCCESS REDIRECT KEMANA ?????
 
-                    } else {
-                        $this->session->set_flashdata('kode_name', 'Failed');
-                        $this->session->set_flashdata('icon_name', 'cross');
-                        $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
-                        redirect('pengajuan/inputsurveior');
-                        // echo 'bidang kosong';
-                    }
-                    // SCRIPT INPUT BIDANG ZK
-                } else {
-                    $this->session->set_flashdata('kode_name', 'Failed');
-                    $this->session->set_flashdata('icon_name', 'cross');
-                    $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
-                    redirect('pengajuan/inputsurveior');
-                }
-
-
-                // if (!empty($post['is_checked'])) {
-                // 	// $this->Model_sina->input_data('users', $datab);
-                // 	// // $message1 = "sudah benar";
-                // 	// // 	echo "<script type='text/javascript'>alert('$message1');</script>";
-                // 	// $users_id = $this->db->insert_id();
-                // 	// $no = 1;
-                // 	// $datas = array(
-                // 	// 	'nik' => $post['nik'],
-                // 	// 	'users_id' => $users_id,
-                // 	// 	'nama' => $post['nama'],
-                // 	// 	'email' => $post['email'],
-                // 	// 	'no_hp' => $post['no_hp'],
-                // 	// 	'lpa_id' => $this->session->userdata('lpa_id'),
-                // 	// 	'provinsi_id' => $post['propinsi'],
-                // 	// 	'kabkota_id' => $post['kota'],
-                // 	// 	'keaktifan' => $post['keaktifan'],
-                // 	// 	'fasyankes_id' => $no,
-                // 	// 	'bidang_id'		=> $no,
-                // 	// 	'url_sertifikat_surveior' => $url_sertifikat_surveior,
-                // 	// 	'url_surat_keputusan_keanggotaan' => $url_surat_keputusan_keanggotaan
-
-                // 	// );
-
-                // 	// //$users_ida = $this->Model_sina->getLastID('users',$users_id);
-                // 	// // $datas['users_id'] = $users_id;
-                // 	// // $message2 = "Sudah benar 2";
-                // 	// // 	echo "<script type='text/javascript'>alert('$message2');</script>";
-                // 	// $this->Model_sina->input_data('user_surveior', $datas);
-                // 	// $id_user_surveior = $this->db->insert_id();
-                // 	// $fasyankes_id = $this->db->insert_id();
-                // 	// $bidang_id = $this->db->insert_id();
-
-                // 	// foreach ($post['id_bidang'] as $ids) {
-                // 	// 	$databi = array(
-
-                // 	// 		'id_user_surveior' => $id_user_surveior,
-                // 	// 		'users_id' => $users_id,
-                // 	// 		'id_fasyankes_surveior' => $post['fasyankes'][$ids],
-                // 	// 		'id_bidang' => $ids,
-                // 	// 		'is_checked' => (!empty($post['is_checked'][$ids]) ? $post['is_checked'][$ids] : 0),
-                // 	// 		'nama_bidang' => $post['nama_bidang'][$ids]
-
-                // 	// 	);
-                // 	// 	// $this->Model_sina->input_data('user_surveior_fasyankes_detail',$dataf);
-                // 	// 	$response = $this->Model_sina->input_data('user_surveior_bidang_detail', $databi);
-                // 	// }
-                // 	// // redirect('pengajuan/surveior');
-                // if ($response == true) {
-                // 	$this->load->helper('date');
-                // 	date_default_timezone_set("Asia/Jakarta");
-                // 	$data = $this->session->flashdata('datapengguna');
-                // 	// $namapengguna = $data['nama'];
-                // 	// $emailpengguna = $data['email'];
-                // 	// $notelp = $data['no_telp'];
-                // 	$emailpengguna = $post['email'];
-                // 	$namapengguna = $post['nama'];
-                // 	$notelp = $post['no_hp'];
-
-                // 	$subject = 'Akreditasi Fasyankes ACCOUNT';
-
-                // 	// Compose a simple HTML email message
-                // 	$message = '<html><body>';
-                // 	$message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
-                // 	$message .= '<p>Account Surveior Lembaga anda telah di validasi, </p>';
-                // 	$message .= '<p>Silahkan login pada halaman website : sinaf.kemkes.go.id .</p>';
-                // 	$message .= '<p><b>Menggunakan Username : ' . $emailpengguna . '  dan Menggunakan password : ' . $pwd . ' </b></p>';
-                // 	// $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
-                // 	$message .= '<b>===============================================================</b> <br> <br>';
-                // 	$message .= '<b style="color:blue;">If you need help, please contact the site administrator.</b>';
-                // 	$message .= '</body></html>';
-
-
-                // 	// $config = [
-                // 	//     'mailtype' => 'html',
-                // 	//     'charset' => 'iso-8859-1',
-                // 	//     'protocol' => 'smtp',
-                // 	//     'smtp_host' => 'ssl://smtp.googlemail.com',
-                // 	//     'smtp_user' => 'testrspmail@gmail.com',
-                // 	//     'smtp_pass' => 'kpvtvwozhlmqsrwx',
-                // 	//     'smtp_port' => 465
-                // 	// ];
-
-                // 	$config = [
-                // 		'mailtype' => 'html',
-                // 		'charset' => 'iso-8859-1',
-                // 		'protocol' => 'smtp',
-                // 		'smtp_host' => 'ssl://proxy.kemkes.go.id',
-                // 		'smtp_user' => 'infoyankes@kemkes.go.id',
-                // 		'smtp_pass' => 'n3nceY@D',
-                // 		'smtp_port' => 465,
-                // 		'smtp_timeout' => 60
-                // 	];
-
-                // 	$this->load->library('email', $config);
-                // 	$this->email->initialize($config);
-
-                // 	$this->email->from('infoyankes@kemkes.go.id');
-                // 	$this->email->to($emailpengguna);
-                // 	$this->email->subject($subject);
-                // 	$this->email->message($message);
-                // 	$this->email->set_newline("\r\n");
-                // 	$send = $this->email->send();
-                if ($send) {
-                    // 	// 		// echo '1';
-
-
-                    // 	// 		// WHATSAPP
-
-
-                    // 	// 		// 						$curl = curl_init();
-
-                    // 	// 		// 						curl_setopt_array($curl, array(
-                    // 	// 		// 							CURLOPT_URL => 'http://192.168.48.124:8000/send-message',
-                    // 	// 		// 							CURLOPT_RETURNTRANSFER => true,
-                    // 	// 		// 							CURLOPT_ENCODING => '',
-                    // 	// 		// 							CURLOPT_MAXREDIRS => 10,
-                    // 	// 		// 							CURLOPT_TIMEOUT => 0,
-                    // 	// 		// 							CURLOPT_FOLLOWLOCATION => true,
-                    // 	// 		// 							CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    // 	// 		// 							CURLOPT_CUSTOMREQUEST => 'POST',
-                    // 	// 		// 							// CURLOPT_POSTFIELDS => 'sender=sirs&number=' . $notelp . '&message=Hallo%2C%20' . $namapengguna .
-                    // 	// 		// 							// 	'!%2C%20Account%20Surveior%20Fasyankes%20anda%20telah%20aktif%2C%20Silahkan%20login%20pada%20halaman%20website%20%3A%20http%3A%2F%2Fperizinan.yankes.kemkes.go.id%2Fsina%2F%20.%20%0AMenggunakan%Username%20%3A%20'. $emailpengguna .'%20Dan%20Menggunakan%20password%20%3A%2012345%20%20%20%20%20%0AIf%20you%20need%20help%2C%20please%20contact%20the%20site%20administrator.',
-                    // 	// 		// 							CURLOPT_POSTFIELDS => 'sender=sinaf&number=' . $notelp . '&message=Hallo ' . $namapengguna .' !!!
-
-                    // 	// 		// Akun Surveior anda telah aktif. Silahkan login  aplikasi SINAF sinaf.kemkes.go.id menggunakan :
-                    // 	// 		// 	Username : '. $emailpengguna .'
-                    // 	// 		// 	password : '. $pwd . '
-
-                    // 	// 		// Apabila membutuhkan bantuan, silahkan hubungi Tim Admin Kemenkes',
-                    // 	// 		// 							CURLOPT_HTTPHEADER => array(
-                    // 	// 		// 								'Content-Type: application/x-www-form-urlencoded'
-                    // 	// 		// 							),
-                    // 	// 		// 						));
-
-                    // 	// 		// 						$response = curl_exec($curl);
-
-                    // 	// 		// 						curl_close($curl);
-                    // 	// 		// 						$res = json_decode($response, true);
-                    // 	// 		// 						// echo $response;
-                    // 	// 		// 						if ($res['status'] == TRUE) {
-                    // 	// 		// 							echo '1';
-                    // 	// 		redirect('pengajuan/surveior');
-                    // 	// 		// 						} else {
-                    // 	// 		// 							echo $response;
-                    // 	// 		// 						}
-
-
-                    // 	// 		// WHATSAPP
-
-
-                    // 	// 	} else {
-                    // 	// 		show_error($this->email->print_debugger());
-                    // 	// 	}
-                    // 	// } else {
-                    // 	// 	echo $response;
-                    // 	// }
-                    // } else {
-                    // 	$message = "Data Bidang harus diisi";
-                    // 	echo "<script type='text/javascript'>alert('$message');</script>";
-                    // 	die(redirect('pengajuan/inputsurveior', 'refresh'));
-                    // }
-                    //redirect('pengajuan/verifikator');
-
-                }
-            }
+            //         } else {
+            //             $this->session->set_flashdata('kode_name', 'Failed');
+            //             $this->session->set_flashdata('icon_name', 'cross');
+            //             $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
+            //             redirect('pengajuan/inputsurveior');
+            //         }
+            //         // SCRIPT INPUT BIDANG ZK
+            //     } else {
+            //         $this->session->set_flashdata('kode_name', 'Failed');
+            //         $this->session->set_flashdata('icon_name', 'cross');
+            //         $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
+            //         redirect('pengajuan/inputsurveior');
+            //     }
+            // }
         }
     }
 
@@ -3910,39 +3646,37 @@ class Pengajuan extends CI_Controller
     public function simpanBerkasKesepakatan()
     {
         $post = $this->input->post();
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf|xls|xlsx';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name']         = TRUE;
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|xls|xlsx';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name']         = TRUE;
 
         // UPLOAD DOKUMEN KONTRAK
-        if (!empty($_FILES['url_dokumen_kontrak']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('url_dokumen_kontrak')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
+        // if (!empty($_FILES['url_dokumen_kontrak']['name'])) {
+        //     $this->load->library('upload', $config);
+        //     if (!$this->upload->do_upload('url_dokumen_kontrak')) {
+        //         print_r($this->upload->display_errors());
+        //         exit;
+        //     }
 
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
-
-            //$url_dokumen_kontrak =  $url.$fileName;
-            $url_dokumen_kontrak =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_url_dokumen_kontrak'])) {
-                $url_dokumen_kontrak = $post['old_url_dokumen_kontrak'];
-            } else {
-                $url_dokumen_kontrak = '';
-            }
-        }
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
+        //     $url_dokumen_kontrak =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+        // } else {
+        //     if (isset($post['old_url_dokumen_kontrak'])) {
+        //         $url_dokumen_kontrak = $post['old_url_dokumen_kontrak'];
+        //     } else {
+        //         $url_dokumen_kontrak = '';
+        //     }
+        // }
         // UPLOAD DOKUMEN KONTRAK
 
         $datas = array(
             'kelengkapan_berkas_id' => $post['kelengkapan_berkas_id'],
-            'url_dokumen_kontrak' => $url_dokumen_kontrak,
+            'url_dokumen_kontrak' => $post['url_dokumen_kontrak'],
             'url_dokumen_pendukung_ep' => $post['url_dokumen_pendukung_ep']
         );
 

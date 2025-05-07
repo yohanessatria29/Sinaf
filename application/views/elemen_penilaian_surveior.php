@@ -385,14 +385,8 @@
                                                 <div class="row">
                                                     </br>
                                                     <div class="form-group col-md-4">
-                                                        <!-- <div class="form-group" style='display:block;'>
-                    <label for="disabledInput">Tanggal Pengiriman Laporan Survei 1</label>
-                  
-                    <input type="date"  name="tanggal_pengiriman_laporan" id="tanggal_pengiriman_laporan" value=""  class="form-control datepicker"  autocomplete="off"  >
-                </div> -->
                                                         <div class="form-group" style='display:block;'>
                                                             <label for="disabledInput">Tanggal Survei Hari Pertama</label>
-                                                            <!-- <input type="date" class="form-control" id="disabledInput" placeholder="Disabled Text"> -->
                                                             <input type="date" name="tanggal_survei_satu" id="tanggal_survei_satu" value="<?= (!empty($data[0]['tanggal_survei_satu']) ? $data[0]['tanggal_survei_satu'] : $detail_pengajuan[0]['tanggal_survei']) ?>" class="form-control datepicker" autocomplete="off" disabled>
                                                         </div>
                                                         <div class="form-group" style='display:block;'>
@@ -400,33 +394,34 @@
                                                             <i><small class="text-muted"> Maks 2MB / Format (Jpeg/Jpg/Png)</i></small>
                                                             <fieldset>
                                                                 <div class="input-group">
-                                                                    <input type="file" class="form-control" accept="image/png, image/gif, image/jpeg" id="foto_bukti_survei" name="foto_bukti_survei" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                                                    <input type="url" class="form-control"
+                                                                        placeholder="Masukkan link gambar (jpg/png/jpeg) atau URL Drive"
+                                                                        id="foto_bukti_survei" name="foto_bukti_survei"
+                                                                        value="<?= $data[0]['url_bukti_satu'] ?? '' ?>"
+                                                                        accept="image/png, image/gif, image/jpeg" />
 
                                                                 </div>
+
                                                                 <?php
-                                                                if (!empty($data[0]['url_bukti_satu'])) {
-                                                                    $url_bukti_satu = $data[0]['url_bukti_satu'];
-                                                                ?>
-                                                                    <a class="btn btn-success rounded-pill" target="_blank" href="<?php echo $url_bukti_satu; ?>">Lihat Dokumen</a>
-                                                                <?php
-                                                                } else {
-                                                                    $url_bukti_satu = "";
+                                                                $url_bukti_satu = $data[0]['url_bukti_satu'] ?? '';
+
+                                                                if (!empty($url_bukti_satu)) {
+                                                                    $is_external = preg_match('#^https?://#i', $url_bukti_satu);
+                                                                    $is_image = preg_match('/\.(jpg|jpeg|png|gif)$/i', $url_bukti_satu);
+                                                                    $url_view = $is_external ? $url_bukti_satu : base_url('/assets/uploads/berkas_akreditasi/' . $url_bukti_satu);
+
+                                                                    echo '<a class="btn btn-success rounded-pill mt-2" target="_blank" href="' . $url_view . '">Lihat Dokumen</a>';
                                                                 }
                                                                 ?>
 
-                                                                <input type="hidden" name="old_foto_bukti_survei" value="<?= $url_bukti_satu; ?>" id="old_foto_bukti_survei">
+                                                                <input type="hidden" name="old_foto_bukti_survei" value="<?= $url_bukti_satu ?>" id="old_foto_bukti_survei">
                                                             </fieldset>
+
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <!-- <div class="form-group" style='display:block;'>
-                    <label for="disabledInput">Tanggal Pengiriman Laporan Survei 2</label>
-                  
-                    <input type="date"  name="tanggal_pengiriman_laporan2" id="tanggal_pengiriman_laporan2" value=""  class="form-control datepicker"  autocomplete="off"  >
-                </div> -->
                                                         <div class="form-group" style='display:block;'>
                                                             <label for="disabledInput">Tanggal Survei Hari Kedua</label>
-                                                            <!-- <input type="date" class="form-control" id="disabledInput" placeholder="Disabled Text"> -->
                                                             <input type="date" name="tanggal_survei_dua" id="tanggal_survei_dua" value="<?= (!empty($data[0]['tanggal_survei_dua']) ? $data[0]['tanggal_survei_dua'] : $detail_pengajuan[1]['tanggal_survei']) ?>" class="form-control datepicker" autocomplete="off" disabled>
                                                         </div>
                                                         <div class="form-group" style='display:block;'>
@@ -434,33 +429,32 @@
                                                             <i><small class="text-muted"> Maks 2MB / Format (Jpeg/Jpg/Png)</i></small>
                                                             <fieldset>
                                                                 <div class="input-group">
-                                                                    <input type="file" class="form-control" accept="image/png, image/gif, image/jpeg" id="foto_bukti_survei2" name="foto_bukti_survei2" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                                                    <input type="url" class="form-control"
+                                                                        placeholder="Masukkan link gambar (jpg/png/jpeg/gif) atau URL Drive"
+                                                                        id="foto_bukti_survei2" name="foto_bukti_survei2"
+                                                                        value="<?= $data[0]['url_bukti_dua'] ?? '' ?>"
+                                                                        accept="image/png, image/gif, image/jpeg" />
                                                                 </div>
 
                                                                 <?php
-                                                                if (!empty($data[0]['url_bukti_dua'])) {
-                                                                    $url_bukti_dua = $data[0]['url_bukti_dua'];
-                                                                ?>
-                                                                    <a class="btn btn-success rounded-pill" target="_blank" href="<?php echo $url_bukti_dua; ?>">Lihat Dokumen</a>
-                                                                <?php
-                                                                } else {
-                                                                    $url_bukti_dua = "";
+                                                                $url_bukti_dua = $data[0]['url_bukti_dua'] ?? '';
+
+                                                                if (!empty($url_bukti_dua)) {
+                                                                    $is_external = preg_match('#^https?://#i', $url_bukti_dua);
+                                                                    $url_view = $is_external ? $url_bukti_dua : base_url('/assets/uploads/berkas_akreditasi/' . $url_bukti_dua);
+
+                                                                    echo '<a class="btn btn-success rounded-pill mt-2" target="_blank" href="' . $url_view . '">Lihat Dokumen</a>';
                                                                 }
                                                                 ?>
 
-                                                                <input type="hidden" name="old_foto_bukti_survei2" value="<?= $url_bukti_dua; ?>" id="old_foto_bukti_survei2">
+                                                                <input type="hidden" name="old_foto_bukti_survei2" value="<?= $url_bukti_dua ?>" id="old_foto_bukti_survei2">
                                                             </fieldset>
+
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <!-- <div class="form-group" style='display:block;'>
-                    <label for="disabledInput">Tanggal Pengiriman Laporan Survei 3</label>
-                   
-                    <input type="date"  name="tanggal_pengiriman_laporan3" id="tanggal_pengiriman_laporan3" value=""  class="form-control datepicker"  autocomplete="off"  >
-                </div> -->
                                                         <div class="form-group" style='display:<?= $style_tanggal_survei_tiga; ?>;'>
                                                             <label for="disabledInput">Tanggal Survei Hari Ketiga</label>
-                                                            <!-- <input type="date" class="form-control" id="disabledInput" placeholder="Disabled Text"> -->
                                                             <input type="date" name="tanggal_survei_tiga" id="tanggal_survei_tiga" value="<?= $tanggal_survei_tiga ?>" class="form-control datepicker" autocomplete="off" disabled>
                                                         </div>
                                                         <div class="form-group" style='display:<?= $style_tanggal_survei_tiga; ?>;'>
@@ -468,21 +462,27 @@
                                                             <i><small class="text-muted"> Maks 2MB / Format (Jpeg/Jpg/Png)</i></small>
                                                             <fieldset>
                                                                 <div class="input-group">
-                                                                    <input type="file" class="form-control" id="foto_bukti_survei3" accept="image/png, image/gif, image/jpeg" name="foto_bukti_survei3" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                                                    <input type="url" class="form-control"
+                                                                        placeholder="Masukkan link gambar (jpg/png/jpeg/gif) atau URL Drive"
+                                                                        id="foto_bukti_survei3" name="foto_bukti_survei3"
+                                                                        value="<?= $data[0]['url_bukti_tiga'] ?? '' ?>"
+                                                                        accept="image/png, image/gif, image/jpeg" />
                                                                 </div>
+
                                                                 <?php
-                                                                if (!empty($data[0]['url_bukti_tiga'])) {
-                                                                    $url_bukti_tiga = $data[0]['url_bukti_tiga'];
-                                                                ?>
-                                                                    <a class="btn btn-success rounded-pill" target="_blank" href="<?php echo $url_bukti_tiga; ?>">Lihat Dokumen</a>
-                                                                <?php
-                                                                } else {
-                                                                    $url_bukti_tiga = "";
+                                                                $url_bukti_tiga = $data[0]['url_bukti_tiga'] ?? '';
+
+                                                                if (!empty($url_bukti_tiga)) {
+                                                                    $is_external = preg_match('#^https?://#i', $url_bukti_tiga);
+                                                                    $url_view = $is_external ? $url_bukti_tiga : base_url('/assets/uploads/berkas_akreditasi/' . $url_bukti_tiga);
+
+                                                                    echo '<a class="btn btn-success rounded-pill mt-2" target="_blank" href="' . $url_view . '">Lihat Dokumen</a>';
                                                                 }
                                                                 ?>
 
-                                                                <input type="hidden" name="old_foto_bukti_survei3" value="<?= $url_bukti_tiga; ?>" id="old_foto_bukti_survei3">
+                                                                <input type="hidden" name="old_foto_bukti_survei3" value="<?= $url_bukti_tiga ?>" id="old_foto_bukti_survei3">
                                                             </fieldset>
+
                                                         </div>
                                                     </div>
 
@@ -496,42 +496,41 @@
 
                                                 <?php
                                                 if ((!empty($data[0]['status_final_ep']) ? $data[0]['status_final_ep'] : '') != '1') {
-                                                    
                                                 } else {
                                                     // if ($data[0]['status_surveior_satu'] == 1) {
-                                                        if(!empty(!empty($data_surveior_lapangan[0]['surveior_satu_baru_user_id']) ? $data_surveior_lapangan[0]['surveior_satu_baru_user_id'] : '')){
-                                                            if ($session_id == $data_surveior_lapangan[0]['surveior_satu_baru_user_id']) {
-                                                                if($data_surveior_lapangan[0]['jabatan_surveior_id_satu']==1){
-                                                                ?>
-                                                                    <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
-                                                                <?php
-                                                                }
+                                                    if (!empty(!empty($data_surveior_lapangan[0]['surveior_satu_baru_user_id']) ? $data_surveior_lapangan[0]['surveior_satu_baru_user_id'] : '')) {
+                                                        if ($session_id == $data_surveior_lapangan[0]['surveior_satu_baru_user_id']) {
+                                                            if ($data_surveior_lapangan[0]['jabatan_surveior_id_satu'] == 1) {
+                                                ?>
+                                                                <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
+                                                            <?php
                                                             }
-                                                        } else {
-                                                            if ($session_id == $data[0]['surveior_satu']) {
-                                                                ?>
-                                                                    <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
-                                                                <?php
-                                                            }
-                                                        } 
+                                                        }
+                                                    } else {
+                                                        if ($session_id == $data[0]['surveior_satu']) {
+                                                            ?>
+                                                            <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
+                                                            <?php
+                                                        }
+                                                    }
                                                     // } else  if ($data[0]['status_surveior_dua'] == 1) {
-                                                        if(!empty(!empty($data_surveior_lapangan[0]['surveior_dua_baru_user_id']) ? $data_surveior_lapangan[0]['surveior_dua_baru_user_id'] : '')){
-                                                            if ($session_id == $data_surveior_lapangan[0]['surveior_dua_baru_user_id']) {
-                                                                // var_dump($data_surveior_lapangan[0]['jabatan_surveior_id_dua']);
-                                                                if($data_surveior_lapangan[0]['jabatan_surveior_id_dua']==1){
-                                                                    
-                                                                ?>
-                                                                    <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
-                                                                <?php
-                                                                }
+                                                    if (!empty(!empty($data_surveior_lapangan[0]['surveior_dua_baru_user_id']) ? $data_surveior_lapangan[0]['surveior_dua_baru_user_id'] : '')) {
+                                                        if ($session_id == $data_surveior_lapangan[0]['surveior_dua_baru_user_id']) {
+                                                            // var_dump($data_surveior_lapangan[0]['jabatan_surveior_id_dua']);
+                                                            if ($data_surveior_lapangan[0]['jabatan_surveior_id_dua'] == 1) {
+
+                                                            ?>
+                                                                <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
+                                                            <?php
                                                             }
-                                                        } else {
-                                                            if ($session_id == $data[0]['surveior_dua']) {
-                                                                ?>
-                                                                    <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
-                                                                <?php
-                                                            }
-                                                        } 
+                                                        }
+                                                    } else {
+                                                        if ($session_id == $data[0]['surveior_dua']) {
+                                                            ?>
+                                                            <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
+                                                <?php
+                                                        }
+                                                    }
                                                     // }
                                                 }
                                                 ?>
@@ -1326,63 +1325,63 @@
 
                                                 <?php
                                                 // if ($data[0]['status_surveior_satu'] == 1) {
-                                                    // var_dump($data_surveior_lapangan[0]['jabatan_surveior_id_satu']);
-                                                    // var_dump($data_surveior_lapangan[0]['surveior_satu_baru_user_id']);
+                                                // var_dump($data_surveior_lapangan[0]['jabatan_surveior_id_satu']);
+                                                // var_dump($data_surveior_lapangan[0]['surveior_satu_baru_user_id']);
 
-                                                    // var_dump($session_id);
-                                                    if(!empty(!empty($data_surveior_lapangan[0]['surveior_satu_baru_user_id']) ? $data_surveior_lapangan[0]['surveior_satu_baru_user_id'] : '')){
+                                                // var_dump($session_id);
+                                                if (!empty(!empty($data_surveior_lapangan[0]['surveior_satu_baru_user_id']) ? $data_surveior_lapangan[0]['surveior_satu_baru_user_id'] : '')) {
                                                     // if ($session_id == $data[0]['surveior_satu']) {
-                                                        if ($session_id == $data_surveior_lapangan[0]['surveior_satu_baru_user_id']) {
-                                                            // echo 'Cocok ID';
-                                                            if($data_surveior_lapangan[0]['jabatan_surveior_id_satu']==1){
-                                                                // echo 'Cocok Jabatan';
-                                                                // echo (!empty($data[0]['status_final_ep']) ? $data[0]['status_final_ep'] : 'halo');
-                                                                if ((!empty($data[0]['status_final_ep']) ? $data[0]['status_final_ep'] : 0) != 1) {
+                                                    if ($session_id == $data_surveior_lapangan[0]['surveior_satu_baru_user_id']) {
+                                                        // echo 'Cocok ID';
+                                                        if ($data_surveior_lapangan[0]['jabatan_surveior_id_satu'] == 1) {
+                                                            // echo 'Cocok Jabatan';
+                                                            // echo (!empty($data[0]['status_final_ep']) ? $data[0]['status_final_ep'] : 'halo');
+                                                            if ((!empty($data[0]['status_final_ep']) ? $data[0]['status_final_ep'] : 0) != 1) {
                                                                 // echo 'belum final';
                                                                 if ($rows_bab == $rows_trans && $count_ep == 0) {
                                                                     $disabled_final = "";
-                                                                    ?>
+                                                ?>
                                                                     <button type="submit" class="btn btn-success rounded-pill" <?= $disabled_final ?>>Final</button>
                                                                 <?php
                                                                 } else {
                                                                     $disabled_final = "disabled";
                                                                 }
-                                                    ?>
-                                                                </br><h3>Tombol Final akan muncul setelah semua EP terisi</h3>
+                                                                ?>
+                                                                </br>
+                                                                <h3>Tombol Final akan muncul setelah semua EP terisi</h3>
                                                                 <!-- <button type="submit" class="btn btn-success rounded-pill" <?= $disabled_final ?>>Final</button> -->
-                                                            <?php
-                                                                } else {
-                                                                    // echo 'sudah final';
-                                                                }
+                                                                <?php
+                                                            } else {
+                                                                // echo 'sudah final';
                                                             }
                                                         }
-                                                    } else {
-                                                        
                                                     }
+                                                } else {
+                                                }
                                                 // } else  if ($data[0]['status_surveior_dua'] == 1) {
-                                                    if(!empty(!empty($data_surveior_lapangan[0]['surveior_dua_baru_user_id']) ? $data_surveior_lapangan[0]['surveior_dua_baru_user_id'] : '')){
-                                                        // if ($session_id == $data[0]['surveior_dua']) {
-                                                        if ($session_id == $data_surveior_lapangan[0]['surveior_dua_baru_user_id']) {
-                                                            if($data_surveior_lapangan[0]['jabatan_surveior_id_dua']==1){
+                                                if (!empty(!empty($data_surveior_lapangan[0]['surveior_dua_baru_user_id']) ? $data_surveior_lapangan[0]['surveior_dua_baru_user_id'] : '')) {
+                                                    // if ($session_id == $data[0]['surveior_dua']) {
+                                                    if ($session_id == $data_surveior_lapangan[0]['surveior_dua_baru_user_id']) {
+                                                        if ($data_surveior_lapangan[0]['jabatan_surveior_id_dua'] == 1) {
                                                             if ((!empty($data[0]['status_final_ep']) ? $data[0]['status_final_ep'] : 0) != '1') {
                                                                 if ($rows_bab == $rows_trans && $count_ep == 0) {
                                                                     $disabled_final = "";
-                                                                    ?>
+                                                                ?>
                                                                     <button type="submit" class="btn btn-success rounded-pill" <?= $disabled_final ?>>Final</button>
                                                                 <?php
                                                                 } else {
                                                                     $disabled_final = "disabled";
                                                                 }
-                                                            ?>
-                                                                </br><h3>Tombol Final akan muncul setelah semua EP terisi</h3>
+                                                                ?>
+                                                                </br>
+                                                                <h3>Tombol Final akan muncul setelah semua EP terisi</h3>
                                                                 <!-- <button type="submit" class="btn btn-success rounded-pill" <?= $disabled_final ?>>Final</button> -->
-                                                    <?php
-                                                            }
+                                                <?php
                                                             }
                                                         }
-                                                    } else {
-                                                        
                                                     }
+                                                } else {
+                                                }
                                                 // }
                                                 ?>
                                             </form>
@@ -1470,11 +1469,11 @@
                                                                     <?php if (!empty($data[0]['url_surat_tugas'])) {
                                                                     ?>
                                                                         <a href="<?= $data[0]['url_surat_tugas']; ?>" target="_blank" class="btn btn-primary rounded-pill">View</a>
-                                                                    <?php
+                                                                        <?php
                                                                     } else {
                                                                         if (!empty($surtug[0]['nama_file'])) {
-                                                                    ?>
-                                                                        <a href="<?= 'https://sinar.kemkes.go.id/assets/surtug/'.$surtug[0]['nama_file']; ?>" target="_blank" class="btn btn-primary rounded-pill">View</a>
+                                                                        ?>
+                                                                            <a href="<?= 'https://sinar.kemkes.go.id/assets/surtug/' . $surtug[0]['nama_file']; ?>" target="_blank" class="btn btn-primary rounded-pill">View</a>
                                                                     <?php
                                                                         }
                                                                     }

@@ -443,84 +443,82 @@ class Surveior extends CI_Controller
 	{
 		$post = $this->input->post();
 
-		$config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-		$config['allowed_types']        = 'pdf|jpg|jpeg|png';
-		$config['max_size']             = 2048;
+		// $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+		// $config['allowed_types']        = 'pdf|jpg|jpeg|png';
+		// $config['max_size']             = 2048;
 		// $config['max_width']            = 1080;
 		// $config['max_height']           = 1080;
-		$config['overwrite']            = true;
-		$config['encrypt_name'] = TRUE;
-
-		//$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
+		// $config['overwrite']            = true;
+		// $config['encrypt_name'] = TRUE;
 
 		//Upload foto_bukti_survei
-		if (!empty($_FILES['foto_bukti_survei']['name'])) {
-			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload('foto_bukti_survei')) {
-				print_r($this->upload->display_errors());
-				exit;
-			}
-			$attachment = $this->upload->data();
-			$fileName = $attachment['file_name'];
+		// if (!empty($_FILES['foto_bukti_survei']['name'])) {
+		// 	$this->load->library('upload', $config);
+		// 	if (!$this->upload->do_upload('foto_bukti_survei')) {
+		// 		print_r($this->upload->display_errors());
+		// 		exit;
+		// 	}
+		// 	$attachment = $this->upload->data();
+		// 	$fileName = $attachment['file_name'];
 
-			//$foto_bukti_survei =  $url.$fileName;
-			$foto_bukti_survei =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-		} else {
-			if (isset($post['old_foto_bukti_survei'])) {
-				$foto_bukti_survei = $post['old_foto_bukti_survei'];
-			} else {
-				$foto_bukti_survei = '';
-			}
-		}
+		// 	//$foto_bukti_survei =  $url.$fileName;
+		// 	$foto_bukti_survei =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+		// } else {
+		// 	if (isset($post['old_foto_bukti_survei'])) {
+		// 		$foto_bukti_survei = $post['old_foto_bukti_survei'];
+		// 	} else {
+		// 		$foto_bukti_survei = '';
+		// 	}
+		// }
 
 		//Upload foto_bukti_survei2
-		if (!empty($_FILES['foto_bukti_survei2']['name'])) {
-			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload('foto_bukti_survei2')) {
-				print_r($this->upload->display_errors());
-				exit;
-			}
-			$attachment = $this->upload->data();
-			$fileName = $attachment['file_name'];
+		// if (!empty($_FILES['foto_bukti_survei2']['name'])) {
+		// 	$this->load->library('upload', $config);
+		// 	if (!$this->upload->do_upload('foto_bukti_survei2')) {
+		// 		print_r($this->upload->display_errors());
+		// 		exit;
+		// 	}
+		// 	$attachment = $this->upload->data();
+		// 	$fileName = $attachment['file_name'];
 
-			//$foto_bukti_survei2 =  $url.$fileName;
-			$foto_bukti_survei2 =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-		} else {
-			if (isset($post['old_foto_bukti_survei2'])) {
-				$foto_bukti_survei2 = $post['old_foto_bukti_survei2'];
-			} else {
-				$foto_bukti_survei2 = '';
-			}
-		}
+		// 	//$foto_bukti_survei2 =  $url.$fileName;
+		// 	$foto_bukti_survei2 =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+		// } else {
+		// 	if (isset($post['old_foto_bukti_survei2'])) {
+		// 		$foto_bukti_survei2 = $post['old_foto_bukti_survei2'];
+		// 	} else {
+		// 		$foto_bukti_survei2 = '';
+		// 	}
+		// }
 
 		//Upload foto_bukti_survei3
-		if (!empty($_FILES['foto_bukti_survei3']['name'])) {
-			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload('foto_bukti_survei3')) {
-				print_r($this->upload->display_errors());
-				exit;
-			}
-			$attachment = $this->upload->data();
-			$fileName = $attachment['file_name'];
+		// if (!empty($_FILES['foto_bukti_survei3']['name'])) {
+		// 	$this->load->library('upload', $config);
+		// 	if (!$this->upload->do_upload('foto_bukti_survei3')) {
+		// 		print_r($this->upload->display_errors());
+		// 		exit;
+		// 	}
+		// 	$attachment = $this->upload->data();
+		// 	$fileName = $attachment['file_name'];
 
-			//$foto_bukti_survei3 =  $url.$fileName;
-			$foto_bukti_survei3 =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-		} else {
-			if (isset($post['old_foto_bukti_survei3'])) {
-				$foto_bukti_survei3 = $post['old_foto_bukti_survei3'];
-			} else {
-				$foto_bukti_survei3 = '';
-			}
-		}
+		// 	//$foto_bukti_survei3 =  $url.$fileName;
+		// 	$foto_bukti_survei3 =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+		// } else {
+		// 	if (isset($post['old_foto_bukti_survei3'])) {
+		// 		$foto_bukti_survei3 = $post['old_foto_bukti_survei3'];
+		// 	} else {
+		// 		$foto_bukti_survei3 = '';
+		// 	}
+		// }
 
 		$datas = array(
 
 			'tanggal_survei_satu' => $post['tanggal_survei_satu'],
 			'tanggal_survei_dua' => $post['tanggal_survei_dua'],
 			'tanggal_survei_tiga' => $post['tanggal_survei_tiga'],
-			'url_bukti_satu' => $foto_bukti_survei,
-			'url_bukti_dua' => $foto_bukti_survei2,
-			'url_bukti_tiga' => $foto_bukti_survei3,
+			'url_bukti_satu' => $post['foto_bukti_survei'],
+			'url_bukti_dua' => $post['foto_bukti_survei2'],
+			'url_bukti_tiga' => $post['foto_bukti_survei3'],
 			'penetapan_tanggal_survei_id' => $post['penetapan_tanggal_survei_id']
 		);
 

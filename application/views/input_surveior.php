@@ -72,8 +72,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="lpa">LPA</label>
-                                            <?=form_dropdown('lpa_id', dropdown_sina_lpa(),$lpa_id,'id="id"  class="form-select" disabled' );?>
-                                            <!-- <input type="text" class="form-control" id="lpa_id" name="lpa_id"  value="<?= $lpa_id ?>" disabled> -->
+                                            <?= form_dropdown('lpa_id', dropdown_sina_lpa(), $lpa_id, 'id="id"  class="form-select" disabled'); ?>
                                         </div>
                                         <div class="form-group">
                                             <label for="no_hp">No Hp</label>
@@ -92,50 +91,57 @@
                                             <label for="keaktifan">Status</label>
                                             <?= form_dropdown('keaktifan', array('1' => 'PNS', '2' => 'SWASTA', '3' => 'Purna Tugas'), '', 'id="keaktifan"  class="form-select" '); ?>
                                         </div>
-
                                         <div class="form-group col-md-12">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-12">
                                                 <label for="helperText">Sertifikat Surveior</label>
                                                 <div class="input-group">
-                                                    <input type="file" class="form-control" id="url_sertifikat_surveior"  name="url_sertifikat_surveior" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                                    <!-- Input Link -->
+                                                    <input type="url" class="form-control" id="url_sertifikat_surveior" name="url_sertifikat_surveior"
+                                                        placeholder="Masukkan link Google Drive atau URL PDF"
+                                                        value="<?= $data[0]['url_sertifikat_surveior'] ?? '' ?>">
 
                                                     <?php
-                                                    if (!empty($data[0]['url_sertifikat_surveior'])) {
-                                                        $url_sertifikat_surveior = $data[0]['url_sertifikat_surveior'];
-                                                    ?>
-                                                        <a class="btn btn-primary rounded-pill" target="_blank" href="<?php echo $url_sertifikat_surveior; ?>">Lihat Dokumen</a>
-                                                    <?php
-                                                    } else {
-                                                        $url_sertifikat_surveior = "";
+                                                    $url_sertifikat_surveior = $data[0]['url_sertifikat_surveior'] ?? '';
+                                                    if (!empty($url_sertifikat_surveior)) {
+                                                        // Deteksi apakah ini link eksternal (https://) atau file PDF lokal
+                                                        $is_external = preg_match('#^https?://#i', $url_sertifikat_surveior);
+                                                        $is_pdf = preg_match('/\.pdf$/i', $url_sertifikat_surveior);
+
+                                                        if ($is_external || $is_pdf) {
+                                                            echo '<a class="btn btn-primary rounded-pill ms-2" target="_blank" href="' . $url_sertifikat_surveior . '">Lihat Dokumen</a>';
+                                                        }
                                                     }
                                                     ?>
-
                                                     <input type="hidden" name="old_url_sertifikat_surveior" value="<?= $url_sertifikat_surveior ?>" id="old_url_sertifikat_surveior">
                                                 </div>
                                             </div>
+
                                             <div class="form-group col-md-12">
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-12">
                                                     <label for="helperText">Surat Keputusan Keanggotaan dari Lembaga</label>
                                                     <div class="input-group">
-                                                        <input type="file" class="form-control" id="url_surat_keputusan_keanggotaan"  name="url_surat_keputusan_keanggotaan" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                                        <!-- Input Link -->
+                                                        <input type="url" class="form-control" id="url_surat_keputusan_keanggotaan" name="url_surat_keputusan_keanggotaan"
+                                                            placeholder="Masukkan link Google Drive atau URL PDF"
+                                                            value="<?= $data[0]['url_surat_keputusan_keanggotaan'] ?? '' ?>">
 
                                                         <?php
-                                                        if (!empty($data[0]['url_surat_keputusan_keanggotaan'])) {
-                                                            $url_surat_keputusan_keanggotaan = $data[0]['url_surat_keputusan_keanggotaan'];
-                                                        ?>
-                                                            <a class="btn btn-primary rounded-pill" target="_blank" href="<?php echo $url_surat_keputusan_keanggotaan; ?>">Lihat Dokumen</a>
-                                                        <?php
-                                                        } else {
-                                                            $url_surat_keputusan_keanggotaan = "";
+                                                        $url_surat_keputusan_keanggotaan = $data[0]['url_surat_keputusan_keanggotaan'] ?? '';
+                                                        if (!empty($url_surat_keputusan_keanggotaan)) {
+                                                            $is_external = preg_match('#^https?://#i', $url_surat_keputusan_keanggotaan);
+                                                            $is_pdf = preg_match('/\.pdf$/i', $url_surat_keputusan_keanggotaan);
+
+                                                            if ($is_external || $is_pdf) {
+                                                                echo '<a class="btn btn-primary rounded-pill ms-2" target="_blank" href="' . $url_surat_keputusan_keanggotaan . '">Lihat Dokumen</a>';
+                                                            }
                                                         }
                                                         ?>
-
                                                         <input type="hidden" name="old_url_surat_keputusan_keanggotaan" value="<?= $url_surat_keputusan_keanggotaan ?>" id="old_url_surat_keputusan_keanggotaan">
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
+
 
                                     </div>
 

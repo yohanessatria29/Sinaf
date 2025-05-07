@@ -1074,19 +1074,26 @@
                                                             <input type="hidden" class="form-control" id="id" name="id" value="<?= $data[0]['id'] ?>">
                                                             <input type="hidden" class="form-control" id="kelengkapan_berkas_id" name="kelengkapan_berkas_id" value="<?= $data[0]['kelengkapan_berkas_id'] ?>">
                                                             <input type="hidden" class="form-control" id="penetapan_tanggal_survei_id" name="penetapan_tanggal_survei_id" value="<?= $data[0]['penetapan_tanggal_survei_id'] ?>">
-                                                            <input type="file" class="form-control" id="url_dokumen_kontrak" name="url_dokumen_kontrak" aria-describedby="inputGroupFileAddon04" aria-label="Upload" <?= $url_dokumen_kontrak_required; ?>>
 
-                                                            <?php if (!empty($data[0]['url_dokumen_kontrak'])) {
-                                                                $url_dokumen_kontrak = $data[0]['url_dokumen_kontrak'];
-                                                            ?>
-                                                                <a class="btn btn-primary rounded-pill" target="_blank" href="<?php echo $url_dokumen_kontrak; ?>">Lihat Dokumen</a>
-                                                            <?php } else {
-                                                                $url_dokumen_kontrak = "";
+                                                            <!-- Ganti input file dengan input text (link) -->
+                                                            <input type="text" class="form-control" id="url_dokumen_kontrak" name="url_dokumen_kontrak" required
+                                                                placeholder="Masukkan link Google Drive" value="<?= $data[0]['url_dokumen_kontrak'] ?? '' ?>" <?= $url_dokumen_kontrak_required; ?>>
+                                                            <?php
+                                                            $url_dokumen_kontrak = $data[0]['url_dokumen_kontrak'] ?? '';
+
+                                                            if (!empty($url_dokumen_kontrak)) {
+                                                                // Tambahkan https:// jika tidak ada
+                                                                if (!preg_match('#^https?://#i', $url_dokumen_kontrak)) {
+                                                                    $url_dokumen_kontrak = 'https://' . $url_dokumen_kontrak;
+                                                                }
+
+                                                                echo '<a class="btn btn-primary rounded-pill ms-2" target="_blank" href="' . $url_dokumen_kontrak . '">Lihat Dokumen</a>';
                                                             }
                                                             ?>
                                                             <input type="hidden" name="old_url_dokumen_kontrak" value="<?= $url_dokumen_kontrak ?>" id="old_url_dokumen_kontrak">
                                                         </div>
                                                     </fieldset>
+
                                                 </div>
 
                                                 <div class="form-group">
