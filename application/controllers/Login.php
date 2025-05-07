@@ -29,21 +29,14 @@ class Login extends CI_Controller
 
 	function index()
 	{
-		if ($this->db->conn_id) {
-			echo "Connection Successful!";
+		if ($this->session->userdata('login') != TRUE) {
+			$this->load->view('auth-login');
 		} else {
-			echo "Connection Failed!";
-		}
+			$url = base_url('/pengajuan');
+			redirect($url);
+		};
+		//$this->load->view('auth-login');
 	}
-	// {
-	// 	if ($this->session->userdata('login') != TRUE) {
-	// 		$this->load->view('auth-login');
-	// 	} else {
-	// 		$url = base_url('/pengajuan');
-	// 		redirect($url);
-	// 	};
-	// 	//$this->load->view('auth-login');
-	// }
 
 	function autentikasi()
 	{
