@@ -27,7 +27,7 @@ $root  = "http://" . $_SERVER['HTTP_HOST'];
 //$root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 // CONFIG LAMA
 //$config['base_url']    = $root;
-$config['base_url'] = 'http://192.168.137.2/sinaf/';
+$config['base_url'] = 'http://192.168.67.144/Sinaf/';
 
 // CONFIG BARU
 // $config['base_url']    = 'https://sinaf.kemkes.go.id';
@@ -42,7 +42,7 @@ $config['base_url'] = 'http://192.168.137.2/sinaf/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'http://192.168.67.144/Sinaf/';
 
 /*
 |--------------------------------------------------------------------------
