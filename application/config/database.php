@@ -76,9 +76,6 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	// 'hostname' => '192.168.67.130',
-	// 'username' => 'sinaf_ops',
-	// 'password' => '4cmI55^PA4OD',
 	'hostname' => '192.168.67.130',
 	'username' => 'su_sinaf',
 	'password' => 'zZYqfN4HxKAv6WaB',
@@ -102,9 +99,6 @@ $db['default'] = array(
 
 $db['dbfaskes'] = array(
 	'dsn'	=> '',
-	// 'hostname' => '192.168.67.130',
-	// 'username' => 'sinaf_ops',
-	// 'password' => '4cmI55^PA4OD',
 	'hostname' => '192.168.67.130',
 	'username' => 'su_sinaf',
 	'password' => 'zZYqfN4HxKAv6WaB',
