@@ -42,7 +42,7 @@ $config['base_url'] = 'http://192.168.67.144/Sinaf/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'http://192.168.67.144/Sinaf/';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
