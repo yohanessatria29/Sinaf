@@ -44,7 +44,7 @@
                                             <?php echo form_open_multipart('Kesmas/tes') ?>
                                             <form role="form" method="post" class="login-form" name="form_valdation">
 
-                                               
+
                                         </div>
                                         <div class="form-group row align-items-center">
                                             <div class="col-lg-2 col-3">
@@ -68,16 +68,16 @@
                                             </div>
                                             <div class="col-lg-10 col-9">
 
-                                            <input type="text" name="jenis_fasyankes" id="jenis_fasyankes" class="form-control" value="puskesmas">
+                                                <input type="text" name="jenis_fasyankes" id="jenis_fasyankes" class="form-control" value="puskesmas">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
-                                        <div class="col-lg-2 col-3">
+                                            <div class="col-lg-2 col-3">
                                                 <label class="col-form-label">Nama Fasyankes</label>
                                             </div>
                                             <div class="col-lg-10 col-9">
 
-                                            <input type="text" name="nama_fasyankes" id="nama_fasyankes" class="form-control" >
+                                                <input type="text" name="nama_fasyankes" id="nama_fasyankes" class="form-control">
                                             </div>
                                         </div>
                                         <div class="buttons">
@@ -94,15 +94,15 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>No</th>
-                                                               
+
                                                                 <th>Nama Fasyankes</th>
-                                                               
+
                                                                 <th>Provinsi</th>
                                                                 <th>Kab/Kota</th>
                                                                 <th>Status Akreditasi</th>
                                                                 <th>Tanggal Awal Sertifikat</th>
                                                                 <th>Tanggal Akhir Sertifikat</th>
-                                                               
+
 
                                                             </tr>
                                                         </thead>
@@ -110,25 +110,25 @@
                                                             <?php
                                                             // var_dump($dataapi);
                                                             $n = 1;
-                                                            foreach($dataapi["data"] as $key => $value) {
+                                                            foreach ($dataapi["data"] as $key => $value) {
                                                                 // var_dump($value);
-                                                              
-                                                               
+
+
                                                             ?>
 
                                                                 <tr>
                                                                     <td><?= $n; ?></td>
-                                                                    
+
                                                                     <td><?= $value["nama_faskes"] ?></td>
-                                                                   
+
                                                                     <td><?= $value['provinsi']; ?></td>
                                                                     <td><?= $value['kabkot']; ?></td>
                                                                     <td><?= $value['status_akreditasi']; ?></td>
                                                                     <td><?= $value['tgl_mulai_sertifikat']; ?></td>
                                                                     <td><?= $value['tgl_akhir_sertifikat']; ?></td>
-                                                                    
 
-                                                                   
+
+
                                                                 </tr>
                                                             <?php
                                                                 $n++;
@@ -137,7 +137,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -183,27 +183,28 @@
 
     </script>
     <script>
-    $(document).ready(function() {
-        $('#table1').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
-            // dom: 'Bfrtip',
-            // buttons: [
-            //     'excel', 'csv'
-            // ]
+        $(document).ready(function() {
+            $('#table1').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false
+                // dom: 'Bfrtip',
+                // buttons: [
+                //     'excel', 'csv'
+                // ]
+            });
         });
-    });
-</script>
+    </script>
     <script>
         $('[name="propinsi"]').change(function() {
             $("#kota_id").removeAttr('readonly'); //turns required off
             $('#kota_id').val('');
             $.ajax({
-                url: "../pengajuan/dropdown5/" + $(this).val(),
+                // url: "../pengajuan/dropdown5/" + $(this).val(),
+                url: "<?= base_url('pengajuan/dropdown5/') ?>" + $(this).val(),
                 dataType: "json",
                 type: "GET",
                 success: function(data) { //
@@ -229,7 +230,7 @@
             document.getElementById("tanggal_akhir").setAttribute("min", tanggal_min);
         });
 
-       
+
 
         async function getTolak(catatan) {
             $('#catatan_direktur').val('');

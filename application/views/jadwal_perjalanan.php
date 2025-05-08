@@ -14,11 +14,11 @@
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/favicon.svg'); ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/favicon.png'); ?>" type="image/png">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/css/pages/filepond.css">
+    <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/css/pages/filepond.css">
     <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/temp/jquery-ui.css">
     <script src="https://dfo.kemkes.go.id/assets/temp/jquery-3.6.0.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/css/jquery-ui.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/css/jquery-ui.css">
 
 
 </head>
@@ -32,77 +32,77 @@
     <section class="section">
         <div class="row">
             <div class="col-md-12">
-            <div class="container">
-                <div class="card">
+                <div class="container">
+                    <div class="card">
 
-                    <div class="card-body">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <div class="card">
-                                    </br>
-                                    <?php echo form_open_multipart('Surveior/jadwal_perjalanan') ?>
-                                    <form role="form" method="post" class="login-form" name="form_valdation">
-                                        <div class="form-group row align-items-center">
-                                            <div class="row">
-                                                <div class="col-lg-2 col-4">
-                                                    <label class="col-form-label">Tanggal</label>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" value="<?= $tanggal_awal ?>">
-                                                </div>
-                                                s.d.
-                                                <div class="col-md-4">
-                                                    <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control" value="<?= $tanggal_akhir ?>" min="<?= $tanggal_awal ?>" readonly>
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="card">
+                                        </br>
+                                        <?php echo form_open_multipart('Surveior/jadwal_perjalanan') ?>
+                                        <form role="form" method="post" class="login-form" name="form_valdation">
+                                            <div class="form-group row align-items-center">
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-4">
+                                                        <label class="col-form-label">Tanggal</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" value="<?= $tanggal_awal ?>">
+                                                    </div>
+                                                    s.d.
+                                                    <div class="col-md-4">
+                                                        <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control" value="<?= $tanggal_akhir ?>" min="<?= $tanggal_awal ?>" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="form-group row align-items-center">
-                                            <div class="col-lg-2 col-3">
-                                                <label class="col-form-label">Pilih Surveior</label>
-                                            </div>
-                                            <div class="col-lg-10 col-9">
-                                               <div class="form-group">
-                                             <input type="text" class="form-control"
-                                                placeholder="Cari Nama Surveior" name="namasurveior" id="namasurveior" autocomplete="on">
-                                             <input type="hidden" class="form-control" name="user_id" id="usersid" autocomplete="on">
-                                        </div>
-                                        </div>
-                                        <div class="buttons">
-                                            <button href="submit" class="btn btn-success rounded-pill">Tampilkan</button>
-                                            <a href="<?php echo base_url('surveior/jadwal_perjalanan'); ?>" class="btn btn-light rounded-pill">Bersihkan</a>
-                                        </div>
 
-                                    </form>
+                                            <div class="form-group row align-items-center">
+                                                <div class="col-lg-2 col-3">
+                                                    <label class="col-form-label">Pilih Surveior</label>
+                                                </div>
+                                                <div class="col-lg-10 col-9">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Cari Nama Surveior" name="namasurveior" id="namasurveior" autocomplete="on">
+                                                        <input type="hidden" class="form-control" name="user_id" id="usersid" autocomplete="on">
+                                                    </div>
+                                                </div>
+                                                <div class="buttons">
+                                                    <button href="submit" class="btn btn-success rounded-pill">Tampilkan</button>
+                                                    <a href="<?php echo base_url('surveior/jadwal_perjalanan'); ?>" class="btn btn-light rounded-pill">Bersihkan</a>
+                                                </div>
 
-                                    <div class="card-body">
-                                        <table class="table table-striped" id="table1">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Tanggal Kesiapan</th>
-                                                    <th>Alasan</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $n = 1;
-                                                foreach ($data as $data) {
-                                                    // if($data === 0){
-                                                        // vardump($data);
-                                                    // }
-                                                ?>
+                                        </form>
 
+                                        <div class="card-body">
+                                            <table class="table table-striped" id="table1">
+                                                <thead>
                                                     <tr>
-                                                        <td><?= $n; ?></td>
+                                                        <th>No</th>
+                                                        <th>Tanggal Kesiapan</th>
+                                                        <th>Alasan</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $n = 1;
+                                                    foreach ($data as $data) {
+                                                        // if($data === 0){
+                                                        // vardump($data);
+                                                        // }
+                                                    ?>
 
-                                                        <td><?= $data['jadwal_kesiapan']; ?></td>
-                                                        <td>
-                                                        <!-- <select class="form-select akreditasi" id="status<?=$data['id'];?>"  name="status[<?=$data['id'];?>]">
+                                                        <tr>
+                                                            <td><?= $n; ?></td>
+
+                                                            <td><?= $data['jadwal_kesiapan']; ?></td>
+                                                            <td>
+                                                                <!-- <select class="form-select akreditasi" id="status<?= $data['id']; ?>"  name="status[<?= $data['id']; ?>]">
                                                                     <option value='0'>Belum Ditugaskan</option>
                                                                     <option value='2'>Dalam Perjalanan Survei</option>
                                                                     <option value='3'>Sakit</option>
@@ -110,29 +110,29 @@
                                                                     <option value='5'>dll</option>
                                                                     
                                                     </select> -->
-                                                            <?php
-                                                                if($data['status'] != 1) {
+                                                                <?php
+                                                                if ($data['status'] != 1) {
                                                                     $status = "";
                                                                 } else {
                                                                     $status = "disabled";
                                                                 }
-                                                            ?>
-                                                            <?= form_dropdown('status', dropdown_sina_status_kesiapan_surveior(), $data['status'], 'id="status'.$data['id'].'"  class="form-control" '.$status.' '); ?>
-                                                        </td>
+                                                                ?>
+                                                                <?= form_dropdown('status', dropdown_sina_status_kesiapan_surveior(), $data['status'], 'id="status' . $data['id'] . '"  class="form-control" ' . $status . ' '); ?>
+                                                            </td>
 
-                                                        <!-- <td> -->
+                                                            <!-- <td> -->
                                                             <!-- <a href="<?php echo base_url('Surveior/update_jadwal/' . $data['id']) ?>" class="btn btn-danger" title="Delete Tanggal">Non Aktifkan</a> -->
                                                             <?php
-                                                                if($data['status'] != 1) {
+                                                            if ($data['status'] != 1) {
                                                             ?>
-                                                            <td><input type='button' name='update' id='update' class='btn btn-info update' ids='<?=$data['id'];?>' value='Submit'></td>
+                                                                <td><input type='button' name='update' id='update' class='btn btn-info update' ids='<?= $data['id']; ?>' value='Submit'></td>
                                                             <?php
-                                                                }
+                                                            }
                                                             ?>
-                                                        <!-- </td> -->
-                                                        
+                                                            <!-- </td> -->
 
-                                                        <!-- <td>
+
+                                                            <!-- <td>
                                                             <div class="buttons">
                                                                 <a href="<?php echo base_url('surveior/epsurveior/') . $data['id']; ?>" class="btn icon btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
                                                                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -142,30 +142,30 @@
 
                                                             </div>
                                                         </td> -->
-                                                    </tr>
+                                                        </tr>
 
-                                                <?php
-                                                    $n++;
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
+                                                    <?php
+                                                        $n++;
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
+
+
+
+
+
                             </div>
 
-
-
-
-
                         </div>
-
                     </div>
+
                 </div>
 
             </div>
-
-        </div>
     </section>
 
 
@@ -175,9 +175,9 @@
                 <!-- <p>2022 &copy; Kemenkes</p> -->
             </div>
             <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
-                    </div>
+                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                        href="http://ahmadsaugi.com">A. Saugi</a></p>
+            </div>
         </div>
     </footer>
     </div>
@@ -196,14 +196,14 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function() {
 
 
             $('#namasurveior').autocomplete({
-                source: "<?php echo site_url('Surveior/get_autocomplete_surveior');?>",
+                source: "<?php echo site_url('Surveior/get_autocomplete_surveior'); ?>",
 
-     
-                select: function (event, ui) {
+
+                select: function(event, ui) {
                     $('#namasurveior').val(ui.item.label);
                     $('#usersid').val(ui.item.userid);
                 }
@@ -218,7 +218,8 @@
             $('#kota_id').val('');
 
             $.ajax({
-                url: "../sina/pengajuan/dropdown5/" + $(this).val(),
+                // url: "../sina/pengajuan/dropdown5/" + $(this).val(),
+                url: "<?= base_url('pengajuan/dropdown5/') ?>" + $(this).val(),
                 dataType: "json",
                 type: "GET",
                 success: function(data) { //
@@ -248,20 +249,23 @@
         });
 
 
-        $(".update").click(function(){
-            var id=$(this).attr('ids');
-            var status=$("#status"+id).val();
-            
-            
+        $(".update").click(function() {
+            var id = $(this).attr('ids');
+            var status = $("#status" + id).val();
+
+
             $.ajax({
-            type  : 'POST',
-            url : "<?php echo site_url(); ?>/surveior/update_jadwal_perjalanan",
-            data  : {id:id,status:status},
-            cache : false,
-            success : function(data){
-            alert(data);
-            location.reload();
-            }
+                type: 'POST',
+                url: "<?php echo site_url(); ?>/surveior/update_jadwal_perjalanan",
+                data: {
+                    id: id,
+                    status: status
+                },
+                cache: false,
+                success: function(data) {
+                    alert(data);
+                    location.reload();
+                }
             });
         });
     </script>

@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php if ($this->session->userdata['kriteria_id'] == 13) { ?>
-    
-    <title>Monitoring Klinik Pratama</title>
 
-    <?php }elseif($this->session->userdata['kriteria_id'] == 14){ ?>
-    <title>Monitoring Puskesmas</title>
-    <?php } else{?>
+        <title>Monitoring Klinik Pratama</title>
+
+    <?php } elseif ($this->session->userdata['kriteria_id'] == 14) { ?>
+        <title>Monitoring Puskesmas</title>
+    <?php } else { ?>
         <title>Monitoring Labkesmas</title>
 
-        <?php }?>
+    <?php } ?>
 
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/main/app.css">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/main/app-dark.css'); ?>">
@@ -95,14 +95,14 @@
             <div class="card-body">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                    <?php if ($this->session->userdata['kriteria_id'] == 13) { ?>
-                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monitoring Survei Klinik Pratama</a>
-                        <?php }elseif ($this->session->userdata['kriteria_id'] == 14){ ?>
-                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monitoring Survei Puskesmas</a>
-<?php }else{?>
-    <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monitoring Survei Labkesmas</a>
+                        <?php if ($this->session->userdata['kriteria_id'] == 13) { ?>
+                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monitoring Survei Klinik Pratama</a>
+                        <?php } elseif ($this->session->userdata['kriteria_id'] == 14) { ?>
+                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monitoring Survei Puskesmas</a>
+                        <?php } else { ?>
+                            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monitoring Survei Labkesmas</a>
 
-    <?php }?>
+                        <?php } ?>
                     </li>
 
                 </ul>
@@ -153,21 +153,21 @@
                                                     </div>
                                                     <?php if ($this->session->userdata['kriteria_id'] == 13) { ?>
 
-                                                    <div class="col-lg-10 col-9">
-                                                        <?= form_dropdown('jenis_fasyankes', dropdown_sina_jenis_fasyankes_primer(), $jenis_fasyankes, 'id="jenis_fasyankes"  class="form-select" '); ?>
-                                                    </div>
-                                                <?php }elseif($this->session->userdata['kriteria_id'] == 14){?>
+                                                        <div class="col-lg-10 col-9">
+                                                            <?= form_dropdown('jenis_fasyankes', dropdown_sina_jenis_fasyankes_primer(), $jenis_fasyankes, 'id="jenis_fasyankes"  class="form-select" '); ?>
+                                                        </div>
+                                                    <?php } elseif ($this->session->userdata['kriteria_id'] == 14) { ?>
 
-                                                    <div class="col-lg-10 col-9">
-                                                        <?= form_dropdown('jenis_fasyankes', dropdown_sina_jenis_fasyankes_primer_puskesmas(), $jenis_fasyankes, 'id="jenis_fasyankes"  class="form-select" '); ?>
-                                                    </div>
-                                                    <?php }else{ ?>
-                                                    <div class="col-lg-10 col-9">
+                                                        <div class="col-lg-10 col-9">
+                                                            <?= form_dropdown('jenis_fasyankes', dropdown_sina_jenis_fasyankes_primer_puskesmas(), $jenis_fasyankes, 'id="jenis_fasyankes"  class="form-select" '); ?>
+                                                        </div>
+                                                    <?php } else { ?>
+                                                        <div class="col-lg-10 col-9">
 
-                                                        <?= form_dropdown('jenis_fasyankes', dropdown_sina_jenis_fasyankes_primer_labkesmas(), $jenis_fasyankes, 'id="jenis_fasyankes"  class="form-select" '); ?>
+                                                            <?= form_dropdown('jenis_fasyankes', dropdown_sina_jenis_fasyankes_primer_labkesmas(), $jenis_fasyankes, 'id="jenis_fasyankes"  class="form-select" '); ?>
                                                         </div>
 
-                                                        <?php }?>
+                                                    <?php } ?>
                                                 </div>
                                                 <?php
                                                 if ($this->session->userdata['kriteria_id'] == 2) {
@@ -757,7 +757,8 @@
             $("#kota_id").removeAttr('readonly'); //turns required off
             $('#kota_id').val('');
             $.ajax({
-                url: "../pengajuan/dropdown5/" + $(this).val(),
+                // url: "../pengajuan/dropdown5/" + $(this).val(),
+                url: "<?= base_url('pengajuan/dropdown5/') ?>" + $(this).val(),
                 dataType: "json",
                 type: "GET",
                 success: function(data) { //

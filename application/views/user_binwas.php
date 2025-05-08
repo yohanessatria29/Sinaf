@@ -311,7 +311,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -361,16 +361,17 @@
 
     </script>
     <script>
-    $(document).ready(function() {
-        $('#table1').DataTable();
-    });
-</script>
+        $(document).ready(function() {
+            $('#table1').DataTable();
+        });
+    </script>
     <script>
         $('[name="propinsi"]').change(function() {
             $("#kota_id").removeAttr('readonly'); //turns required off
             $('#kota_id').val('');
             $.ajax({
-                url: "../pengajuan/dropdown5/" + $(this).val(),
+                // url: "../pengajuan/dropdown5/" + $(this).val(),
+                url: "<?= base_url('pengajuan/dropdown5/') ?>" + $(this).val(),
                 dataType: "json",
                 type: "GET",
                 success: function(data) { //

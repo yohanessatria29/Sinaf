@@ -70,11 +70,11 @@
                                                 <label class="col-form-label">Jenis Fasyankes</label>
                                             </div>
                                             <div class="col-lg-10 col-9">
-                                            <select name="jenis_fasyankes" id="jenis_fasyankes" class="form-control">
-                                                <option value="">--Pilih Faskes--</option>
-                                                <option value="puskesmas">Puskesmas</option>
-                                                <option value="labkes">Laboratorium Kesehatan</option>
-                                            </select>
+                                                <select name="jenis_fasyankes" id="jenis_fasyankes" class="form-control">
+                                                    <option value="">--Pilih Faskes--</option>
+                                                    <option value="puskesmas">Puskesmas</option>
+                                                    <option value="labkes">Laboratorium Kesehatan</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -94,8 +94,8 @@
                                         </form>
                                         <?php
                                         // var_dump($dataapi[0]["jenis_fasyankes"]);
-                                        if (!empty($dataapi) ) {
-                                            
+                                        if (!empty($dataapi)) {
+
                                         ?>
                                             <div class="card-body">
                                                 <div class="row">
@@ -103,29 +103,29 @@
                                                         <table class="table table-striped table-bordered" id="table1">
                                                             <thead>
                                                                 <tr>
-                                                                  <?php  if($dataapi[0]["jenis_fasyankes"] == 2) {
+                                                                    <?php if ($dataapi[0]["jenis_fasyankes"] == 2) {
                                                                     ?>
-                                                                  
-                                                                    <th>No</th>
-                                                                    <th>Nama Fasyankes</th>
-                                                                    <th>Provinsi</th>
-                                                                    <th>Kab/Kota</th>
-                                                                    
-                                                                    <th>Status Akreditasi</th>
-                                                                    <th>Tanggal Awal Sertifikat</th>
-                                                                    <th>Tanggal Akhir Sertifikat</th>
-                                                                    
-                                                                <?php }else{?>
 
-                                                                    <th>No</th>
-                                                                    <th>Nama Fasyankes</th>
-                                                                    <th>Provinsi</th>
-                                                                    <th>Kab/Kota</th>
-                                                                    <th>Kepemilikan</th>
-                                                                    <th>Status Akreditasi</th>
-                                                                    <th>Tanggal Awal Sertifikat</th>
-                                                                    <th>Tanggal Akhir Sertifikat</th>
-                                                                
+                                                                        <th>No</th>
+                                                                        <th>Nama Fasyankes</th>
+                                                                        <th>Provinsi</th>
+                                                                        <th>Kab/Kota</th>
+
+                                                                        <th>Status Akreditasi</th>
+                                                                        <th>Tanggal Awal Sertifikat</th>
+                                                                        <th>Tanggal Akhir Sertifikat</th>
+
+                                                                    <?php } else { ?>
+
+                                                                        <th>No</th>
+                                                                        <th>Nama Fasyankes</th>
+                                                                        <th>Provinsi</th>
+                                                                        <th>Kab/Kota</th>
+                                                                        <th>Kepemilikan</th>
+                                                                        <th>Status Akreditasi</th>
+                                                                        <th>Tanggal Awal Sertifikat</th>
+                                                                        <th>Tanggal Akhir Sertifikat</th>
+
                                                                     <?php } ?>
 
                                                                 </tr>
@@ -141,26 +141,26 @@
                                                                     $tgl2    = date('Y-m-d', strtotime('+5 year', strtotime($tgl1)));
                                                                 ?>
                                                                     <tr>
-                                                                    <?php  if($dataapi[0]["jenis_fasyankes"] == 2) {
-                                                                    ?>
-                                                                        <td><?= $n; ?></td>
-                                                                        <td><?= $value["nama_fasyankes"] ?></td>
-                                                                        <td><?= $value['nama_prop']; ?></td>
-                                                                        <td><?= $value['nama_kota']; ?></td>
-                                                                       
-                                                                        <td><?= $value['nama_akreditasi']; ?></td>
-                                                                        <td><?= $value['tgl_survei']; ?></td>
-                                                                        <td><?= $tgl2; ?></td>
-                                                                    <?php }else{?>
-                                                                        <td><?= $n; ?></td>
-                                                                        <td><?= $value["nama_fasyankes"] ?></td>
-                                                                        <td><?= $value['nama_prop']; ?></td>
-                                                                        <td><?= $value['nama_kota']; ?></td>
-                                                                        <td><?= $value['pemilik']; ?></td>
-                                                                        <td><?= $value['nama_akreditasi']; ?></td>
-                                                                        <td><?= $value['tgl_survei']; ?></td>
-                                                                        <td><?= $tgl2; ?></td>
-                                                                    <?php } ?>
+                                                                        <?php if ($dataapi[0]["jenis_fasyankes"] == 2) {
+                                                                        ?>
+                                                                            <td><?= $n; ?></td>
+                                                                            <td><?= $value["nama_fasyankes"] ?></td>
+                                                                            <td><?= $value['nama_prop']; ?></td>
+                                                                            <td><?= $value['nama_kota']; ?></td>
+
+                                                                            <td><?= $value['nama_akreditasi']; ?></td>
+                                                                            <td><?= $value['tgl_survei']; ?></td>
+                                                                            <td><?= $tgl2; ?></td>
+                                                                        <?php } else { ?>
+                                                                            <td><?= $n; ?></td>
+                                                                            <td><?= $value["nama_fasyankes"] ?></td>
+                                                                            <td><?= $value['nama_prop']; ?></td>
+                                                                            <td><?= $value['nama_kota']; ?></td>
+                                                                            <td><?= $value['pemilik']; ?></td>
+                                                                            <td><?= $value['nama_akreditasi']; ?></td>
+                                                                            <td><?= $value['tgl_survei']; ?></td>
+                                                                            <td><?= $tgl2; ?></td>
+                                                                        <?php } ?>
                                                                     </tr>
                                                                 <?php
                                                                     $n++;
@@ -170,7 +170,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                              
+
                                             </div>
                                         <?php } else {
                                             echo "Silahkan Filter";
@@ -180,43 +180,43 @@
 
 
                                 <div class="tab-pane fade show" id="surveior" role="tabpanel" aria-labelledby="surveior-tab">
-                                <div class="card-body">
-                                            <div class="row">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-bordered" id="table2">
-                                                        <thead>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered" id="table2">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Nama Lembaga</th>
+                                                            <th>Jumlah Surveior</th>
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $n = 1;
+                                                        foreach ($datasurveior as $key => $value) {
+                                                            //   var_dump($value);
+
+                                                        ?>
+
                                                             <tr>
-                                                                <th>No</th>
-                                                                <th>Nama Lembaga</th>
-                                                                <th>Jumlah Surveior</th>
-                                                               
+                                                                <td><?= $n; ?></td>
+                                                                <td><?= $value['Lembaga']; ?></td>
+                                                                <td><?= $value['jumlah']; ?></td>
+
 
                                                             </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            $n = 1;
-                                                            foreach ($datasurveior as $key => $value) {
-                                                                //   var_dump($value);
-                                                                
-                                                            ?>
-
-                                                                <tr>
-                                                                    <td><?= $n; ?></td>
-                                                                    <td><?= $value['Lembaga']; ?></td>
-                                                                    <td><?= $value['jumlah']; ?></td>
-                                                                    
-                                                                    
-                                                                </tr>
-                                                            <?php
-                                                                $n++;
-                                                            }
-                                                            ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>    
+                                                        <?php
+                                                            $n++;
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -294,7 +294,8 @@
             $("#kota_id").removeAttr('readonly'); //turns required off
             $('#kota_id').val('');
             $.ajax({
-                url: "../pengajuan/dropdown5/" + $(this).val(),
+                // url: "../pengajuan/dropdown5/" + $(this).val(),
+                url: "<?= base_url('pengajuan/dropdown5/') ?>" + $(this).val(),
                 dataType: "json",
                 type: "GET",
                 success: function(data) { //

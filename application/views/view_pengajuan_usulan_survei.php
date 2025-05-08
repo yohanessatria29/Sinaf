@@ -322,7 +322,7 @@
             $('#kota_id').val('');
 
             $.ajax({
-                url: "../pengajuan/dropdown5/" + $(this).val(),
+                url: "<?= base_url('pengajuan/dropdown5/') ?>" + $(this).val(),
                 dataType: "json",
                 type: "GET",
                 success: function(data) { //
