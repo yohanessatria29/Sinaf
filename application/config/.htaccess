@@ -1,9 +1,0 @@
-<FilesMatch "^(config\.php|database\.php|autoload\.php|email\.php|.*\.env)$">
-    Order Allow,Deny
-    Deny from all
-</FilesMatch>
-
-<Files .htaccess>
-    Order Allow,Deny
-    Deny from all
-</Files>
