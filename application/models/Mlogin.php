@@ -35,7 +35,7 @@ class Mlogin extends CI_Model
 
         $data = [
             'users_id'     => $user_id,
-            'login_time'  => date('Y-m-d H:i:s'),
+            // 'login_time'  => date('Y-m-d H:i:s'),
             'ip_address'  => $ip,
             'user_agent'  => $user_agent,
             'status'      => $status,
@@ -54,7 +54,7 @@ class Mlogin extends CI_Model
 
     public function update_logout_time($log_id)
     {
-        $this->db->set('logout_time', date('Y-m-d H:i:s'));
+        $this->db->set('logout_time', 'NOW()', false);
         $this->db->where('id', $log_id);
         $update = $this->db->update('user_log_login');
 
