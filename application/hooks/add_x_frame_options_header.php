@@ -25,7 +25,15 @@ function add_csp_header()
     // // Set the header
     // $CI->output->set_header('Content-Security-Policy: ' . $csp);
 
-    header("Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.datatables.net https://code.jquery.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'self';");
+
+    $nonce = base64_encode(random_bytes(16)); // Menghasilkan nonce yang aman
+
+    // Menyimpan nonce ke session agar bisa digunakan di view
+    $CI = &get_instance();
+    $CI->session->set_userdata('nonce', $nonce);
+
+
+    header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.datatables.net https://code.jquery.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'self';");
 }
 
 

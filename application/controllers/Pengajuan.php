@@ -36,6 +36,7 @@ class Pengajuan extends CI_Controller
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
+
             $session_kriteria = $this->session->userdata('kriteria_id');
             $session_users_id = $this->session->userdata('user_id');
 
@@ -89,6 +90,8 @@ class Pengajuan extends CI_Controller
                     'tanggal_awal' => $tanggal_awal,
                     'tanggal_akhir' => $tanggal_akhir
                 );
+
+
                 $this->load->view('view_pengajuan_usulan_survei', $data);
             }
         }

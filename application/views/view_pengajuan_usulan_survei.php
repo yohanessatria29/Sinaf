@@ -217,36 +217,6 @@
                                         </div>
                                     </div>
 
-
-                                    <!-- Modal -->
-                                    <!-- <div class="modal fade text-left modal-borderless" id="modal_verif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    <br>
-                                                    <div class="col-sm mt-2">
-                                                        <h6>Verifikator</h6>
-
-                                                        <?= form_dropdown('verifikator', dropdown_sina_verifikator($session_lpa), '', 'id="verifikator" class="form-select"'); ?>
-                                                    </div>
-
-                                                    <input type="hidden" name="id_faskes6" value="<?= $lpa_id; ?>" id="id_faskes6">
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">
-                                                            <i class="bx bx-x d-block d-sm-none"></i>
-                                                            <span class="d-none d-sm-block">Batal</span>
-                                                        </button>
-                                                        <button type="submit" class="btn btn-success ml-1" data-bs-dismiss="modal" id="simpan_lab_no" name="simpan_lab_no">
-                                                            <i class="bx bx-check d-block d-sm-none"></i>
-                                                            <span class="d-none d-sm-block">Simpan</span>
-                                                        </button>
-                                                        <br>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-
                                 </div>
                             </div>
                             <!-- Batas Modal -->
