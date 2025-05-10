@@ -14,11 +14,11 @@
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/favicon.svg'); ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/favicon.png'); ?>" type="image/png">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/css/pages/filepond.css">
-    <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/temp/jquery-ui.css">
-    <script src="https://dfo.kemkes.go.id/assets/temp/jquery-3.6.0.js"></script>
+    <!-- <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/css/pages/filepond.css">
+    <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/temp/jquery-ui.css"> -->
+    <!-- <script src="https://dfo.kemkes.go.id/assets/temp/jquery-3.6.0.js"></script> -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/css/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="https://dfo.kemkes.go.id/assets/css/jquery-ui.css"> -->
 
 
 </head>
@@ -172,11 +172,7 @@
     <footer>
         <div class="footer clearfix mb-0 text-muted">
             <div class="float-start">
-                <!-- <p>2022 &copy; Kemenkes</p> -->
-            </div>
-            <div class="float-end">
-                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                        href="http://ahmadsaugi.com">A. Saugi</a></p>
+                <p>2022 &copy; Kemenkes</p>
             </div>
         </div>
     </footer>
@@ -190,9 +186,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://dfo.kemkes.go.id/assets/js/jquery-3.3.1.js" type="text/javascript"></script>
+    <!-- <script src="https://dfo.kemkes.go.id/assets/js/jquery-3.3.1.js" type="text/javascript"></script>
     <script src="https://dfo.kemkes.go.id/assets/js/bootstrap.js" type="text/javascript"></script>
-    <script src="https://dfo.kemkes.go.id/assets/js/jquery-ui.js" type="text/javascript"></script>
+    <script src="https://dfo.kemkes.go.id/assets/js/jquery-ui.js" type="text/javascript"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script type="text/javascript">

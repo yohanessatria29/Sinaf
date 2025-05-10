@@ -79,8 +79,8 @@
                                                             <?php
                                                             $n = 1;
                                                             foreach ($data as $data) {
-                                                                if($data['jumlah_penugasan'] == NULL){
-                                                                    $data['jumlah_penugasan'] ='0';
+                                                                if ($data['jumlah_penugasan'] == NULL) {
+                                                                    $data['jumlah_penugasan'] = '0';
                                                                 }
 
                                                             ?>
@@ -88,16 +88,17 @@
                                                                     <td style="text-align: center"><?= $n; ?></td>
 
                                                                     <td>
-                                                                        <?php 
-                                                                            $masked = substr($data['nik'], 0, 4) . str_repeat('*', strlen($data['nik']) - 8) . substr($data['nik'], -4);
-                                                                            echo $masked;
+                                                                        <?php
+                                                                        $masked = substr($data['nik'], 0, 4) . str_repeat('*', strlen($data['nik']) - 8) . substr($data['nik'], -4);
+                                                                        echo $masked;
                                                                         ?>
-                                                                        <?//= $data['nik']; ?>
-									</td>
+                                                                        <? //= $data['nik']; 
+                                                                        ?>
+                                                                    </td>
                                                                     <td><?= $data['nama']; ?></td>
                                                                     <td style="text-align: center"><?= $data['jumlah_penugasan']; ?></td>
                                                                     <td>
-									                                                                        <?php
+                                                                        <?php
                                                                         $parts = explode('@', $data['email']);
                                                                         $username = $parts[0];
                                                                         $domain = $parts[1];
@@ -110,8 +111,9 @@
                                                                         echo $maskedemail;
 
                                                                         ?>
-									<? //= $data['email']; ?>
-								    </td>
+                                                                        <? //= $data['email']; 
+                                                                        ?>
+                                                                    </td>
                                                                     <td><?= $data['nama_lpa']; ?></td>
                                                                     <td>
                                                                         <?php
@@ -120,7 +122,7 @@
                                                                         ?>
                                                                         <? //= $data['no_hp']; 
                                                                         ?>
-									</td>
+                                                                    </td>
                                                                     <td><?= $data['nama_provinsi']; ?></td>
                                                                     <td><?= $data['kab_kota']; ?></td>
                                                                     <td><?= $data['keaktifan']; ?></td>
@@ -163,7 +165,7 @@
                                         <div class="buttons">
                                             <!-- <a href="<?php echo base_url() ?>pengajuan/inputsurveior" class="btn btn-success rounded-pill">Daftar Ukom</a> -->
                                             <!-- <a href="#" class="btn btn-light rounded-pill">Bersihkan</a> -->
-                                             <label>Daftar Ukom Surveior</label>
+                                            <label>Daftar Ukom Surveior</label>
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
@@ -191,9 +193,9 @@
                                                             <?php
                                                             $n = 1;
                                                             foreach ($data_ukom as $data_ukom) {
-                                                                if($data_ukom['status_ukom'] == '1'){
+                                                                if ($data_ukom['status_ukom'] == '1') {
                                                                     $status_ukom = "Lulus";
-                                                                }else{
+                                                                } else {
                                                                     $status_ukom = "Tidak Lulus";
                                                                 }
 
@@ -203,7 +205,7 @@
 
                                                                     <td><?= $data_ukom['nik']; ?></td>
                                                                     <td><?= $data_ukom['nama']; ?></td>
-                                                                   
+
                                                                     <td><?= $data_ukom['lpa']; ?></td>
                                                                     <td><?= $data_ukom['nama_faskes']; ?></td>
                                                                     <td><?= $data_ukom['nama_bidang']; ?></td>
@@ -219,9 +221,9 @@
                                                                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                                                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                                                 </svg></a> -->
-                                                                            <!-- <a href="<?php echo base_url('pengajuan/hapussurveior/') . $data['users_id'] . '/' . $data['no_hp']; ?>" onclick="return confirm('Apa Anda Yakin Ingin Menghapusnya?')" class="btn icon btn-danger">Delete</a> -->
+                                                                    <!-- <a href="<?php echo base_url('pengajuan/hapussurveior/') . $data['users_id'] . '/' . $data['no_hp']; ?>" onclick="return confirm('Apa Anda Yakin Ingin Menghapusnya?')" class="btn icon btn-danger">Delete</a> -->
 
-                                                                        <!-- </div>
+                                                                    <!-- </div>
                                                                     </td> -->
 
 
@@ -261,10 +263,6 @@
             <div class="float-start">
                 <p>2022 &copy; Kemenkes</p>
             </div>
-            <!-- <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
-                    </div> -->
         </div>
     </footer>
     </div>
@@ -294,7 +292,7 @@
     <script src="assets/js/pages/horizontal-layout.js"></script>
     <script src="<?php echo base_url() ?>assets/js/apa.js"></script>
     <script src="<?php echo base_url() ?>assets/js/app.js"></script>
-    
+
 
 </body>
 
@@ -306,29 +304,29 @@
     });
 </script>
 <script>
-$('#table1').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            dom: 'Bfrtip',
-            buttons: [
-                'excel', 'csv'
-            ]
-        });
+    $('#table1').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        dom: 'Bfrtip',
+        buttons: [
+            'excel', 'csv'
+        ]
+    });
 
-        $('#table2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            dom: 'Bfrtip',
-            buttons: [
-                'excel', 'csv'
-            ]
-        });
-        </script>
+    $('#table2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        dom: 'Bfrtip',
+        buttons: [
+            'excel', 'csv'
+        ]
+    });
+</script>
