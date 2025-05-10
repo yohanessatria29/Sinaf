@@ -61,6 +61,7 @@ class Profil extends CI_Controller
         // $post = $this->input->post();
         $this->load->helper('security');
         $post = $this->security->xss_clean($this->input->post());
+        $post = sanitize_input($post);
 
         $id = $this->session->userdata();
         $surveior = $this->Model_profile->Profile_view($id['user_id']);
@@ -127,6 +128,14 @@ class Profil extends CI_Controller
         }
         echo $this->session->set_flashdata('msg', '<div class="alert alert-success"> Update Profil Berhasil</div>');
         redirect('profil');
+    }
+
+    function sanitize_input($input)
+    {
+        if (is_array($input)) {
+            return array_map('sanitize_input', $input); // rekursif jika array
+        }
+        return str_replace(["'", '"', ';'], '', $input);
     }
 
     public function update_pass()
