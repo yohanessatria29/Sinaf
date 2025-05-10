@@ -14,14 +14,6 @@ class Profil extends CI_Controller
         };
     }
 
-    private function sanitize_input($input)
-    {
-        if (is_array($input)) {
-            return array_map([$this, 'sanitize_input'], $input);
-        }
-        return str_replace(["'", '"', ';'], '', $input);
-    }
-
     public function index()
     {
         $id = $this->session->userdata();
@@ -67,7 +59,7 @@ class Profil extends CI_Controller
         // $config['encrypt_name'] = TRUE;
 
         // $post = $this->input->post();
-        $this->load->helper('security');
+        $this->load->helper(['security', 'sanitize']); // load dua helper sekaligus
         $post = $this->security->xss_clean($this->input->post());
         $post = sanitize_input($post);
 
