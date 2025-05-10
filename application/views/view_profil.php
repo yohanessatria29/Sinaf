@@ -781,7 +781,8 @@
         </div>
 
     </section>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script src="<?php echo base_url('assets/temp/js_x'); ?>/jquery.min.js"></script>
     <script src="<?php echo base_url('assets/js/app.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/extensions/datatables.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/extensions/filepond.js'); ?>"></script>
