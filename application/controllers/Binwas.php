@@ -145,8 +145,8 @@ class Binwas extends CI_Controller
 	public function elemen_penilaian_verifikator()
 	{
 		$this->load->helper('security');
-		$session_lpa = $this->session->userdata('lpa_id');
 		$post = $this->security->xss_clean($this->input->post());
+		$session_lpa = $this->session->userdata('lpa_id');
 
 		$bab = !empty($post['bab']) ? $post['bab'] : null;
 		$data_ep = array();

@@ -18,3 +18,9 @@ $hook['post_controller_constructor'][] = array(
     'filename' => 'add_x_frame_options_header.php',
     'filepath' => 'hooks'
 );
+
+$hook['post_controller_constructor'][] = array(
+    'function' => 'add_csp_header', // Function to add CSP header
+    'filename' => 'add_x_frame_options_header.php', // Hook file created above
+    'filepath' => 'hooks'             // Path to hooks directory
+);
