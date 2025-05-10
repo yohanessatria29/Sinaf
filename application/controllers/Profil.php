@@ -90,10 +90,10 @@ class Profil extends CI_Controller
         //         $dokumen_sk = '';
         //     }
         // }
+        $nama_baru = $post['nama_baru'];
+        $nohpbaru = $post['nohpbaru'];
+        $dokumen_sk = $post['dokumen_sk'];
 
-        $nama_baru = $post('nama_baru');
-        $nohpbaru = $post('nohpbaru');
-        $dokumen_sk = $post('dokumen_sk');
 
 
 
@@ -117,8 +117,8 @@ class Profil extends CI_Controller
             $this->Model_profile->update_users($nama_baru);
             $this->Model_profile->update_profile_ketualpa($nama_baru, $nohpbaru, $dokumen_sk);
         } else if ($id['kriteria_id'] == 2) {
-            $unit_kerja = $post('unit_kerja');
-            $jabatan = $post('jabatan');
+            $unit_kerja = $post['unit_kerja'];
+            $jabatan = $post['jabatan'];
             $this->Model_profile->update_users($nama_baru);
             $this->Model_profile->update_profile_adminkemenkes($nama_baru, $nohpbaru, $unit_kerja, $jabatan, $dokumen_sk);
         } else {
@@ -126,8 +126,6 @@ class Profil extends CI_Controller
             $this->Model_profile->Trans_upd_profil($nama_baru, $nama_lama, $nohpbaru, $nohplama);
         }
         echo $this->session->set_flashdata('msg', '<div class="alert alert-success"> Update Profil Berhasil</div>');
-
-        // echo $dokumen_sk;
         redirect('profil');
     }
 
