@@ -25,3 +25,10 @@ function add_csp_header()
     // Set the header
     $CI->output->set_header('Content-Security-Policy: ' . $csp);
 }
+
+
+function remove_headers()
+{
+    header_remove('X-Powered-By');
+    header_remove('Server');
+}

@@ -24,3 +24,11 @@ $hook['post_controller_constructor'][] = array(
     'filename' => 'add_x_frame_options_header.php', // Hook file created above
     'filepath' => 'hooks'             // Path to hooks directory
 );
+
+
+$hook['post_controller'][] = array(
+    'class'    => '',
+    'function' => 'remove_headers',
+    'filename' => 'add_x_frame_options_header.php',
+    'filepath' => 'hooks'
+);
