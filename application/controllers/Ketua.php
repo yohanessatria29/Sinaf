@@ -40,7 +40,7 @@ class Ketua extends CI_Controller
 			if ($session_kriteria == 8) {
 				$session_lpa = $this->session->userdata('lpa_id');
 
-				$post = $this->input->post();
+				$post = $this->security->xss_clean($this->input->post());
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -115,8 +115,7 @@ class Ketua extends CI_Controller
 			$session_kriteria = $this->session->userdata('kriteria_id');
 			if ($session_kriteria == 8) {
 				$session_lpa = $this->session->userdata('lpa_id');
-
-				$post = $this->input->post();
+				$post = $this->security->xss_clean($this->input->post());
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -148,8 +147,9 @@ class Ketua extends CI_Controller
 
 	public function elemen_penilaian_verifikator()
 	{
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 		$session_lpa = $this->session->userdata('lpa_id');
-		$post = $this->input->post();
 
 		$bab = !empty($post['bab']) ? $post['bab'] : null;
 		$data_ep = array();
@@ -251,7 +251,7 @@ class Ketua extends CI_Controller
 		// echo "tes";
 		$this->load->library('form_validation');
 		$this->load->helper('security');
-		$post = $this->input->post();
+		$post = $this->security->xss_clean($this->input->post());
 		if (!empty($post['bab'])) {
 			$bab = $post['bab'];
 		} else {
@@ -299,37 +299,38 @@ class Ketua extends CI_Controller
 
 	public function simpanPersetujuan()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
-		$config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-		$config['allowed_types']        = 'pdf|jpg|jpeg|png';
-		$config['max_size']             = 2048;
+		// $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+		// $config['allowed_types']        = 'pdf|jpg|jpeg|png';
+		// $config['max_size']             = 2048;
 		// $config['max_width']            = 1080;
 		// $config['max_height']           = 1080;
-		$config['overwrite']            = true;
-		$config['encrypt_name'] = TRUE;
+		// $config['overwrite']            = true;
+		// $config['encrypt_name'] = TRUE;
 
 		//$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
 
 		//Upload 
-		if (!empty($_FILES['url_surat_rekomendasi_status']['name'])) {
-			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload('url_surat_rekomendasi_status')) {
-				print_r($this->upload->display_errors());
-				exit;
-			}
-			$attachment = $this->upload->data();
-			$fileName = $attachment['file_name'];
+		// if (!empty($_FILES['url_surat_rekomendasi_status']['name'])) {
+		// 	$this->load->library('upload', $config);
+		// 	if (!$this->upload->do_upload('url_surat_rekomendasi_status')) {
+		// 		print_r($this->upload->display_errors());
+		// 		exit;
+		// 	}
+		// 	$attachment = $this->upload->data();
+		// 	$fileName = $attachment['file_name'];
 
-			//$foto_bukti_survei =  $url.$fileName;
-			$url_surat_rekomendasi_status =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-		} else {
-			if (isset($post['old_url_surat_rekomendasi_status'])) {
-				$url_surat_rekomendasi_status = $post['old_url_surat_rekomendasi_status'];
-			} else {
-				$url_surat_rekomendasi_status = '';
-			}
-		}
+		// 	//$foto_bukti_survei =  $url.$fileName;
+		// 	$url_surat_rekomendasi_status =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+		// } else {
+		// 	if (isset($post['old_url_surat_rekomendasi_status'])) {
+		// 		$url_surat_rekomendasi_status = $post['old_url_surat_rekomendasi_status'];
+		// 	} else {
+		// 		$url_surat_rekomendasi_status = '';
+		// 	}
+		// }
 
 		$datas = array(
 
@@ -357,42 +358,43 @@ class Ketua extends CI_Controller
 
 	public function simpanRekomendasi()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
-		$config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-		$config['allowed_types']        = 'pdf|jpg|jpeg|png';
-		$config['max_size']             = 2048;
+		// $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+		// $config['allowed_types']        = 'pdf|jpg|jpeg|png';
+		// $config['max_size']             = 2048;
 		// $config['max_width']            = 1080;
 		// $config['max_height']           = 1080;
-		$config['overwrite']            = true;
-		$config['encrypt_name'] = TRUE;
+		// $config['overwrite']            = true;
+		// $config['encrypt_name'] = TRUE;
 
 		//$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
 
 		//Upload 
-		if (!empty($_FILES['url_surat_rekomendasi_status']['name'])) {
-			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload('url_surat_rekomendasi_status')) {
-				print_r($this->upload->display_errors());
-				exit;
-			}
-			$attachment = $this->upload->data();
-			$fileName = $attachment['file_name'];
+		// if (!empty($_FILES['url_surat_rekomendasi_status']['name'])) {
+		// 	$this->load->library('upload', $config);
+		// 	if (!$this->upload->do_upload('url_surat_rekomendasi_status')) {
+		// 		print_r($this->upload->display_errors());
+		// 		exit;
+		// 	}
+		// 	$attachment = $this->upload->data();
+		// 	$fileName = $attachment['file_name'];
 
-			//$foto_bukti_survei =  $url.$fileName;
-			$url_surat_rekomendasi_status =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-		} else {
-			if (isset($post['old_url_surat_rekomendasi_status'])) {
-				$url_surat_rekomendasi_status = $post['old_url_surat_rekomendasi_status'];
-			} else {
-				$url_surat_rekomendasi_status = '';
-			}
-		}
+		// 	//$foto_bukti_survei =  $url.$fileName;
+		// 	$url_surat_rekomendasi_status =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+		// } else {
+		// 	if (isset($post['old_url_surat_rekomendasi_status'])) {
+		// 		$url_surat_rekomendasi_status = $post['old_url_surat_rekomendasi_status'];
+		// 	} else {
+		// 		$url_surat_rekomendasi_status = '';
+		// 	}
+		// }
 
 		$datas = array(
 
 			'status_rekomendasi_id' => $post['status_rekomendasi_id'],
-			'url_surat_rekomendasi_status' => $url_surat_rekomendasi_status,
+			'url_surat_rekomendasi_status' => $post['url_surat_rekomendasi_status'],
 			'trans_final_ep_verifikator_id' => $post['trans_final_ep_verifikator_id']
 		);
 

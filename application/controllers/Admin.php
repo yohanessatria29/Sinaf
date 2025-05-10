@@ -55,7 +55,8 @@ class Admin extends CI_Controller
 			if ($session_kriteria == 5) {
 				$session_lpa = $this->session->userdata('lpa_id');
 
-				$post = $this->input->post();
+				// $post = $this->input->post();
+				$post = $this->security->xss_clean($this->input->post());
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -87,8 +88,10 @@ class Admin extends CI_Controller
 
 	public function elemen_penilaian_verifikator()
 	{
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 		$session_lpa = $this->session->userdata('lpa_id');
-		$post = $this->input->post();
+		// $post = $this->input->post();
 
 		$bab = !empty($post['bab']) ? $post['bab'] : null;
 		$data_ep = array();
@@ -137,13 +140,15 @@ class Admin extends CI_Controller
 		$this->load->view('ketualpa/persentase_capaian', $data);
 		$this->load->view('ketualpa/layout/footer');
 	}
-	
+
 
 	public function detail()
 	{
 		$this->load->library('form_validation');
 		$this->load->helper('security');
-		$post = $this->input->post();
+		// $post = $this->input->post();
+		$post = $this->security->xss_clean($this->input->post());
+
 		if (!empty($post['bab'])) {
 			$bab = $post['bab'];
 		} else {
@@ -175,7 +180,7 @@ class Admin extends CI_Controller
 					'lpa_id' => $session_lpa,
 					'datab' => $this->Model_sina->select_ep($bab, $data_pengajuan[0]['jenis_fasyankes']),
 					'trans' => $trans,
-					'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id'],$data_pengajuan[0]['jenis_fasyankes']),
+					'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id'], $data_pengajuan[0]['jenis_fasyankes']),
 					'bab' => $bab,
 					'id' => $id
 				);
@@ -187,42 +192,44 @@ class Admin extends CI_Controller
 
 	public function simpanRekomendasi()
 	{
-		$post = $this->input->post();
+		// $post = $this->input->post();
+		// $this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
-		$config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-		$config['allowed_types']        = 'pdf|jpg|jpeg|png';
-		$config['max_size']             = 2048;
+		// $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+		// $config['allowed_types']        = 'pdf|jpg|jpeg|png';
+		// $config['max_size']             = 2048;
 		// $config['max_width']            = 1080;
 		// $config['max_height']           = 1080;
-		$config['overwrite']            = true;
-		$config['encrypt_name'] = TRUE;
+		// $config['overwrite']            = true;
+		// $config['encrypt_name'] = TRUE;
 
 		//$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
 
 		//Upload 
-		if (!empty($_FILES['url_surat_rekomendasi_status']['name'])) {
-			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload('url_surat_rekomendasi_status')) {
-				print_r($this->upload->display_errors());
-				exit;
-			}
-			$attachment = $this->upload->data();
-			$fileName = $attachment['file_name'];
+		// if (!empty($_FILES['url_surat_rekomendasi_status']['name'])) {
+		// 	$this->load->library('upload', $config);
+		// 	if (!$this->upload->do_upload('url_surat_rekomendasi_status')) {
+		// 		print_r($this->upload->display_errors());
+		// 		exit;
+		// 	}
+		// 	$attachment = $this->upload->data();
+		// 	$fileName = $attachment['file_name'];
 
-			//$foto_bukti_survei =  $url.$fileName;
-			$url_surat_rekomendasi_status =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-		} else {
-			if (isset($post['old_url_surat_rekomendasi_status'])) {
-				$url_surat_rekomendasi_status = $post['old_url_surat_rekomendasi_status'];
-			} else {
-				$url_surat_rekomendasi_status = '';
-			}
-		}
+		// 	//$foto_bukti_survei =  $url.$fileName;
+		// 	$url_surat_rekomendasi_status =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+		// } else {
+		// 	if (isset($post['old_url_surat_rekomendasi_status'])) {
+		// 		$url_surat_rekomendasi_status = $post['old_url_surat_rekomendasi_status'];
+		// 	} else {
+		// 		$url_surat_rekomendasi_status = '';
+		// 	}
+		// }
 
 		$datas = array(
 
 			'status_rekomendasi_id' => $post['status_rekomendasi_id'],
-			'url_surat_rekomendasi_status' => $url_surat_rekomendasi_status,
+			'url_surat_rekomendasi_status' => $post['url_surat_rekomendasi_status'],
 			'trans_final_ep_verifikator_id' => $post['trans_final_ep_verifikator_id']
 		);
 
@@ -239,11 +246,8 @@ class Admin extends CI_Controller
 			);
 
 			$this->Model_sina->edit_data('pengiriman_rekomendasi', $where3, $datas);
-			
 		} else {
 			$this->Model_sina->input_data('pengiriman_rekomendasi', $datas);
-
-			
 		}
 
 		$this->session->set_flashdata('kode_name', 'success');
@@ -253,9 +257,9 @@ class Admin extends CI_Controller
 		redirect('admin/detail/' . $post['id_pengajuan']);
 	}
 
-	function halaman_juknis(){
+	function halaman_juknis()
+	{
 		$data['judul'] = "Halaman Juknis";
 		$this->load->view('halaman_juknis', $data);
-		
 	}
 }

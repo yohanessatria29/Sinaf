@@ -37,10 +37,10 @@ class Surveior extends CI_Controller
 		} else {
 			$session_kriteria = $this->session->userdata('kriteria_id');
 			if ($session_kriteria == 3) {
+				$post = $this->security->xss_clean($this->input->post());
 				$session_lpa = $this->session->userdata('lpa_id');
 				$session_id = $this->session->userdata('id');
 
-				$post = $this->input->post();
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -85,7 +85,8 @@ class Surveior extends CI_Controller
 	}
 	public function epsurveior_backup()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 		if (!empty($post['bab'])) {
 			$bab = $post['bab'];
 		} else if (!empty($post['bab2'])) {
@@ -120,9 +121,10 @@ class Surveior extends CI_Controller
 		} else {
 			$session_kriteria = $this->session->userdata('kriteria_id');
 			if ($session_kriteria == 3) {
+				$this->load->helper('security');
+				$post = $this->security->xss_clean($this->input->post());
 				$session_lpa = $this->session->userdata('lpa_id');
 				$session_id = $this->session->userdata('id');
-				$post = $this->input->post();
 				if (!empty($post['bab'])) {
 					$bab = $post['bab'];
 				} else if (!empty($post['bab2'])) {
@@ -221,9 +223,10 @@ class Surveior extends CI_Controller
 		} else {
 			$session_kriteria = $this->session->userdata('kriteria_id');
 			if ($session_kriteria == 3) {
+				$this->load->helper('security');
+				$post = $this->security->xss_clean($this->input->post());
 				$session_lpa = $this->session->userdata('lpa_id');
 				$session_id = $this->session->userdata('id');
-				$post = $this->input->post();
 				if (!empty($post['bab'])) {
 					$bab = $post['bab'];
 				} else if (!empty($post['bab2'])) {
@@ -296,7 +299,9 @@ class Surveior extends CI_Controller
 
 	public function epsurveior2()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
+
 		if (!empty($post['bab'])) {
 			$bab = $post['bab'];
 		} else {
@@ -330,7 +335,8 @@ class Surveior extends CI_Controller
 
 	public function simpanEpLama()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
 		foreach ($post['id_ep'] as $ids) {
 
@@ -366,8 +372,8 @@ class Surveior extends CI_Controller
 
 	public function simpanEp()
 	{
-		$post = $this->input->post();
-
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
 		$penetapan_tanggal_survei_id = $post['penetapan_tanggal_survei_id'];
 		$check = $this->Model_sina->checkFinalepSurveior($penetapan_tanggal_survei_id);
@@ -441,7 +447,8 @@ class Surveior extends CI_Controller
 
 	public function simpanLaporan()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
 		// $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
 		// $config['allowed_types']        = 'pdf|jpg|jpeg|png';
@@ -592,7 +599,8 @@ class Surveior extends CI_Controller
 
 	public function final_ep()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
 		$datas = array(
 			'penetapan_tanggal_survei_id' => $post['penetapan_tanggal_survei_id'],
@@ -702,10 +710,12 @@ class Surveior extends CI_Controller
 		} else {
 			$session_kriteria = $this->session->userdata('kriteria_id');
 			if ($session_kriteria == 3 || $session_kriteria == 1) {
+				$this->load->helper('security');
+				$post = $this->security->xss_clean($this->input->post());
+
 				$session_lpa = $this->session->userdata('lpa_id');
 				$session_id = $this->session->userdata('id');
 
-				$post = $this->input->post();
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$user_id = !empty($post['user_id']) ? $post['user_id'] : null;

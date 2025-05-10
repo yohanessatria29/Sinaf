@@ -42,7 +42,9 @@ class Pengajuan extends CI_Controller
             if ($session_kriteria == 1) {
                 $session_lpa = $this->session->userdata('lpa_id');
 
-                $post = $this->input->post();
+                // $post = $this->input->post();
+                $post = $this->security->xss_clean($this->input->post());
+
                 if (!empty($post['tanggal_awal'])) {
                     $tanggal_awal = $post['tanggal_awal'];
                 } else {
@@ -94,7 +96,9 @@ class Pengajuan extends CI_Controller
 
     public function searchIndex()
     {
-        $post = $this->input->post();
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+        // $post = $this->input->post();
         if (!empty($post['propinsi'])) {
             $propinsi = $post['propinsi'];
         } else {
@@ -583,7 +587,8 @@ class Pengajuan extends CI_Controller
 
     public function detailfasyankes()
     {
-        $post = $this->input->post();
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
         if (!empty($post['bab'])) {
             $bab = $post['bab'];
         } else {
@@ -653,9 +658,9 @@ class Pengajuan extends CI_Controller
 
     public function simpanPenerimaanUsulan()
     {
-        $post = $this->input->post();
-        $this->load->library('form_validation');
         $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+        $this->load->library('form_validation');
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
@@ -708,9 +713,9 @@ class Pengajuan extends CI_Controller
 
     public function simpanKelengkapanBerkas()
     {
-        $post = $this->input->post();
-        $this->load->library('form_validation');
         $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+        $this->load->library('form_validation');
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
@@ -794,59 +799,61 @@ class Pengajuan extends CI_Controller
 
     public function simpanPenetapanTanggalSurvei()
     {
-        $post = $this->input->post();
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf|xls|xlsx';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name']         = TRUE;
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|xls|xlsx';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name']         = TRUE;
 
         //$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
 
         //Upload url_dokumen_kontrak
-        if (!empty($_FILES['url_dokumen_kontrak']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('url_dokumen_kontrak')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
+        // if (!empty($_FILES['url_dokumen_kontrak']['name'])) {
+        //     $this->load->library('upload', $config);
+        //     if (!$this->upload->do_upload('url_dokumen_kontrak')) {
+        //         print_r($this->upload->display_errors());
+        //         exit;
+        //     }
 
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
 
-            //$url_dokumen_kontrak =  $url.$fileName;
-            $url_dokumen_kontrak =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_url_dokumen_kontrak'])) {
-                $url_dokumen_kontrak = $post['old_url_dokumen_kontrak'];
-            } else {
-                $url_dokumen_kontrak = '';
-            }
-        }
+        //     //$url_dokumen_kontrak =  $url.$fileName;
+        //     $url_dokumen_kontrak =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+        // } else {
+        //     if (isset($post['old_url_dokumen_kontrak'])) {
+        //         $url_dokumen_kontrak = $post['old_url_dokumen_kontrak'];
+        //     } else {
+        //         $url_dokumen_kontrak = '';
+        //     }
+        // }
         // COMMENT SEMENTARA
 
         //Upload url_surat_tugas
-        if (!empty($_FILES['url_surat_tugas']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('url_surat_tugas')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
+        // if (!empty($_FILES['url_surat_tugas']['name'])) {
+        //     $this->load->library('upload', $config);
+        //     if (!$this->upload->do_upload('url_surat_tugas')) {
+        //         print_r($this->upload->display_errors());
+        //         exit;
+        //     }
 
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
 
-            //$url_surat_tugas =  $url.$fileName;
-            $url_surat_tugas =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_url_surat_tugas'])) {
-                $url_surat_tugas = $post['old_url_surat_tugas'];
-            } else {
-                $url_surat_tugas = '';
-            }
-        }
+        //     //$url_surat_tugas =  $url.$fileName;
+        //     $url_surat_tugas =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+        // } else {
+        //     if (isset($post['old_url_surat_tugas'])) {
+        //         $url_surat_tugas = $post['old_url_surat_tugas'];
+        //     } else {
+        //         $url_surat_tugas = '';
+        //     }
+        // }
         // COMMENT SEMENTARA
 
         if (!empty($post['surveior_satu_arr'])) {
@@ -871,13 +878,13 @@ class Pengajuan extends CI_Controller
 
         $datas = array(
             'kelengkapan_berkas_id' => $post['kelengkapan_berkas_id'],
-            'url_dokumen_kontrak' => $url_dokumen_kontrak,
+            'url_dokumen_kontrak' => $post['url_dokumen_kontrak'],
             'url_dokumen_pendukung_ep' => $post['url_dokumen_pendukung_ep'],
             'surveior_satu' => $post['surveior_satu'],
             'status_surveior_satu' => $post['status_surveior_satu'],
             'surveior_dua' => $post['surveior_dua'],
             'status_surveior_dua' => $post['status_surveior_dua'],
-            'url_surat_tugas' => $url_surat_tugas
+            'url_surat_tugas' => $post['url_surat_tugas']
         );
 
         // COMMENT SEMENTARA
@@ -1483,664 +1490,664 @@ class Pengajuan extends CI_Controller
         // COMMENT SEMENTARA
     }
 
-    public function simpanPenetapanTanggalSurveiCopy()
-    {
-        $post = $this->input->post();
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf|xls|xlsx';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name']         = TRUE;
+    // public function simpanPenetapanTanggalSurveiCopy()
+    // {
+    //     $post = $this->input->post();
+    //     $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+    //     $config['allowed_types']        = 'pdf|xls|xlsx';
+    //     $config['max_size']             = 2048;
+    //     $config['max_width']            = 1080;
+    //     $config['max_height']           = 1080;
+    //     $config['overwrite']            = true;
+    //     $config['encrypt_name']         = TRUE;
 
-        //Upload url_dokumen_kontrak
-        if (!empty($_FILES['url_dokumen_kontrak']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('url_dokumen_kontrak')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
+    //     //Upload url_dokumen_kontrak
+    //     if (!empty($_FILES['url_dokumen_kontrak']['name'])) {
+    //         $this->load->library('upload', $config);
+    //         if (!$this->upload->do_upload('url_dokumen_kontrak')) {
+    //             print_r($this->upload->display_errors());
+    //             exit;
+    //         }
 
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
+    //         $attachment = $this->upload->data();
+    //         $fileName = $attachment['file_name'];
 
-            //$url_dokumen_kontrak =  $url.$fileName;
-            $url_dokumen_kontrak =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_url_dokumen_kontrak'])) {
-                $url_dokumen_kontrak = $post['old_url_dokumen_kontrak'];
-            } else {
-                $url_dokumen_kontrak = '';
-            }
-        }
-        // COMMENT SEMENTARA
+    //         //$url_dokumen_kontrak =  $url.$fileName;
+    //         $url_dokumen_kontrak =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+    //     } else {
+    //         if (isset($post['old_url_dokumen_kontrak'])) {
+    //             $url_dokumen_kontrak = $post['old_url_dokumen_kontrak'];
+    //         } else {
+    //             $url_dokumen_kontrak = '';
+    //         }
+    //     }
+    //     // COMMENT SEMENTARA
 
-        //Upload url_surat_tugas
-        if (!empty($_FILES['url_surat_tugas']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('url_surat_tugas')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
+    //     //Upload url_surat_tugas
+    //     if (!empty($_FILES['url_surat_tugas']['name'])) {
+    //         $this->load->library('upload', $config);
+    //         if (!$this->upload->do_upload('url_surat_tugas')) {
+    //             print_r($this->upload->display_errors());
+    //             exit;
+    //         }
 
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
+    //         $attachment = $this->upload->data();
+    //         $fileName = $attachment['file_name'];
 
-            //$url_surat_tugas =  $url.$fileName;
-            $url_surat_tugas =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_url_surat_tugas'])) {
-                $url_surat_tugas = $post['old_url_surat_tugas'];
-            } else {
-                $url_surat_tugas = '';
-            }
-        }
-        // COMMENT SEMENTARA
+    //         //$url_surat_tugas =  $url.$fileName;
+    //         $url_surat_tugas =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+    //     } else {
+    //         if (isset($post['old_url_surat_tugas'])) {
+    //             $url_surat_tugas = $post['old_url_surat_tugas'];
+    //         } else {
+    //             $url_surat_tugas = '';
+    //         }
+    //     }
+    //     // COMMENT SEMENTARA
 
-        if (!empty($post['surveior_satu_arr'])) {
-            $surveior_satu_arr = $post['surveior_satu_arr'];
-            $surveior_satu = null;
-            $status_surveior_satu = null;
-        } else {
-            $surveior_satu_arr = array();
-            $surveior_satu = $post['surveior_satu'];
-            $status_surveior_satu = 1;
-        }
+    //     if (!empty($post['surveior_satu_arr'])) {
+    //         $surveior_satu_arr = $post['surveior_satu_arr'];
+    //         $surveior_satu = null;
+    //         $status_surveior_satu = null;
+    //     } else {
+    //         $surveior_satu_arr = array();
+    //         $surveior_satu = $post['surveior_satu'];
+    //         $status_surveior_satu = 1;
+    //     }
 
-        if (!empty($post['surveior_dua_arr'])) {
-            $surveior_dua_arr = $post['surveior_dua_arr'];
-            $surveior_dua = null;
-            $status_surveior_dua = null;
-        } else {
-            $surveior_dua_arr = array();
-            $surveior_dua = $post['surveior_dua'];
-            $status_surveior_dua = 2;
-        }
+    //     if (!empty($post['surveior_dua_arr'])) {
+    //         $surveior_dua_arr = $post['surveior_dua_arr'];
+    //         $surveior_dua = null;
+    //         $status_surveior_dua = null;
+    //     } else {
+    //         $surveior_dua_arr = array();
+    //         $surveior_dua = $post['surveior_dua'];
+    //         $status_surveior_dua = 2;
+    //     }
 
-        $datas = array(
-            'kelengkapan_berkas_id' => $post['kelengkapan_berkas_id'],
-            'url_dokumen_kontrak' => $url_dokumen_kontrak,
-            'url_dokumen_pendukung_ep' => $post['url_dokumen_pendukung_ep'],
-            'surveior_satu' => $post['surveior_satu'],
-            'status_surveior_satu' => $post['status_surveior_satu'],
-            'surveior_dua' => $post['surveior_dua'],
-            'status_surveior_dua' => $post['status_surveior_dua'],
-            'url_surat_tugas' => $url_surat_tugas
-        );
+    //     $datas = array(
+    //         'kelengkapan_berkas_id' => $post['kelengkapan_berkas_id'],
+    //         'url_dokumen_kontrak' => $url_dokumen_kontrak,
+    //         'url_dokumen_pendukung_ep' => $post['url_dokumen_pendukung_ep'],
+    //         'surveior_satu' => $post['surveior_satu'],
+    //         'status_surveior_satu' => $post['status_surveior_satu'],
+    //         'surveior_dua' => $post['surveior_dua'],
+    //         'status_surveior_dua' => $post['status_surveior_dua'],
+    //         'url_surat_tugas' => $url_surat_tugas
+    //     );
 
-        if (!empty($post['penetapan_tanggal_survei_id'])) {
+    //     if (!empty($post['penetapan_tanggal_survei_id'])) {
 
-            // UPDATE DATA PENETAPAN TANGGAL SURVEI JIKA ADA PERUBAHAN SURAT TUGAS ATAU URL DOKUMEN PENDUKUNG
+    //         // UPDATE DATA PENETAPAN TANGGAL SURVEI JIKA ADA PERUBAHAN SURAT TUGAS ATAU URL DOKUMEN PENDUKUNG
 
-            $where = array('id' => $post['penetapan_tanggal_survei_id']);
-            $this->Model_sina->edit_data('penetapan_tanggal_survei', $where, $datas);
+    //         $where = array('id' => $post['penetapan_tanggal_survei_id']);
+    //         $this->Model_sina->edit_data('penetapan_tanggal_survei', $where, $datas);
 
-            // UPDATE DATA PENETAPAN TANGGAL SURVEI JIKA ADA PERUBAHAN SURAT TUGAS ATAU URL DOKUMEN PENDUKUNG
+    //         // UPDATE DATA PENETAPAN TANGGAL SURVEI JIKA ADA PERUBAHAN SURAT TUGAS ATAU URL DOKUMEN PENDUKUNG
 
-            if (isset($post['id_surveior_lapangan'])) {
-                // if ($post['jabatan'] == 'jabatansurveior1') {
-                //     $jabatan_surveior_id_satu = '1';
-                //     $jabatan_surveior_id_dua = '2';
-                //     $datalapangan['jabatan_surveior_id_satu'] = $jabatan_surveior_id_satu;
-                //     $datalapangan['jabatan_surveior_id_dua'] = $jabatan_surveior_id_dua;
-                // } else if ($post['jabatan'] == 'jabatansurveior2') {
-                //     $jabatan_surveior_id_satu = '2';
-                //     $jabatan_surveior_id_dua = '1';
-                //     $datalapangan['jabatan_surveior_id_satu'] = $jabatan_surveior_id_satu;
-                //     $datalapangan['jabatan_surveior_id_dua'] = $jabatan_surveior_id_dua;
-                // }
+    //         if (isset($post['id_surveior_lapangan'])) {
+    //             // if ($post['jabatan'] == 'jabatansurveior1') {
+    //             //     $jabatan_surveior_id_satu = '1';
+    //             //     $jabatan_surveior_id_dua = '2';
+    //             //     $datalapangan['jabatan_surveior_id_satu'] = $jabatan_surveior_id_satu;
+    //             //     $datalapangan['jabatan_surveior_id_dua'] = $jabatan_surveior_id_dua;
+    //             // } else if ($post['jabatan'] == 'jabatansurveior2') {
+    //             //     $jabatan_surveior_id_satu = '2';
+    //             //     $jabatan_surveior_id_dua = '1';
+    //             //     $datalapangan['jabatan_surveior_id_satu'] = $jabatan_surveior_id_satu;
+    //             //     $datalapangan['jabatan_surveior_id_dua'] = $jabatan_surveior_id_dua;
+    //             // }
 
-                // $where_lapangan = array(
-                //     'id' => $post['id_surveior_lapangan'],
-                // );
+    //             // $where_lapangan = array(
+    //             //     'id' => $post['id_surveior_lapangan'],
+    //             // );
 
-                // if (isset($post['penggantis1'])) {
-                //     if ($post['keterangan1'] == 7) {
-                //         $databalik = array(
-                //             'status' => 0,
-                //             'pengajuan_usulan_survei_id' => null
-                //         );
-                //         $whereupdatejadwal = array(
-                //             'user_surveior_id' => $post['id_surveior_satu'],
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
-                //         $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                //     } else {
-                //         $databalik = array(
-                //             'status' => $post['keterangan1']
-                //         );
-                //         $whereupdatejadwal = array(
-                //             'user_surveior_id' => $post['id_surveior_satu'],
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
-                //         $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                //     }
+    //             // if (isset($post['penggantis1'])) {
+    //             //     if ($post['keterangan1'] == 7) {
+    //             //         $databalik = array(
+    //             //             'status' => 0,
+    //             //             'pengajuan_usulan_survei_id' => null
+    //             //         );
+    //             //         $whereupdatejadwal = array(
+    //             //             'user_surveior_id' => $post['id_surveior_satu'],
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //             //     } else {
+    //             //         $databalik = array(
+    //             //             'status' => $post['keterangan1']
+    //             //         );
+    //             //         $whereupdatejadwal = array(
+    //             //             'user_surveior_id' => $post['id_surveior_satu'],
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //             //     }
 
-                //     $datalapangan['id_surveior_satu_baru'] = $post['penggantis1'];
-                //     $datalapangan['keterangan_surveior_satu_id'] = $post['keterangan1'];
-                //     // UPDATE JADWAL
-                //     if (isset($post['tanggal_1'])) {
-                //         $tanggal1 = $post['tanggal_1'];
-                //         $where_update = array(
-                //             'user_surveior_id' => $post['penggantis1'],
-                //             'jadwal_kesiapan' => $tanggal1
-                //         );
-                //         $dataupdate_jadwal = array(
-                //             'status' => 1,
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
-                //         // UPDATE TANGGAL1 SURVEIOR 1
-                //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                //         // UPDATE TANGGAL1 SURVEIOR 1
-                //     }
-                //     if (isset($post['tanggal_2'])) {
-                //         $tanggal2 = $post['tanggal_2'];
-                //         $where_update = array(
-                //             'user_surveior_id' => $post['penggantis1'],
-                //             'jadwal_kesiapan' => $tanggal2
-                //         );
-                //         $dataupdate_jadwal = array(
-                //             'status' => 1,
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
-                //         // UPDATE TANGGAL2 SURVEIOR 1
-                //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                //         // UPDATE TANGGAL2 SURVEIOR 1
-                //     }
-                //     if (isset($post['tanggal_3'])) {
-                //         $tanggal3 = $post['tanggal_3'];
-                //         $where_update = array(
-                //             'user_surveior_id' => $post['penggantis1'],
-                //             'jadwal_kesiapan' => $tanggal3
-                //         );
+    //             //     $datalapangan['id_surveior_satu_baru'] = $post['penggantis1'];
+    //             //     $datalapangan['keterangan_surveior_satu_id'] = $post['keterangan1'];
+    //             //     // UPDATE JADWAL
+    //             //     if (isset($post['tanggal_1'])) {
+    //             //         $tanggal1 = $post['tanggal_1'];
+    //             //         $where_update = array(
+    //             //             'user_surveior_id' => $post['penggantis1'],
+    //             //             'jadwal_kesiapan' => $tanggal1
+    //             //         );
+    //             //         $dataupdate_jadwal = array(
+    //             //             'status' => 1,
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
+    //             //         // UPDATE TANGGAL1 SURVEIOR 1
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //             //         // UPDATE TANGGAL1 SURVEIOR 1
+    //             //     }
+    //             //     if (isset($post['tanggal_2'])) {
+    //             //         $tanggal2 = $post['tanggal_2'];
+    //             //         $where_update = array(
+    //             //             'user_surveior_id' => $post['penggantis1'],
+    //             //             'jadwal_kesiapan' => $tanggal2
+    //             //         );
+    //             //         $dataupdate_jadwal = array(
+    //             //             'status' => 1,
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
+    //             //         // UPDATE TANGGAL2 SURVEIOR 1
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //             //         // UPDATE TANGGAL2 SURVEIOR 1
+    //             //     }
+    //             //     if (isset($post['tanggal_3'])) {
+    //             //         $tanggal3 = $post['tanggal_3'];
+    //             //         $where_update = array(
+    //             //             'user_surveior_id' => $post['penggantis1'],
+    //             //             'jadwal_kesiapan' => $tanggal3
+    //             //         );
 
-                //         $dataupdate_jadwal = array(
-                //             'status' => 1,
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
-                //         // UPDATE TANGGAL3 SURVEIOR 1
-                //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                //         // UPDATE TANGGAL3 SURVEIOR 1
-                //     }
-                //     // UPDATE JADWAL
-                // } else {
-                //     $dataupdate = array(
-                //         'status' => 1
-                //     );
-                //     $whereupdatejadwal = array(
-                //         'user_surveior_id' => $post['id_surveior_satu'],
-                //         'pengajuan_usulan_survei_id' => $post['id']
-                //     );
-                //     $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $dataupdate);
-                // }
+    //             //         $dataupdate_jadwal = array(
+    //             //             'status' => 1,
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
+    //             //         // UPDATE TANGGAL3 SURVEIOR 1
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //             //         // UPDATE TANGGAL3 SURVEIOR 1
+    //             //     }
+    //             //     // UPDATE JADWAL
+    //             // } else {
+    //             //     $dataupdate = array(
+    //             //         'status' => 1
+    //             //     );
+    //             //     $whereupdatejadwal = array(
+    //             //         'user_surveior_id' => $post['id_surveior_satu'],
+    //             //         'pengajuan_usulan_survei_id' => $post['id']
+    //             //     );
+    //             //     $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $dataupdate);
+    //             // }
 
-                // if (isset($post['penggantis2'])) {
-                //     if ($post['keterangan2'] == 7) {
-                //         $databalik = array(
-                //             'status' => 0,
-                //             'pengajuan_usulan_survei_id' => null
-                //         );
-                //         $whereupdatejadwal = array(
-                //             'user_surveior_id' => $post['id_surveior_dua'],
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
-                //         $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                //     } else {
-                //         $databalik = array(
-                //             'status' => $post['keterangan2']
-                //         );
-                //         $whereupdatejadwal = array(
-                //             'user_surveior_id' => $post['id_surveior_dua'],
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
-                //         $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                //     }
+    //             // if (isset($post['penggantis2'])) {
+    //             //     if ($post['keterangan2'] == 7) {
+    //             //         $databalik = array(
+    //             //             'status' => 0,
+    //             //             'pengajuan_usulan_survei_id' => null
+    //             //         );
+    //             //         $whereupdatejadwal = array(
+    //             //             'user_surveior_id' => $post['id_surveior_dua'],
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //             //     } else {
+    //             //         $databalik = array(
+    //             //             'status' => $post['keterangan2']
+    //             //         );
+    //             //         $whereupdatejadwal = array(
+    //             //             'user_surveior_id' => $post['id_surveior_dua'],
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //             //     }
 
-                //     $datalapangan['id_surveior_dua_baru'] = $post['penggantis2'];
-                //     // $datalapangan['keterangan_surveior_dua'] = $post['keterangandua'];
-                //     $datalapangan['keterangan_surveior_dua_id'] = $post['keterangan2'];
-                //     // UPDATE JADWAL
-                //     if (isset($post['tanggal_1'])) {
-                //         $tanggal1 = $post['tanggal_1'];
-                //         $where_update = array(
-                //             'user_surveior_id' => $post['penggantis2'],
-                //             'jadwal_kesiapan' => $tanggal1
-                //         );
-                //         $dataupdate_jadwal = array(
-                //             'status' => 1,
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
+    //             //     $datalapangan['id_surveior_dua_baru'] = $post['penggantis2'];
+    //             //     // $datalapangan['keterangan_surveior_dua'] = $post['keterangandua'];
+    //             //     $datalapangan['keterangan_surveior_dua_id'] = $post['keterangan2'];
+    //             //     // UPDATE JADWAL
+    //             //     if (isset($post['tanggal_1'])) {
+    //             //         $tanggal1 = $post['tanggal_1'];
+    //             //         $where_update = array(
+    //             //             'user_surveior_id' => $post['penggantis2'],
+    //             //             'jadwal_kesiapan' => $tanggal1
+    //             //         );
+    //             //         $dataupdate_jadwal = array(
+    //             //             'status' => 1,
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
 
-                //         // UPDATE TANGGAL1 SURVEIOR 2
-                //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                //         // UPDATE TANGGAL1 SURVEIOR 2
-                //     }
-                //     if (isset($post['tanggal_2'])) {
-                //         $tanggal2 = $post['tanggal_2'];
-                //         $where_update = array(
-                //             'user_surveior_id' => $post['penggantis2'],
-                //             'jadwal_kesiapan' => $tanggal2
-                //         );
-                //         $dataupdate_jadwal = array(
-                //             'status' => 1,
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
+    //             //         // UPDATE TANGGAL1 SURVEIOR 2
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //             //         // UPDATE TANGGAL1 SURVEIOR 2
+    //             //     }
+    //             //     if (isset($post['tanggal_2'])) {
+    //             //         $tanggal2 = $post['tanggal_2'];
+    //             //         $where_update = array(
+    //             //             'user_surveior_id' => $post['penggantis2'],
+    //             //             'jadwal_kesiapan' => $tanggal2
+    //             //         );
+    //             //         $dataupdate_jadwal = array(
+    //             //             'status' => 1,
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
 
-                //         // UPDATE TANGGAL2 SURVEIOR 2
-                //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                //         // UPDATE TANGGAL2 SURVEIOR 2
-                //     }
-                //     if (isset($post['tanggal_3'])) {
-                //         $tanggal3 = $post['tanggal_3'];
+    //             //         // UPDATE TANGGAL2 SURVEIOR 2
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //             //         // UPDATE TANGGAL2 SURVEIOR 2
+    //             //     }
+    //             //     if (isset($post['tanggal_3'])) {
+    //             //         $tanggal3 = $post['tanggal_3'];
 
-                //         $where_update = array(
-                //             'user_surveior_id' => $post['penggantis2'],
-                //             'jadwal_kesiapan' => $tanggal3
-                //         );
-                //         $dataupdate_jadwal = array(
-                //             'status' => 1,
-                //             'pengajuan_usulan_survei_id' => $post['id']
-                //         );
+    //             //         $where_update = array(
+    //             //             'user_surveior_id' => $post['penggantis2'],
+    //             //             'jadwal_kesiapan' => $tanggal3
+    //             //         );
+    //             //         $dataupdate_jadwal = array(
+    //             //             'status' => 1,
+    //             //             'pengajuan_usulan_survei_id' => $post['id']
+    //             //         );
 
-                //         // UPDATE TANGGAL3 SURVEIOR 2
-                //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                //         // UPDATE TANGGAL3 SURVEIOR 2
-                //     }
-                //     // UPDATE JADWAL
-                // } else {
-                //     $dataupdate = array(
-                //         'status' => 1
-                //     );
+    //             //         // UPDATE TANGGAL3 SURVEIOR 2
+    //             //         $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //             //         // UPDATE TANGGAL3 SURVEIOR 2
+    //             //     }
+    //             //     // UPDATE JADWAL
+    //             // } else {
+    //             //     $dataupdate = array(
+    //             //         'status' => 1
+    //             //     );
 
-                //     $whereupdatejadwal = array(
-                //         'user_surveior_id' => $post['id_surveior_dua'],
-                //         'pengajuan_usulan_survei_id' => $post['id']
-                //     );
-                //     $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $dataupdate);
-                // }
-                // $this->Model_sina->edit_data('surveior_lapangan', $where_lapangan, $datalapangan);
-            } else {
-                if ($post['jabatan'] == 'jabatansurveior1') {
-                    $jabatan_surveior_id_satu = '1';
-                    $jabatan_surveior_id_dua = '2';
-                } else if ($post['jabatan'] == 'jabatansurveior2') {
-                    $jabatan_surveior_id_satu = '2';
-                    $jabatan_surveior_id_dua = '1';
-                }
-                $datalapangan = array(
-                    'penetapan_tanggal_survei_id' => $post['penetapan_tanggal_survei_id'],
-                    'id_surveior_satu_lama' => $post['id_surveior_satu'],
-                    'id_surveior_dua_lama' => $post['id_surveior_dua'],
-                    'id_surveior_satu_baru' => $post['id_surveior_satu'],
-                    'id_surveior_dua_baru' => $post['id_surveior_dua'],
-                    'jabatan_surveior_id_satu' => $jabatan_surveior_id_satu,
-                    'jabatan_surveior_id_dua' => $jabatan_surveior_id_dua,
-                    'no_surattugas' => $post['no_surat_tugas']
-                );
+    //             //     $whereupdatejadwal = array(
+    //             //         'user_surveior_id' => $post['id_surveior_dua'],
+    //             //         'pengajuan_usulan_survei_id' => $post['id']
+    //             //     );
+    //             //     $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $dataupdate);
+    //             // }
+    //             // $this->Model_sina->edit_data('surveior_lapangan', $where_lapangan, $datalapangan);
+    //         } else {
+    //             if ($post['jabatan'] == 'jabatansurveior1') {
+    //                 $jabatan_surveior_id_satu = '1';
+    //                 $jabatan_surveior_id_dua = '2';
+    //             } else if ($post['jabatan'] == 'jabatansurveior2') {
+    //                 $jabatan_surveior_id_satu = '2';
+    //                 $jabatan_surveior_id_dua = '1';
+    //             }
+    //             $datalapangan = array(
+    //                 'penetapan_tanggal_survei_id' => $post['penetapan_tanggal_survei_id'],
+    //                 'id_surveior_satu_lama' => $post['id_surveior_satu'],
+    //                 'id_surveior_dua_lama' => $post['id_surveior_dua'],
+    //                 'id_surveior_satu_baru' => $post['id_surveior_satu'],
+    //                 'id_surveior_dua_baru' => $post['id_surveior_dua'],
+    //                 'jabatan_surveior_id_satu' => $jabatan_surveior_id_satu,
+    //                 'jabatan_surveior_id_dua' => $jabatan_surveior_id_dua,
+    //                 'no_surattugas' => $post['no_surat_tugas']
+    //             );
 
-                if (isset($post['penggantis1'])) {
-                    if ($post['keterangan1'] == 7) {
-                        $databalik = array(
-                            'status' => 0,
-                            'pengajuan_usulan_survei_id' => null
-                        );
-                        $whereupdatejadwal = array(
-                            'user_surveior_id' => $post['id_surveior_satu'],
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
-                        $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                    } else {
-                        $databalik = array(
-                            'status' => $post['keterangan1']
-                        );
-                        $whereupdatejadwal = array(
-                            'user_surveior_id' => $post['id_surveior_satu'],
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
-                        $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                    }
+    //             if (isset($post['penggantis1'])) {
+    //                 if ($post['keterangan1'] == 7) {
+    //                     $databalik = array(
+    //                         'status' => 0,
+    //                         'pengajuan_usulan_survei_id' => null
+    //                     );
+    //                     $whereupdatejadwal = array(
+    //                         'user_surveior_id' => $post['id_surveior_satu'],
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //                 } else {
+    //                     $databalik = array(
+    //                         'status' => $post['keterangan1']
+    //                     );
+    //                     $whereupdatejadwal = array(
+    //                         'user_surveior_id' => $post['id_surveior_satu'],
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //                 }
 
-                    $datalapangan['id_surveior_satu_baru'] = $post['penggantis1'];
-                    $datalapangan['keterangan_surveior_satu_id'] = $post['keterangan1'];
-                    // $datalapangan['keterangan_surveior_satu'] = $post['keterangansatu'];
+    //                 $datalapangan['id_surveior_satu_baru'] = $post['penggantis1'];
+    //                 $datalapangan['keterangan_surveior_satu_id'] = $post['keterangan1'];
+    //                 // $datalapangan['keterangan_surveior_satu'] = $post['keterangansatu'];
 
-                    // UPDATE JADWAL
-                    if (isset($post['tanggal_1'])) {
-                        $tanggal1 = $post['tanggal_1'];
-                        $where_update = array(
-                            'user_surveior_id' => $post['penggantis1'],
-                            'jadwal_kesiapan' => $tanggal1
-                        );
-                        $dataupdate_jadwal = array(
-                            'status' => 1,
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
+    //                 // UPDATE JADWAL
+    //                 if (isset($post['tanggal_1'])) {
+    //                     $tanggal1 = $post['tanggal_1'];
+    //                     $where_update = array(
+    //                         'user_surveior_id' => $post['penggantis1'],
+    //                         'jadwal_kesiapan' => $tanggal1
+    //                     );
+    //                     $dataupdate_jadwal = array(
+    //                         'status' => 1,
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
 
-                        // UPDATE TANGGAL1 SURVEIOR 1
-                        $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                        // UPDATE TANGGAL1 SURVEIOR 1
-                    }
-                    if (isset($post['tanggal_2'])) {
-                        $tanggal2 = $post['tanggal_2'];
-                        $where_update = array(
-                            'user_surveior_id' => $post['penggantis1'],
-                            'jadwal_kesiapan' => $tanggal2
-                        );
+    //                     // UPDATE TANGGAL1 SURVEIOR 1
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                     // UPDATE TANGGAL1 SURVEIOR 1
+    //                 }
+    //                 if (isset($post['tanggal_2'])) {
+    //                     $tanggal2 = $post['tanggal_2'];
+    //                     $where_update = array(
+    //                         'user_surveior_id' => $post['penggantis1'],
+    //                         'jadwal_kesiapan' => $tanggal2
+    //                     );
 
-                        $dataupdate_jadwal = array(
-                            'status' => 1,
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
-                        // UPDATE TANGGAL2 SURVEIOR 1
-                        $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                        // UPDATE TANGGAL2 SURVEIOR 1
-                    }
-                    if (isset($post['tanggal_3'])) {
-                        $tanggal3 = $post['tanggal_3'];
-                        $where_update = array(
-                            'user_surveior_id' => $post['penggantis1'],
-                            'jadwal_kesiapan' => $tanggal3
-                        );
+    //                     $dataupdate_jadwal = array(
+    //                         'status' => 1,
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
+    //                     // UPDATE TANGGAL2 SURVEIOR 1
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                     // UPDATE TANGGAL2 SURVEIOR 1
+    //                 }
+    //                 if (isset($post['tanggal_3'])) {
+    //                     $tanggal3 = $post['tanggal_3'];
+    //                     $where_update = array(
+    //                         'user_surveior_id' => $post['penggantis1'],
+    //                         'jadwal_kesiapan' => $tanggal3
+    //                     );
 
-                        $dataupdate_jadwal = array(
-                            'status' => 1,
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
-                        // UPDATE TANGGAL3 SURVEIOR 1
-                        $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                        // UPDATE TANGGAL3 SURVEIOR 1
-                    }
-                    // UPDATE JADWAL
-                }
+    //                     $dataupdate_jadwal = array(
+    //                         'status' => 1,
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
+    //                     // UPDATE TANGGAL3 SURVEIOR 1
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                     // UPDATE TANGGAL3 SURVEIOR 1
+    //                 }
+    //                 // UPDATE JADWAL
+    //             }
 
-                if (isset($post['penggantis2'])) {
+    //             if (isset($post['penggantis2'])) {
 
-                    if ($post['keterangan2'] == 7) {
-                        $databalik = array(
-                            'status' => 0,
-                            'pengajuan_usulan_survei_id' => null
-                        );
-                        $whereupdatejadwal = array(
-                            'user_surveior_id' => $post['id_surveior_dua'],
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
-                        $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                    } else {
-                        $databalik = array(
-                            'status' => $post['keterangan2']
-                        );
-                        $whereupdatejadwal = array(
-                            'user_surveior_id' => $post['id_surveior_dua'],
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
-                        $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                    }
+    //                 if ($post['keterangan2'] == 7) {
+    //                     $databalik = array(
+    //                         'status' => 0,
+    //                         'pengajuan_usulan_survei_id' => null
+    //                     );
+    //                     $whereupdatejadwal = array(
+    //                         'user_surveior_id' => $post['id_surveior_dua'],
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //                 } else {
+    //                     $databalik = array(
+    //                         'status' => $post['keterangan2']
+    //                     );
+    //                     $whereupdatejadwal = array(
+    //                         'user_surveior_id' => $post['id_surveior_dua'],
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //                 }
 
-                    $datalapangan['id_surveior_dua_baru'] = $post['penggantis2'];
-                    $datalapangan['keterangan_surveior_dua_id'] = $post['keterangan2'];
-                    // UPDATE JADWAL
-                    if (isset($post['tanggal_1'])) {
-                        $tanggal1 = $post['tanggal_1'];
-                        $where_update = array(
-                            'user_surveior_id' => $post['penggantis2'],
-                            'jadwal_kesiapan' => $tanggal1
-                        );
-                        $dataupdate_jadwal = array(
-                            'status' => 1,
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
+    //                 $datalapangan['id_surveior_dua_baru'] = $post['penggantis2'];
+    //                 $datalapangan['keterangan_surveior_dua_id'] = $post['keterangan2'];
+    //                 // UPDATE JADWAL
+    //                 if (isset($post['tanggal_1'])) {
+    //                     $tanggal1 = $post['tanggal_1'];
+    //                     $where_update = array(
+    //                         'user_surveior_id' => $post['penggantis2'],
+    //                         'jadwal_kesiapan' => $tanggal1
+    //                     );
+    //                     $dataupdate_jadwal = array(
+    //                         'status' => 1,
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
 
-                        // UPDATE TANGGAL1 SURVEIOR 2
-                        $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                        // UPDATE TANGGAL1 SURVEIOR 2
-                    }
-                    if (isset($post['tanggal_2'])) {
-                        $tanggal2 = $post['tanggal_2'];
-                        $where_update = array(
-                            'user_surveior_id' => $post['penggantis2'],
-                            'jadwal_kesiapan' => $tanggal2
-                        );
-                        $dataupdate_jadwal = array(
-                            'status' => 1,
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
+    //                     // UPDATE TANGGAL1 SURVEIOR 2
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                     // UPDATE TANGGAL1 SURVEIOR 2
+    //                 }
+    //                 if (isset($post['tanggal_2'])) {
+    //                     $tanggal2 = $post['tanggal_2'];
+    //                     $where_update = array(
+    //                         'user_surveior_id' => $post['penggantis2'],
+    //                         'jadwal_kesiapan' => $tanggal2
+    //                     );
+    //                     $dataupdate_jadwal = array(
+    //                         'status' => 1,
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
 
-                        // UPDATE TANGGAL2 SURVEIOR 2
-                        $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                        // UPDATE TANGGAL2 SURVEIOR 2
-                    }
-                    if (isset($post['tanggal_3'])) {
-                        $tanggal3 = $post['tanggal_3'];
+    //                     // UPDATE TANGGAL2 SURVEIOR 2
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                     // UPDATE TANGGAL2 SURVEIOR 2
+    //                 }
+    //                 if (isset($post['tanggal_3'])) {
+    //                     $tanggal3 = $post['tanggal_3'];
 
-                        $where_update = array(
-                            'user_surveior_id' => $post['penggantis2'],
-                            'jadwal_kesiapan' => $tanggal3
-                        );
-                        $dataupdate_jadwal = array(
-                            'status' => 1,
-                            'pengajuan_usulan_survei_id' => $post['id']
-                        );
+    //                     $where_update = array(
+    //                         'user_surveior_id' => $post['penggantis2'],
+    //                         'jadwal_kesiapan' => $tanggal3
+    //                     );
+    //                     $dataupdate_jadwal = array(
+    //                         'status' => 1,
+    //                         'pengajuan_usulan_survei_id' => $post['id']
+    //                     );
 
-                        // UPDATE TANGGAL3 SURVEIOR 2
-                        $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                        // UPDATE TANGGAL3 SURVEIOR 2
-                    }
-                    // UPDATE JADWAL
-                }
+    //                     // UPDATE TANGGAL3 SURVEIOR 2
+    //                     $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                     // UPDATE TANGGAL3 SURVEIOR 2
+    //                 }
+    //                 // UPDATE JADWAL
+    //             }
 
-                $this->Model_sina->input_data('surveior_lapangan', $datalapangan);
-            }
+    //             $this->Model_sina->input_data('surveior_lapangan', $datalapangan);
+    //         }
 
-            $this->session->set_flashdata('kode_name', 'success');
-            $this->session->set_flashdata('icon_name', 'check');
-            $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
-            redirect('pengajuan/detail/' . $post['id']);
-        } else {
-            $input_penetapan = $this->Model_sina->input_data_lastid('penetapan_tanggal_survei', $datas);
-            // INSERT SURVEIOR LAPANGAN
+    //         $this->session->set_flashdata('kode_name', 'success');
+    //         $this->session->set_flashdata('icon_name', 'check');
+    //         $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
+    //         redirect('pengajuan/detail/' . $post['id']);
+    //     } else {
+    //         $input_penetapan = $this->Model_sina->input_data_lastid('penetapan_tanggal_survei', $datas);
+    //         // INSERT SURVEIOR LAPANGAN
 
-            if ($post['jabatan'] == 'jabatansurveior1') {
-                $jabatan_surveior_id_satu = '1';
-                $jabatan_surveior_id_dua = '2';
-            } else if ($post['jabatan'] == 'jabatansurveior2') {
-                $jabatan_surveior_id_satu = '2';
-                $jabatan_surveior_id_dua = '1';
-            }
+    //         if ($post['jabatan'] == 'jabatansurveior1') {
+    //             $jabatan_surveior_id_satu = '1';
+    //             $jabatan_surveior_id_dua = '2';
+    //         } else if ($post['jabatan'] == 'jabatansurveior2') {
+    //             $jabatan_surveior_id_satu = '2';
+    //             $jabatan_surveior_id_dua = '1';
+    //         }
 
-            $datalapangan = array(
-                'penetapan_tanggal_survei_id' => $input_penetapan,
-                'id_surveior_satu_lama' => $post['id_surveior_satu'],
-                'id_surveior_dua_lama' => $post['id_surveior_dua'],
-                'jabatan_surveior_id_satu' => $jabatan_surveior_id_satu,
-                'id_surveior_satu_baru' => $post['id_surveior_satu'],
-                'id_surveior_dua_baru' => $post['id_surveior_dua'],
-                'jabatan_surveior_id_dua' => $jabatan_surveior_id_dua,
-                'no_surattugas' => $post['no_surat_tugas']
-            );
+    //         $datalapangan = array(
+    //             'penetapan_tanggal_survei_id' => $input_penetapan,
+    //             'id_surveior_satu_lama' => $post['id_surveior_satu'],
+    //             'id_surveior_dua_lama' => $post['id_surveior_dua'],
+    //             'jabatan_surveior_id_satu' => $jabatan_surveior_id_satu,
+    //             'id_surveior_satu_baru' => $post['id_surveior_satu'],
+    //             'id_surveior_dua_baru' => $post['id_surveior_dua'],
+    //             'jabatan_surveior_id_dua' => $jabatan_surveior_id_dua,
+    //             'no_surattugas' => $post['no_surat_tugas']
+    //         );
 
-            if (isset($post['penggantis1'])) {
-                if ($post['keterangan1'] == 7) {
-                    $databalik = array(
-                        'status' => 0,
-                        'pengajuan_usulan_survei_id' => null
-                    );
-                    $whereupdatejadwal = array(
-                        'user_surveior_id' => $post['id_surveior_satu'],
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
-                    $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                } else {
-                    $databalik = array(
-                        'status' => $post['keterangan1']
-                    );
-                    $whereupdatejadwal = array(
-                        'user_surveior_id' => $post['id_surveior_satu'],
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
-                    $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                }
-                $datalapangan['id_surveior_satu_baru'] = $post['penggantis1'];
-                // $datalapangan['keterangan_surveior_satu'] = $post['keterangansatu'];
-                $datalapangan['keterangan_surveior_satu_id'] = $post['keterangan1'];
+    //         if (isset($post['penggantis1'])) {
+    //             if ($post['keterangan1'] == 7) {
+    //                 $databalik = array(
+    //                     'status' => 0,
+    //                     'pengajuan_usulan_survei_id' => null
+    //                 );
+    //                 $whereupdatejadwal = array(
+    //                     'user_surveior_id' => $post['id_surveior_satu'],
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //             } else {
+    //                 $databalik = array(
+    //                     'status' => $post['keterangan1']
+    //                 );
+    //                 $whereupdatejadwal = array(
+    //                     'user_surveior_id' => $post['id_surveior_satu'],
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //             }
+    //             $datalapangan['id_surveior_satu_baru'] = $post['penggantis1'];
+    //             // $datalapangan['keterangan_surveior_satu'] = $post['keterangansatu'];
+    //             $datalapangan['keterangan_surveior_satu_id'] = $post['keterangan1'];
 
-                // UPDATE JADWAL
-                if (isset($post['tanggal_1'])) {
-                    $tanggal1 = $post['tanggal_1'];
-                    $where_update = array(
-                        'user_surveior_id' => $post['penggantis1'],
-                        'jadwal_kesiapan' => $tanggal1
-                    );
-                    $dataupdate_jadwal = array(
-                        'status' => 1,
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
+    //             // UPDATE JADWAL
+    //             if (isset($post['tanggal_1'])) {
+    //                 $tanggal1 = $post['tanggal_1'];
+    //                 $where_update = array(
+    //                     'user_surveior_id' => $post['penggantis1'],
+    //                     'jadwal_kesiapan' => $tanggal1
+    //                 );
+    //                 $dataupdate_jadwal = array(
+    //                     'status' => 1,
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
 
-                    // UPDATE TANGGAL1 SURVEIOR 1
-                    $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                    // UPDATE TANGGAL1 SURVEIOR 1
-                }
-                if (isset($post['tanggal_2'])) {
-                    $tanggal2 = $post['tanggal_2'];
-                    $where_update = array(
-                        'user_surveior_id' => $post['penggantis1'],
-                        'jadwal_kesiapan' => $tanggal2
-                    );
+    //                 // UPDATE TANGGAL1 SURVEIOR 1
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                 // UPDATE TANGGAL1 SURVEIOR 1
+    //             }
+    //             if (isset($post['tanggal_2'])) {
+    //                 $tanggal2 = $post['tanggal_2'];
+    //                 $where_update = array(
+    //                     'user_surveior_id' => $post['penggantis1'],
+    //                     'jadwal_kesiapan' => $tanggal2
+    //                 );
 
-                    $dataupdate_jadwal = array(
-                        'status' => 1,
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
-                    // UPDATE TANGGAL2 SURVEIOR 1
-                    $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                    // UPDATE TANGGAL2 SURVEIOR 1
-                }
-                if (isset($post['tanggal_3'])) {
-                    $tanggal3 = $post['tanggal_3'];
-                    $where_update = array(
-                        'user_surveior_id' => $post['penggantis1'],
-                        'jadwal_kesiapan' => $tanggal3
-                    );
+    //                 $dataupdate_jadwal = array(
+    //                     'status' => 1,
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
+    //                 // UPDATE TANGGAL2 SURVEIOR 1
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                 // UPDATE TANGGAL2 SURVEIOR 1
+    //             }
+    //             if (isset($post['tanggal_3'])) {
+    //                 $tanggal3 = $post['tanggal_3'];
+    //                 $where_update = array(
+    //                     'user_surveior_id' => $post['penggantis1'],
+    //                     'jadwal_kesiapan' => $tanggal3
+    //                 );
 
-                    $dataupdate_jadwal = array(
-                        'status' => 1,
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
-                    // UPDATE TANGGAL3 SURVEIOR 1
-                    $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                    // UPDATE TANGGAL3 SURVEIOR 1
-                }
-                // UPDATE JADWAL
-            } else {
-                $dataupdate = array(
-                    'status' => 1
-                );
-                $whereupdatejadwal = array(
-                    'user_surveior_id' => $post['id_surveior_satu'],
-                    'pengajuan_usulan_survei_id' => $post['id']
-                );
-                $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $dataupdate);
-            }
+    //                 $dataupdate_jadwal = array(
+    //                     'status' => 1,
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
+    //                 // UPDATE TANGGAL3 SURVEIOR 1
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                 // UPDATE TANGGAL3 SURVEIOR 1
+    //             }
+    //             // UPDATE JADWAL
+    //         } else {
+    //             $dataupdate = array(
+    //                 'status' => 1
+    //             );
+    //             $whereupdatejadwal = array(
+    //                 'user_surveior_id' => $post['id_surveior_satu'],
+    //                 'pengajuan_usulan_survei_id' => $post['id']
+    //             );
+    //             $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $dataupdate);
+    //         }
 
-            if (isset($post['penggantis2'])) {
-                if ($post['keterangan2'] == 7) {
-                    $databalik = array(
-                        'status' => 0,
-                        'pengajuan_usulan_survei_id' => null
-                    );
-                    $whereupdatejadwal = array(
-                        'user_surveior_id' => $post['id_surveior_dua'],
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
-                    $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                } else {
-                    $databalik = array(
-                        'status' => $post['keterangan2']
-                    );
-                    $whereupdatejadwal = array(
-                        'user_surveior_id' => $post['id_surveior_dua'],
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
-                    $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
-                }
-                $datalapangan['id_surveior_dua_baru'] = $post['penggantis2'];
-                // $datalapangan['keterangan_surveior_dua'] = $post['keterangandua'];
-                $datalapangan['keterangan_surveior_dua_id'] = $post['keterangan2'];
-                // UPDATE JADWAL
-                if (isset($post['tanggal_1'])) {
-                    $tanggal1 = $post['tanggal_1'];
-                    $where_update = array(
-                        'user_surveior_id' => $post['penggantis2'],
-                        'jadwal_kesiapan' => $tanggal1
-                    );
-                    $dataupdate_jadwal = array(
-                        'status' => 1,
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
+    //         if (isset($post['penggantis2'])) {
+    //             if ($post['keterangan2'] == 7) {
+    //                 $databalik = array(
+    //                     'status' => 0,
+    //                     'pengajuan_usulan_survei_id' => null
+    //                 );
+    //                 $whereupdatejadwal = array(
+    //                     'user_surveior_id' => $post['id_surveior_dua'],
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //             } else {
+    //                 $databalik = array(
+    //                     'status' => $post['keterangan2']
+    //                 );
+    //                 $whereupdatejadwal = array(
+    //                     'user_surveior_id' => $post['id_surveior_dua'],
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $databalik);
+    //             }
+    //             $datalapangan['id_surveior_dua_baru'] = $post['penggantis2'];
+    //             // $datalapangan['keterangan_surveior_dua'] = $post['keterangandua'];
+    //             $datalapangan['keterangan_surveior_dua_id'] = $post['keterangan2'];
+    //             // UPDATE JADWAL
+    //             if (isset($post['tanggal_1'])) {
+    //                 $tanggal1 = $post['tanggal_1'];
+    //                 $where_update = array(
+    //                     'user_surveior_id' => $post['penggantis2'],
+    //                     'jadwal_kesiapan' => $tanggal1
+    //                 );
+    //                 $dataupdate_jadwal = array(
+    //                     'status' => 1,
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
 
-                    // UPDATE TANGGAL1 SURVEIOR 2
-                    $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                    // UPDATE TANGGAL1 SURVEIOR 2
-                }
-                if (isset($post['tanggal_2'])) {
-                    $tanggal2 = $post['tanggal_2'];
-                    $where_update = array(
-                        'user_surveior_id' => $post['penggantis2'],
-                        'jadwal_kesiapan' => $tanggal2
-                    );
-                    $dataupdate_jadwal = array(
-                        'status' => 1,
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
+    //                 // UPDATE TANGGAL1 SURVEIOR 2
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                 // UPDATE TANGGAL1 SURVEIOR 2
+    //             }
+    //             if (isset($post['tanggal_2'])) {
+    //                 $tanggal2 = $post['tanggal_2'];
+    //                 $where_update = array(
+    //                     'user_surveior_id' => $post['penggantis2'],
+    //                     'jadwal_kesiapan' => $tanggal2
+    //                 );
+    //                 $dataupdate_jadwal = array(
+    //                     'status' => 1,
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
 
-                    // UPDATE TANGGAL2 SURVEIOR 2
-                    $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                    // UPDATE TANGGAL2 SURVEIOR 2
-                }
-                if (isset($post['tanggal_3'])) {
-                    $tanggal3 = $post['tanggal_3'];
+    //                 // UPDATE TANGGAL2 SURVEIOR 2
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                 // UPDATE TANGGAL2 SURVEIOR 2
+    //             }
+    //             if (isset($post['tanggal_3'])) {
+    //                 $tanggal3 = $post['tanggal_3'];
 
-                    $where_update = array(
-                        'user_surveior_id' => $post['penggantis2'],
-                        'jadwal_kesiapan' => $tanggal3
-                    );
-                    $dataupdate_jadwal = array(
-                        'status' => 1,
-                        'pengajuan_usulan_survei_id' => $post['id']
-                    );
+    //                 $where_update = array(
+    //                     'user_surveior_id' => $post['penggantis2'],
+    //                     'jadwal_kesiapan' => $tanggal3
+    //                 );
+    //                 $dataupdate_jadwal = array(
+    //                     'status' => 1,
+    //                     'pengajuan_usulan_survei_id' => $post['id']
+    //                 );
 
-                    // UPDATE TANGGAL3 SURVEIOR 2
-                    $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
-                    // UPDATE TANGGAL3 SURVEIOR 2
-                }
-                // UPDATE JADWAL
-            } else {
-                $dataupdate = array(
-                    'status' => 1
-                );
-                $whereupdatejadwal = array(
-                    'user_surveior_id' => $post['id_surveior_dua'],
-                    'pengajuan_usulan_survei_id' => $post['id']
-                );
-                $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $dataupdate);
-            }
+    //                 // UPDATE TANGGAL3 SURVEIOR 2
+    //                 $this->Model_sina->edit_data('jadwal_surveior', $where_update, $dataupdate_jadwal);
+    //                 // UPDATE TANGGAL3 SURVEIOR 2
+    //             }
+    //             // UPDATE JADWAL
+    //         } else {
+    //             $dataupdate = array(
+    //                 'status' => 1
+    //             );
+    //             $whereupdatejadwal = array(
+    //                 'user_surveior_id' => $post['id_surveior_dua'],
+    //                 'pengajuan_usulan_survei_id' => $post['id']
+    //             );
+    //             $this->Model_sina->edit_data('jadwal_surveior', $whereupdatejadwal, $dataupdate);
+    //         }
 
-            $this->Model_sina->input_data('surveior_lapangan', $datalapangan);
-            // INSERT SURVEIOR LAPANGAN
+    //         $this->Model_sina->input_data('surveior_lapangan', $datalapangan);
+    //         // INSERT SURVEIOR LAPANGAN
 
-            $this->session->set_flashdata('kode_name', 'success');
-            $this->session->set_flashdata('icon_name', 'check');
-            $this->session->set_flashdata('message_name', 'Sukses Input Data!');
-            redirect('pengajuan/detail/' . $post['id']);
-        }
-        // COMMENT SEMENTARA
-    }
+    //         $this->session->set_flashdata('kode_name', 'success');
+    //         $this->session->set_flashdata('icon_name', 'check');
+    //         $this->session->set_flashdata('message_name', 'Sukses Input Data!');
+    //         redirect('pengajuan/detail/' . $post['id']);
+    //     }
+    //     // COMMENT SEMENTARA
+    // }
 
     public function simpanPenetapanVerifikator()
     {
-        $post = $this->input->post();
-        $this->load->library('form_validation');
         $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+        $this->load->library('form_validation');
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
@@ -2244,7 +2251,7 @@ class Pengajuan extends CI_Controller
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
-            print_r($this->input->post());
+            $post = $this->security->xss_clean($this->input->post());
             if ($this->input->post('keaktifan_surveior') != NULL && $this->input->post('keaktifan_surveior') === 'on') {
                 $keaktifan_surveior = 1;
             } else {
@@ -2252,7 +2259,6 @@ class Pengajuan extends CI_Controller
             }
             $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
             $pwd = substr(str_shuffle($data), 0, 7);
-            $post = $this->input->post();
             $users_id = $this->session->userdata('id');
             // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
             // $config['allowed_types']        = 'pdf|xls|xlsx';
@@ -2302,225 +2308,225 @@ class Pengajuan extends CI_Controller
             //     }
             // }
 
-            // $datab = array(
-            //     'nik' => $post['nik'],
-            //     'nama' => $post['nama'],
-            //     'email' => $post['email'],
-            //     'username' => $post['email'],
-            //     'password' => $pwd,
-            //     'kriteria_id' => '3',
-            //     'lpa_id' => $this->session->userdata('lpa_id'),
-            //     'user_status' => '1',
-            //     'validate' => '2',
-            //     'password_enkripsi' => $hashed
+            $datab = array(
+                'nik' => $post['nik'],
+                'nama' => $post['nama'],
+                'email' => $post['email'],
+                'username' => $post['email'],
+                'password' => $pwd,
+                'kriteria_id' => '3',
+                'lpa_id' => $this->session->userdata('lpa_id'),
+                'user_status' => '1',
+                'validate' => '2',
+                'password_enkripsi' => $hashed
 
-            // );
+            );
 
-            // if (!empty($post['id'])) {
-            //     $wheres = array(
-            //         'id' => $post['users_id'],
-            //     );
-            //     $wheref = array(
-            //         'users_id' => $post['id'],
-            //     );
-            //     $datac = array(
-            //         'nama' => $post['nama'],
-            //         'email' => $post['email'],
-            //         'username' => $post['email']
+            if (!empty($post['id'])) {
+                $wheres = array(
+                    'id' => $post['users_id'],
+                );
+                $wheref = array(
+                    'users_id' => $post['id'],
+                );
+                $datac = array(
+                    'nama' => $post['nama'],
+                    'email' => $post['email'],
+                    'username' => $post['email']
 
-            //     );
+                );
 
-            //     $this->Model_sina->edit_data('users', $wheres, $datac);
-            //     $users_id = $this->db->insert_id();
-            //     $datas = array(
-            //         // 'nik' =>$post['nik'],
-            //         'nama' => $post['nama'],
-            //         'email' => $post['email'],
-            //         'no_hp' => $post['no_hp'],
-            //         'keaktifan' => $post['keaktifan'],
-            //         'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
-            //         'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
-            //         'status_aktif' => $keaktifan_surveior
-            //     );
-            //     $this->Model_sina->edit_data('user_surveior', $wheref, $datas);
+                $this->Model_sina->edit_data('users', $wheres, $datac);
+                $users_id = $this->db->insert_id();
+                $datas = array(
+                    // 'nik' =>$post['nik'],
+                    'nama' => $post['nama'],
+                    'email' => $post['email'],
+                    'no_hp' => $post['no_hp'],
+                    'keaktifan' => $post['keaktifan'],
+                    'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
+                    'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
+                    'status_aktif' => $keaktifan_surveior
+                );
+                $this->Model_sina->edit_data('user_surveior', $wheref, $datas);
 
-            //     $uniqfasyankes = [];
-            //     $uniqfasyankes = array_unique($post['fasyankes']);
-            //     $count = 0;
-            //     $query = [];
-            //     foreach ($post['id_bidang'] as $bidangid) {
-            //         $choose = "";
-            //         $where = array(
-            //             'users_id' => $post['users_id'],
-            //             'id_bidang' => $bidangid
-            //         );
-            //         foreach ($uniqfasyankes as $fasyankesid) {
-            //             // echo $fasyankesid;
-            //             if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
-            //                 $choose = 'true';
-            //             }
-            //         }
-            //         if ($choose == true) {
-            //             $databi = array(
-            //                 'is_checked' => '1'
-            //             );
-            //         } else {
-            //             $databi = array(
-            //                 'is_checked' => '0'
-            //             );
-            //             $count++;
-            //         }
+                $uniqfasyankes = [];
+                $uniqfasyankes = array_unique($post['fasyankes']);
+                $count = 0;
+                $query = [];
+                foreach ($post['id_bidang'] as $bidangid) {
+                    $choose = "";
+                    $where = array(
+                        'users_id' => $post['users_id'],
+                        'id_bidang' => $bidangid
+                    );
+                    foreach ($uniqfasyankes as $fasyankesid) {
+                        // echo $fasyankesid;
+                        if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
+                            $choose = 'true';
+                        }
+                    }
+                    if ($choose == true) {
+                        $databi = array(
+                            'is_checked' => '1'
+                        );
+                    } else {
+                        $databi = array(
+                            'is_checked' => '0'
+                        );
+                        $count++;
+                    }
 
-            //         $query[] = array(
-            //             'where' => $where,
-            //             'data' => $databi
-            //         );
-            //     }
-            //     if ($count < 10) {
-            //         foreach ($query as $query) {
-            //         }
-            //         $this->session->set_flashdata('kode_name', 'success');
-            //         $this->session->set_flashdata('icon_name', 'check');
-            //         $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
-            //         redirect('Pengajuan/editsurveior/' . $post['id_user_surveior']);
-            //     } else {
-            //         $this->session->set_flashdata('kode_name', 'success');
-            //         $this->session->set_flashdata('icon_name', 'check');
-            //         $this->session->set_flashdata('message_name', 'Berhasil Simpan Data');
+                    $query[] = array(
+                        'where' => $where,
+                        'data' => $databi
+                    );
+                }
+                if ($count < 10) {
+                    foreach ($query as $query) {
+                    }
+                    $this->session->set_flashdata('kode_name', 'success');
+                    $this->session->set_flashdata('icon_name', 'check');
+                    $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
+                    redirect('Pengajuan/editsurveior/' . $post['id_user_surveior']);
+                } else {
+                    $this->session->set_flashdata('kode_name', 'success');
+                    $this->session->set_flashdata('icon_name', 'check');
+                    $this->session->set_flashdata('message_name', 'Berhasil Simpan Data');
 
-            //         redirect('Pengajuan/editsurveior/' . $post['id_user_surveior']);
-            //     }
-            // } else {
-            //     if (isset($post['fasyankes_id'])) {
-            //         $this->Model_sina->input_data('users', $datab);
-            //         $users_id = $this->db->insert_id();
-            //         $no = 1;
-            //         $datas = array(
-            //             'nik' => $post['nik'],
-            //             'users_id' => $users_id,
-            //             'nama' => $post['nama'],
-            //             'email' => $post['email'],
-            //             'no_hp' => $post['no_hp'],
-            //             'lpa_id' => $this->session->userdata('lpa_id'),
-            //             'provinsi_id' => $post['propinsi'],
-            //             'kabkota_id' => $post['kota'],
-            //             'keaktifan' => $post['keaktifan'],
-            //             'fasyankes_id' => $no,
-            //             'bidang_id'        => $no,
-            //             'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
-            //             'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
-            //             'status_aktif' => $keaktifan_surveior
-            //         );
-            //         $this->Model_sina->input_data('user_surveior', $datas);
-            //         $id_user_surveior = $this->db->insert_id();
-            //         $fasyankes_id = $this->db->insert_id();
-            //         $bidang_id = $this->db->insert_id();
-            //         // SCIRPT INPUT BIDANG ZK
-            //         $uniqfasyankes = [];
-            //         $uniqfasyankes = array_unique($post['fasyankes']);
-            //         $count = 0;
-            //         $query = [];
-            //         foreach ($post['id_bidang'] as $bidangid) {
-            //             $choose = "";
-            //             $where = array(
-            //                 'id_bidang' => $bidangid
-            //             );
-            //             foreach ($uniqfasyankes as $fasyankesid) {
-            //                 if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
-            //                     $choose = 'true';
-            //                 }
-            //             }
-            //             if ($choose == true) {
-            //                 $databi = array(
-            //                     'is_checked' => '1'
-            //                 );
-            //             } else {
-            //                 $databi = array(
-            //                     'is_checked' => '0'
-            //                 );
-            //                 $count++;
-            //             }
+                    redirect('Pengajuan/editsurveior/' . $post['id_user_surveior']);
+                }
+            } else {
+                if (isset($post['fasyankes_id'])) {
+                    $this->Model_sina->input_data('users', $datab);
+                    $users_id = $this->db->insert_id();
+                    $no = 1;
+                    $datas = array(
+                        'nik' => $post['nik'],
+                        'users_id' => $users_id,
+                        'nama' => $post['nama'],
+                        'email' => $post['email'],
+                        'no_hp' => $post['no_hp'],
+                        'lpa_id' => $this->session->userdata('lpa_id'),
+                        'provinsi_id' => $post['propinsi'],
+                        'kabkota_id' => $post['kota'],
+                        'keaktifan' => $post['keaktifan'],
+                        'fasyankes_id' => $no,
+                        'bidang_id'        => $no,
+                        'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
+                        'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
+                        'status_aktif' => $keaktifan_surveior
+                    );
+                    $this->Model_sina->input_data('user_surveior', $datas);
+                    $id_user_surveior = $this->db->insert_id();
+                    $fasyankes_id = $this->db->insert_id();
+                    $bidang_id = $this->db->insert_id();
+                    // SCIRPT INPUT BIDANG ZK
+                    $uniqfasyankes = [];
+                    $uniqfasyankes = array_unique($post['fasyankes']);
+                    $count = 0;
+                    $query = [];
+                    foreach ($post['id_bidang'] as $bidangid) {
+                        $choose = "";
+                        $where = array(
+                            'id_bidang' => $bidangid
+                        );
+                        foreach ($uniqfasyankes as $fasyankesid) {
+                            if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
+                                $choose = 'true';
+                            }
+                        }
+                        if ($choose == true) {
+                            $databi = array(
+                                'is_checked' => '1'
+                            );
+                        } else {
+                            $databi = array(
+                                'is_checked' => '0'
+                            );
+                            $count++;
+                        }
 
-            //             $query[] = array(
-            //                 'id_user_surveior' => $id_user_surveior,
-            //                 'users_id' => $users_id,
-            //                 'id_fasyankes_surveior' => $post['fasyankes'][$bidangid],
-            //                 'id_bidang' => $bidangid,
-            //                 'nama_bidang' => $post['nama_bidang'][$bidangid],
-            //                 'is_checked' => $databi['is_checked']
-            //             );
-            //         }
-            //         if ($count < 10) {
-            //             foreach ($query as $query) {
-            //                 $this->Model_sina->input_data('user_surveior_bidang_detail', $query);
-            //             }
+                        $query[] = array(
+                            'id_user_surveior' => $id_user_surveior,
+                            'users_id' => $users_id,
+                            'id_fasyankes_surveior' => $post['fasyankes'][$bidangid],
+                            'id_bidang' => $bidangid,
+                            'nama_bidang' => $post['nama_bidang'][$bidangid],
+                            'is_checked' => $databi['is_checked']
+                        );
+                    }
+                    if ($count < 10) {
+                        foreach ($query as $query) {
+                            $this->Model_sina->input_data('user_surveior_bidang_detail', $query);
+                        }
 
-            //             $this->load->helper('date');
-            //             date_default_timezone_set("Asia/Jakarta");
-            //             $data = $this->session->flashdata('datapengguna');
+                        $this->load->helper('date');
+                        date_default_timezone_set("Asia/Jakarta");
+                        $data = $this->session->flashdata('datapengguna');
 
-            //             $emailpengguna = $post['email'];
-            //             $namapengguna = $post['nama'];
-            //             $notelp = $post['no_hp'];
+                        $emailpengguna = $post['email'];
+                        $namapengguna = $post['nama'];
+                        $notelp = $post['no_hp'];
 
-            //             $subject = 'Akreditasi Fasyankes ACCOUNT';
+                        $subject = 'Akreditasi Fasyankes ACCOUNT';
 
-            //             // Compose a simple HTML email message
-            //             $message = '<html><body>';
-            //             $message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
-            //             $message .= '<p>Account Surveior Lembaga anda telah di validasi, </p>';
-            //             $message .= '<p>Silahkan login pada halaman website : sinaf.kemkes.go.id .</p>';
-            //             $message .= '<p><b>Menggunakan Username : ' . $emailpengguna . '  dan Menggunakan password : ' . $pwd . ' </b></p>';
-            //             // $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
-            //             $message .= '<b>===============================================================</b> <br> <br>';
-            //             $message .= '<b style="color:blue;">If you need help, please contact the site administrator.</b>';
-            //             $message .= '</body></html>';
+                        // Compose a simple HTML email message
+                        $message = '<html><body>';
+                        $message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
+                        $message .= '<p>Account Surveior Lembaga anda telah di validasi, </p>';
+                        $message .= '<p>Silahkan login pada halaman website : sinaf.kemkes.go.id .</p>';
+                        $message .= '<p><b>Menggunakan Username : ' . $emailpengguna . '  dan Menggunakan password : ' . $pwd . ' </b></p>';
+                        // $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
+                        $message .= '<b>===============================================================</b> <br> <br>';
+                        $message .= '<b style="color:blue;">If you need help, please contact the site administrator.</b>';
+                        $message .= '</body></html>';
 
 
-            //             $config = [
-            //                 'mailtype' => 'html',
-            //                 'charset' => 'iso-8859-1',
-            //                 'protocol' => 'smtp',
-            //                 // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
-            //                 'smtp_host' => 'ssl://mail.kemkes.go.id',
-            //                 'smtp_user' => 'infoyankes@kemkes.go.id',
-            //                 'smtp_pass' => 'n3nceY@D',
-            //                 'smtp_port' => 465,
-            //                 'smtp_timeout' => 60
-            //             ];
+                        $config = [
+                            'mailtype' => 'html',
+                            'charset' => 'iso-8859-1',
+                            'protocol' => 'smtp',
+                            // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
+                            'smtp_host' => 'ssl://mail.kemkes.go.id',
+                            'smtp_user' => 'infoyankes@kemkes.go.id',
+                            'smtp_pass' => 'n3nceY@D',
+                            'smtp_port' => 465,
+                            'smtp_timeout' => 60
+                        ];
 
-            //             $this->load->library('email', $config);
-            //             $this->email->initialize($config);
+                        $this->load->library('email', $config);
+                        $this->email->initialize($config);
 
-            //             $this->email->from('infoyankes@kemkes.go.id');
-            //             $this->email->to($emailpengguna);
-            //             $this->email->subject($subject);
-            //             $this->email->message($message);
-            //             $this->email->set_newline("\r\n");
-            //             $send = $this->email->send();
-            //             if ($send) {
-            //                 // SUCCESS REDIRECT KEMANA ?????
-            //                 $this->session->set_flashdata('kode_name', 'success');
-            //                 $this->session->set_flashdata('icon_name', 'check');
-            //                 $this->session->set_flashdata('message_name', 'Sukses Input Data Surveior!');
-            //                 redirect('pengajuan/surveior');
-            //             }
-            //             // SUCCESS REDIRECT KEMANA ?????
+                        $this->email->from('infoyankes@kemkes.go.id');
+                        $this->email->to($emailpengguna);
+                        $this->email->subject($subject);
+                        $this->email->message($message);
+                        $this->email->set_newline("\r\n");
+                        $send = $this->email->send();
+                        if ($send) {
+                            // SUCCESS REDIRECT KEMANA ?????
+                            $this->session->set_flashdata('kode_name', 'success');
+                            $this->session->set_flashdata('icon_name', 'check');
+                            $this->session->set_flashdata('message_name', 'Sukses Input Data Surveior!');
+                            redirect('pengajuan/surveior');
+                        }
+                        // SUCCESS REDIRECT KEMANA ?????
 
-            //         } else {
-            //             $this->session->set_flashdata('kode_name', 'Failed');
-            //             $this->session->set_flashdata('icon_name', 'cross');
-            //             $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
-            //             redirect('pengajuan/inputsurveior');
-            //         }
-            //         // SCRIPT INPUT BIDANG ZK
-            //     } else {
-            //         $this->session->set_flashdata('kode_name', 'Failed');
-            //         $this->session->set_flashdata('icon_name', 'cross');
-            //         $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
-            //         redirect('pengajuan/inputsurveior');
-            //     }
-            // }
+                    } else {
+                        $this->session->set_flashdata('kode_name', 'Failed');
+                        $this->session->set_flashdata('icon_name', 'cross');
+                        $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
+                        redirect('pengajuan/inputsurveior');
+                    }
+                    // SCRIPT INPUT BIDANG ZK
+                } else {
+                    $this->session->set_flashdata('kode_name', 'Failed');
+                    $this->session->set_flashdata('icon_name', 'cross');
+                    $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
+                    redirect('pengajuan/inputsurveior');
+                }
+            }
         }
     }
 
@@ -2677,9 +2683,9 @@ class Pengajuan extends CI_Controller
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
+            $post = $this->security->xss_clean($this->input->post());
             $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
             $pwd = substr(str_shuffle($data), 0, 7);
-            $post = $this->input->post();
             $users_id = $this->session->userdata('id');
             $lpa_id = $this->session->userdata('lpa_id');
 
@@ -3645,7 +3651,8 @@ class Pengajuan extends CI_Controller
 
     public function simpanBerkasKesepakatan()
     {
-        $post = $this->input->post();
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
         // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
         // $config['allowed_types']        = 'pdf|xls|xlsx';
         // $config['max_size']             = 2048;
@@ -3713,7 +3720,8 @@ class Pengajuan extends CI_Controller
 
     public function simpanSurveiorLapangan()
     {
-        $post = $this->input->post();
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
 
         // DATA SURVEIOR LAPANGAN
         $idpengajuan = $post['id'];
@@ -3821,8 +3829,8 @@ class Pengajuan extends CI_Controller
 
     public function updateSurveiorLapangan()
     {
-        $post = $this->input->post();
-        print_r($post);
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
         // DATA SURVEIOR LAPANGAN
         $idpengajuan = $post['id'];
         $surveior_lapangan_id = $post['SLID'];

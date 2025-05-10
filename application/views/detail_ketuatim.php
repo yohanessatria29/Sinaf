@@ -960,22 +960,34 @@
                                     <small class="text-muted"><i>Dokumen PDF, Maks 2MB - </i><a href="https://docs.google.com/document/d/12xidmLJ174G8uDlj167VoibGp-FcEYvL/edit?usp=sharing&ouid=109754320285918165578&rtpof=true&sd=true" target="_blank">Download Contoh</a></small>
                                     <fieldset>
                                         <div class="input-group">
-                                            <input type="file" class="form-control" id="url_surat_rekomendasi_status" name="url_surat_rekomendasi_status" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-
+                                            <!-- Input untuk URL Drive (Google Drive) -->
+                                            <input type="text" class="form-control" id="url_surat_rekomendasi_status" name="url_surat_rekomendasi_status"
+                                                aria-describedby="inputGroupFileAddon04" aria-label="Masukkan Link Google Drive"
+                                                placeholder="Masukkan URL Google Drive" value="<?= isset($data[0]['url_surat_rekomendasi_status']) ? $data[0]['url_surat_rekomendasi_status'] : '' ?>">
                                         </div>
+
                                         <?php
+                                        // Mengecek apakah ada URL yang sudah ada (bisa berupa file atau link)
                                         if (!empty($data[0]['url_surat_rekomendasi_status'])) {
                                             $url_surat_rekomendasi_status = $data[0]['url_surat_rekomendasi_status'];
-                                        ?>
-                                            <a class="btn btn-success rounded-pill" target="_blank" href="<?php echo $url_surat_rekomendasi_status; ?>">Lihat Dokumen</a>
-                                        <?php
+
+                                            // Mengecek apakah yang disimpan adalah URL Google Drive
+                                            if (filter_var($url_surat_rekomendasi_status, FILTER_VALIDATE_URL) && strpos($url_surat_rekomendasi_status, 'drive.google.com') !== false) {
+                                                // Jika URL Google Drive, tampilkan link tersebut
+                                                echo '<a class="btn btn-success rounded-pill" target="_blank" href="' . $url_surat_rekomendasi_status . '">Lihat Dokumen (Google Drive)</a>';
+                                            } else {
+                                                // Jika file masih berupa file, tampilkan link file lama
+                                                echo '<a class="btn btn-success rounded-pill" target="_blank" href="' . $url_surat_rekomendasi_status . '">Lihat Dokumen</a>';
+                                            }
                                         } else {
                                             $url_surat_rekomendasi_status = "";
                                         }
                                         ?>
 
+                                        <!-- Menyimpan URL lama -->
                                         <input type="hidden" name="old_url_surat_rekomendasi_status" value="<?= $url_surat_rekomendasi_status ?>" id="old_url_surat_rekomendasi_status">
                                     </fieldset>
+
                                 </div>
                             </div>
 

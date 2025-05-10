@@ -3,203 +3,204 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Kemenkes extends CI_Controller
 {
-	function __construct()
-	{
-		parent::__construct();
+    function __construct()
+    {
+        parent::__construct();
 
-		date_default_timezone_set("Asia/Jakarta");
-		$this->load->model('Model_sina');
-		$this->load->model('Model_viewdata');
-		$this->load->model('Model_kemenkes');
-		define('MB', 1048576);
-	}
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/userguide3/general/urls.html
-	 */
-	public function index()
-	{
-		$this->load->library('form_validation');
-		$this->load->helper('security');
-		if ($this->session->userdata('logged') != TRUE) {
-			redirect('login/logout');
-		} else {
-			$session_kriteria = $this->session->userdata('kriteria_id');
-			if ($session_kriteria == 2) {
-				$session_lpa = $this->session->userdata('lpa_id');
+        date_default_timezone_set("Asia/Jakarta");
+        $this->load->model('Model_sina');
+        $this->load->model('Model_viewdata');
+        $this->load->model('Model_kemenkes');
+        define('MB', 1048576);
+    }
+    /**
+     * Index Page for this controller.
+     *
+     * Maps to the following URL
+     * 		http://example.com/index.php/welcome
+     *	- or -
+     * 		http://example.com/index.php/welcome/index
+     *	- or -
+     * Since this controller is set as the default controller in
+     * config/routes.php, it's displayed at http://example.com/
+     *
+     * So any other public methods not prefixed with an underscore will
+     * map to /index.php/welcome/<method_name>
+     * @see https://codeigniter.com/userguide3/general/urls.html
+     */
+    public function index()
+    {
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->session->userdata('logged') != TRUE) {
+            redirect('login/logout');
+        } else {
+            $session_kriteria = $this->session->userdata('kriteria_id');
+            if ($session_kriteria == 2) {
+                $session_lpa = $this->session->userdata('lpa_id');
+                $post = $this->security->xss_clean($this->input->post());
+                $tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
+                $tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
+                $propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
+                $kota = !empty($post['kota']) ? $post['kota'] : null;
+                $jenis_fasyankes = !empty($post['jenis_fasyankes']) ? $post['jenis_fasyankes'] : null;
+                $lpa_id = !empty($post['lpa_id']) ? $post['lpa_id'] : null;
+                $status_verifikasi_id = !empty($post['status_verifikasi_id']) ? $post['status_verifikasi_id'] : null;
 
-				$post = $this->input->post();
-				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
-				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
-				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
-				$kota = !empty($post['kota']) ? $post['kota'] : null;
-				$jenis_fasyankes = !empty($post['jenis_fasyankes']) ? $post['jenis_fasyankes'] : null;
-				$lpa_id = !empty($post['lpa_id']) ? $post['lpa_id'] : null;
-				$status_verifikasi_id = !empty($post['status_verifikasi_id']) ? $post['status_verifikasi_id'] : null;
+                $data = array(
+                    'content' => 'user_kemenkes',
+                    'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
+                    'data' => $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
+                    'session_lpa' => $session_lpa,
+                    'propinsi' => $propinsi,
+                    'kota' => $kota,
+                    'jenis_fasyankes' => $jenis_fasyankes,
+                    'tanggal_awal' => $tanggal_awal,
+                    'tanggal_akhir' => $tanggal_akhir,
+                    'lpa_id' => $lpa_id,
+                    'status_verifikasi_id' => $status_verifikasi_id
 
-				$data = array(
-					'content' => 'user_kemenkes',
-					'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
-					'data' => $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
-					'session_lpa' => $session_lpa,
-					'propinsi' => $propinsi,
-					'kota' => $kota,
-					'jenis_fasyankes' => $jenis_fasyankes,
-					'tanggal_awal' => $tanggal_awal,
-					'tanggal_akhir' => $tanggal_akhir,
-					'lpa_id' => $lpa_id,
-					'status_verifikasi_id' => $status_verifikasi_id
-
-				);
-				$this->load->view('user_kemenkes', $data);
-			}
-		}
-	}
-
-
-	public function detailfasyankes()
-	{
-		$post = $this->input->post();
-		if (!empty($post['bab'])) {
-			$bab = $post['bab'];
-		} else {
-			$bab = null;
-		}
-		$id = $this->uri->segment(3);
-
-		$data_kemenkes = $this->Model_sina->select_kemenkes($id);
-		$data_kemenkes_detail = $this->Model_sina->select_kemenkes_detail($id);
-
-		$data_select_kemenkes = $this->Model_sina->select_kemenkes($id);
-
-		$trans = $this->Model_sina->select_trans_ep($data_select_kemenkes[0]['penetapan_tanggal_survei_id']);
-
-		$trans = array_column($trans, null, "elemen_penilaian_id");
+                );
+                $this->load->view('user_kemenkes', $data);
+            }
+        }
+    }
 
 
-		$data = array(
-			'content' => 'elemen_penilaian_surveior',
-			'data' => $data_select_kemenkes,
-			'data_detail' => $data_kemenkes_detail,
-			'datab' => $this->Model_sina->select_ep($bab, $data_kemenkes[0]['jenis_fasyankes']),
-			'trans' => $trans,
-			'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_kemenkes[0]['penetapan_tanggal_survei_id'], $data_kemenkes[0]['jenis_fasyankes']),
-			'bab' => $bab,
-			// 'datab'=> $this->Model_sina->select_ep($bab,6),
-			//'datab'=> $this->Model_sina->select_ep(1,2),
-			'data_sertifikat' => $this->Model_sina->getDataSertifikat($data_kemenkes[0]['fasyankes_id']),
-			'ds' => $this->Model_sina->viwDataSertifikat($id),
-			'id' => $id
-		);
-		$this->load->view('pengirimanlaporan_kemenkes', $data);
-		// print_r($data_kemenkes);
-		// var_dump($data_select_kemenkes[0]);
-		// var_dump($data_kemenkes[0]['jenis_fasyankes']);
-	}
+    public function detailfasyankes()
+    {
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+        if (!empty($post['bab'])) {
+            $bab = $post['bab'];
+        } else {
+            $bab = null;
+        }
+        $id = $this->uri->segment(3);
 
-	public function detail()
-	{
-		// $id = $this->uri->segment(3);
-		// $data = array(
-		// 	'content' => 'sertifikat',
-		// 	'data' => $this->Model_sina->select_kemenkes($id),
-		// 	'id' => $id
-		// );
-		// $this->load->view('sertifikat', $data);
+        $data_kemenkes = $this->Model_sina->select_kemenkes($id);
+        $data_kemenkes_detail = $this->Model_sina->select_kemenkes_detail($id);
 
-		$this->load->library('form_validation');
-		$this->load->helper('security');
-		if ($this->session->userdata('logged') != TRUE) {
-			redirect('login/logout');
-		} else {
-			$session_kriteria = $this->session->userdata('kriteria_id');
-			$session_lpa = $this->session->userdata('lpa_id');
-			if ($session_kriteria == 2) {
-				$id = $this->uri->segment(3);
-				$kemenkes = $this->Model_sina->select_kemenkes($id);
-				$puskesmas = $this->Model_sina->get_puskesmas($kemenkes[0]['fasyankes_id']);
-				$data = array(
-					'content' => 'sertifikat',
-					'data' => $kemenkes,
-					'puskesmas' => $puskesmas,
-					'lpa_id' => $session_lpa,
-					'id' => $id
-				);
-				// $this->load->view('ketualpa/detail', $data);
-				$this->load->view('sertifikat', $data);
-			}
-		}
-	}
+        $data_select_kemenkes = $this->Model_sina->select_kemenkes($id);
 
-	public function simpanPenerbitan()
-	{
-		$post = $this->input->post();
+        $trans = $this->Model_sina->select_trans_ep($data_select_kemenkes[0]['penetapan_tanggal_survei_id']);
 
-		$config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-		$config['allowed_types']        = 'pdf|jpg|jpeg|png';
-		$config['max_size']             = 2048;
-		// $config['max_width']            = 1080;
-		// $config['max_height']           = 1080;
-		$config['overwrite']            = true;
-		$config['encrypt_name'] = TRUE;
+        $trans = array_column($trans, null, "elemen_penilaian_id");
 
-		//$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
 
-		//Upload foto_bukti_survei
-		if (!empty($_FILES['url_dokumen_sertifikat']['name'])) {
-			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload('url_dokumen_sertifikat')) {
-				print_r($this->upload->display_errors());
-				exit;
-			}
-			$attachment = $this->upload->data();
-			$fileName = $attachment['file_name'];
+        $data = array(
+            'content' => 'elemen_penilaian_surveior',
+            'data' => $data_select_kemenkes,
+            'data_detail' => $data_kemenkes_detail,
+            'datab' => $this->Model_sina->select_ep($bab, $data_kemenkes[0]['jenis_fasyankes']),
+            'trans' => $trans,
+            'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_kemenkes[0]['penetapan_tanggal_survei_id'], $data_kemenkes[0]['jenis_fasyankes']),
+            'bab' => $bab,
+            // 'datab'=> $this->Model_sina->select_ep($bab,6),
+            //'datab'=> $this->Model_sina->select_ep(1,2),
+            'data_sertifikat' => $this->Model_sina->getDataSertifikat($data_kemenkes[0]['fasyankes_id']),
+            'ds' => $this->Model_sina->viwDataSertifikat($id),
+            'id' => $id
+        );
+        $this->load->view('pengirimanlaporan_kemenkes', $data);
+        // print_r($data_kemenkes);
+        // var_dump($data_select_kemenkes[0]);
+        // var_dump($data_kemenkes[0]['jenis_fasyankes']);
+    }
 
-			//$foto_bukti_survei =  $url.$fileName;
-			$url_dokumen_sertifikat =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-		} else {
-			if (isset($post['old_url_dokumen_sertifikat'])) {
-				$url_dokumen_sertifikat = $post['old_url_dokumen_sertifikat'];
-			} else {
-				$url_dokumen_sertifikat = '';
-			}
-		}
+    public function detail()
+    {
+        // $id = $this->uri->segment(3);
+        // $data = array(
+        // 	'content' => 'sertifikat',
+        // 	'data' => $this->Model_sina->select_kemenkes($id),
+        // 	'id' => $id
+        // );
+        // $this->load->view('sertifikat', $data);
 
-		$datas = array(
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->session->userdata('logged') != TRUE) {
+            redirect('login/logout');
+        } else {
+            $session_kriteria = $this->session->userdata('kriteria_id');
+            $session_lpa = $this->session->userdata('lpa_id');
+            if ($session_kriteria == 2) {
+                $id = $this->uri->segment(3);
+                $kemenkes = $this->Model_sina->select_kemenkes($id);
+                $puskesmas = $this->Model_sina->get_puskesmas($kemenkes[0]['fasyankes_id']);
+                $data = array(
+                    'content' => 'sertifikat',
+                    'data' => $kemenkes,
+                    'puskesmas' => $puskesmas,
+                    'lpa_id' => $session_lpa,
+                    'id' => $id
+                );
+                // $this->load->view('ketualpa/detail', $data);
+                $this->load->view('sertifikat', $data);
+            }
+        }
+    }
 
-			'nomor_sertifikat' => $post['nomor_sertifikat'],
-			'tanggal_penetapan' => $post['tanggal_penetapan'],
-			'tanggal_berakhir_berlaku' => $post['tanggal_berakhir_berlaku'],
-			'url_dokumen_sertifikat' => $url_dokumen_sertifikat,
-			'pengiriman_rekomendasi_id' => $post['pengiriman_rekomendasi_id']
-		);
+    public function simpanPenerbitan()
+    {
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
 
-		$where2 = array(
-			'pengiriman_rekomendasi_id' => $post["pengiriman_rekomendasi_id"]
-		);
-		$this->Model_sina->delete_data('penerbitan_sertifikat', $where2);
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|jpg|jpeg|png';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name'] = TRUE;
 
-		$this->Model_sina->input_data('penerbitan_sertifikat', $datas);
+        //$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
 
-		$this->session->set_flashdata('kode_name', 'success');
-		$this->session->set_flashdata('icon_name', 'check');
-		$this->session->set_flashdata('message_name', 'Sukses Input Data!');
+        //Upload foto_bukti_survei
+        // if (!empty($_FILES['url_dokumen_sertifikat']['name'])) {
+        //     $this->load->library('upload', $config);
+        //     if (!$this->upload->do_upload('url_dokumen_sertifikat')) {
+        //         print_r($this->upload->display_errors());
+        //         exit;
+        //     }
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
 
-		redirect('kemenkes/detail/' . $post['id_kemenkes']);
-	}
-	
-	public function surveior()
+        //     //$foto_bukti_survei =  $url.$fileName;
+        //     $url_dokumen_sertifikat =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+        // } else {
+        //     if (isset($post['old_url_dokumen_sertifikat'])) {
+        //         $url_dokumen_sertifikat = $post['old_url_dokumen_sertifikat'];
+        //     } else {
+        //         $url_dokumen_sertifikat = '';
+        //     }
+        // }
+
+        $datas = array(
+
+            'nomor_sertifikat' => $post['nomor_sertifikat'],
+            'tanggal_penetapan' => $post['tanggal_penetapan'],
+            'tanggal_berakhir_berlaku' => $post['tanggal_berakhir_berlaku'],
+            'url_dokumen_sertifikat' => $post['url_dokumen_sertifikat'],
+            'pengiriman_rekomendasi_id' => $post['pengiriman_rekomendasi_id']
+        );
+
+        $where2 = array(
+            'pengiriman_rekomendasi_id' => $post["pengiriman_rekomendasi_id"]
+        );
+        $this->Model_sina->delete_data('penerbitan_sertifikat', $where2);
+
+        $this->Model_sina->input_data('penerbitan_sertifikat', $datas);
+
+        $this->session->set_flashdata('kode_name', 'success');
+        $this->session->set_flashdata('icon_name', 'check');
+        $this->session->set_flashdata('message_name', 'Sukses Input Data!');
+
+        redirect('kemenkes/detail/' . $post['id_kemenkes']);
+    }
+
+    public function surveior()
     {
         $this->load->library('form_validation');
         $this->load->helper('security');
@@ -207,37 +208,34 @@ class Kemenkes extends CI_Controller
         if ($this->session->userdata('lpa_id') != TRUE) {
             redirect('login/logout');
         } else {
+            $post = $this->security->xss_clean($this->input->post());
 
+            if ($post != NULL) {
+                $propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
+                $kota = !empty($post['kota']) ? $post['kota'] : null;
+                $lpa_id = !empty($post['lpa_id']) ? $post['lpa_id'] : null;
+                $keaktifan = !empty($post['status']) ? $post['status'] : null;
+                $data = array(
+                    'content' => 'surveior',
+                    'data' => $this->Model_kemenkes->select_surveior_search($lpa_id, $propinsi, $kota, $keaktifan),
+                    'data_ukom' => $this->Model_kemenkes->get_data_ukom_surveior($lpa_id),
+                    'propinsi' => $propinsi,
+                    'kota' => $kota,
+                    'lpa_id' => $lpa_id,
+                    'keaktifan' => $keaktifan
+                );
+            } else {
+                $data = array(
+                    'content' => 'surveior',
+                    'data' => [],
+                    'data_ukom' => [],
+                    'propinsi' => NULL,
+                    'kota' => NULL,
+                    'lpa_id' => NULL,
+                    'keaktifan' => NULL
+                );
+            }
 
-
-		$post = $this->input->post();
-  
-        if ($post != NULL) {
-          $propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
-				$kota = !empty($post['kota']) ? $post['kota'] : null;
-				$lpa_id = !empty($post['lpa_id']) ? $post['lpa_id'] : null;
-				$keaktifan = !empty($post['status']) ? $post['status'] : null;
-            $data = array(
-                'content' => 'surveior',
-		        'data' => $this->Model_kemenkes->select_surveior_search($lpa_id, $propinsi, $kota, $keaktifan),
-                'data_ukom' => $this->Model_kemenkes->get_data_ukom_surveior($lpa_id),
-                'propinsi' => $propinsi,
-                'kota' => $kota,
-                'lpa_id' => $lpa_id,
-				'keaktifan' => $keaktifan
-            );
-         } else {
-            $data = array(
-                'content' => 'surveior',
-		'data' => [],
-                'data_ukom' => [],
-                'propinsi' => NULL,
-                'kota' => NULL,
-                'lpa_id' => NULL,
-		'keaktifan' => NULL
-            );
-        }
-				
             //print_r($data);
             $this->load->view('kemkes_view_surveior', $data);
         }
@@ -252,6 +250,7 @@ class Kemenkes extends CI_Controller
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
+            $post = $this->security->xss_clean($this->input->post());
             if ($this->input->post('keaktifan_surveior') != NULL && $this->input->post('keaktifan_surveior') === 'on') {
                 $keaktifan_surveior = 1;
             } else {
@@ -259,15 +258,14 @@ class Kemenkes extends CI_Controller
             }
             $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
             $pwd = substr(str_shuffle($data), 0, 7);
-            $post = $this->input->post();
             $users_id = $this->session->userdata('id');
-            $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-            $config['allowed_types']        = 'pdf|xls|xlsx';
-            $config['max_size']             = 2048;
-            $config['max_width']            = 1080;
-            $config['max_height']           = 1080;
-            $config['overwrite']            = true;
-            $config['encrypt_name'] = TRUE;
+            // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+            // $config['allowed_types']        = 'pdf|xls|xlsx';
+            // $config['max_size']             = 2048;
+            // $config['max_width']            = 1080;
+            // $config['max_height']           = 1080;
+            // $config['overwrite']            = true;
+            // $config['encrypt_name'] = TRUE;
 
             $password1 = $pwd;
             $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
@@ -276,44 +274,44 @@ class Kemenkes extends CI_Controller
             //$url = 'https://sirs.kemkes.go.id/fo/sisrute_dok/';
 
             //Upload url_sertifikat_surveior
-            if (!empty($_FILES['url_sertifikat_surveior']['name'])) {
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('url_sertifikat_surveior')) {
-                    print_r($this->upload->display_errors());
-                    exit;
-                }
-                $attachment = $this->upload->data();
-                $fileName = $attachment['file_name'];
+            // if (!empty($_FILES['url_sertifikat_surveior']['name'])) {
+            //     $this->load->library('upload', $config);
+            //     if (!$this->upload->do_upload('url_sertifikat_surveior')) {
+            //         print_r($this->upload->display_errors());
+            //         exit;
+            //     }
+            //     $attachment = $this->upload->data();
+            //     $fileName = $attachment['file_name'];
 
-                //$url_sertifikat_surveior =  $url.$fileName;
-                $url_sertifikat_surveior =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-            } else {
-                if (isset($post['old_url_sertifikat_surveior'])) {
-                    $url_sertifikat_surveior = $post['old_url_sertifikat_surveior'];
-                } else {
-                    $url_sertifikat_surveior = '';
-                }
-            }
+            //     //$url_sertifikat_surveior =  $url.$fileName;
+            //     $url_sertifikat_surveior =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+            // } else {
+            //     if (isset($post['old_url_sertifikat_surveior'])) {
+            //         $url_sertifikat_surveior = $post['old_url_sertifikat_surveior'];
+            //     } else {
+            //         $url_sertifikat_surveior = '';
+            //     }
+            // }
 
             //Upload url_surat_keputusan_keanggotaan
-            if (!empty($_FILES['url_surat_keputusan_keanggotaan']['name'])) {
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('url_surat_keputusan_keanggotaan')) {
-                    print_r($this->upload->display_errors());
-                    exit;
-                }
-                $attachment = $this->upload->data();
-                $fileName = $attachment['file_name'];
+            // if (!empty($_FILES['url_surat_keputusan_keanggotaan']['name'])) {
+            //     $this->load->library('upload', $config);
+            //     if (!$this->upload->do_upload('url_surat_keputusan_keanggotaan')) {
+            //         print_r($this->upload->display_errors());
+            //         exit;
+            //     }
+            //     $attachment = $this->upload->data();
+            //     $fileName = $attachment['file_name'];
 
-                //$url_dokumen_kontrak =  $url.$fileName;
-                $url_surat_keputusan_keanggotaan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-            } else {
-                if (isset($post['old_url_surat_keputusan_keanggotaan'])) {
-                    $url_surat_keputusan_keanggotaan = $post['old_url_surat_keputusan_keanggotaan'];
-                } else {
-                    $url_surat_keputusan_keanggotaan = '';
-                }
-            }
+            //     //$url_dokumen_kontrak =  $url.$fileName;
+            //     $url_surat_keputusan_keanggotaan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+            // } else {
+            //     if (isset($post['old_url_surat_keputusan_keanggotaan'])) {
+            //         $url_surat_keputusan_keanggotaan = $post['old_url_surat_keputusan_keanggotaan'];
+            //     } else {
+            //         $url_surat_keputusan_keanggotaan = '';
+            //     }
+            // }
             $datab = array(
                 'nik' => $post['nik'],
                 // 'id' => $users_id,
@@ -355,8 +353,8 @@ class Kemenkes extends CI_Controller
                     // 'provinsi_id' => $post['propinsi'],
                     // 'kabkota_id' => $post['kota'],
                     'keaktifan' => $post['keaktifan'],
-                    'url_sertifikat_surveior' => $url_sertifikat_surveior,
-                    'url_surat_keputusan_keanggotaan' => $url_surat_keputusan_keanggotaan,
+                    'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
+                    'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
                     'status_aktif' => $keaktifan_surveior
                 );
                 $this->Model_sina->edit_data('user_surveior', $wheref, $datas);
@@ -412,7 +410,6 @@ class Kemenkes extends CI_Controller
 
                     redirect('kemenkes/editsurveior/' . $post['id_user_surveior']);
                 }
-
             } else {
                 if (isset($post['fasyankes_id'])) {
                     // $this->Model_sina->input_data('users', $datab);
@@ -430,8 +427,8 @@ class Kemenkes extends CI_Controller
                         'keaktifan' => $post['keaktifan'],
                         'fasyankes_id' => $no,
                         'bidang_id'        => $no,
-                        'url_sertifikat_surveior' => $url_sertifikat_surveior,
-                        'url_surat_keputusan_keanggotaan' => $url_surat_keputusan_keanggotaan,
+                        'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
+                        'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
                         'status_aktif' => $keaktifan_surveior
                     );
 
@@ -491,13 +488,12 @@ class Kemenkes extends CI_Controller
                             // var_dump($testquery);
                             // $this->Model_sina->input_data('user_surveior_bidang_detail', $query);
                         }
-                            // SUCCESS REDIRECT KEMANA ?????
-                            $this->session->set_flashdata('kode_name', 'success');
-                            $this->session->set_flashdata('icon_name', 'check');
-                            $this->session->set_flashdata('message_name', 'Sukses Input Data Surveior!');
-                            redirect('kemenkes/surveior');
-
-                    } 
+                        // SUCCESS REDIRECT KEMANA ?????
+                        $this->session->set_flashdata('kode_name', 'success');
+                        $this->session->set_flashdata('icon_name', 'check');
+                        $this->session->set_flashdata('message_name', 'Sukses Input Data Surveior!');
+                        redirect('kemenkes/surveior');
+                    }
                     // SCRIPT INPUT BIDANG ZK
                 } else {
                     $this->session->set_flashdata('kode_name', 'Failed');
@@ -506,7 +502,6 @@ class Kemenkes extends CI_Controller
                     redirect('kemenkes/inputsurveior');
                 }
                 if ($send) {
-                
                 }
             }
         }
@@ -533,7 +528,7 @@ class Kemenkes extends CI_Controller
                 'id' => $id
             );
             // var_dump($data['data']);
-                $this->load->view('kemkes_edit_surveior', $data);
+            $this->load->view('kemkes_edit_surveior', $data);
         }
     }
     public function simpanSurveiorBidang()

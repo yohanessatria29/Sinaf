@@ -21,13 +21,12 @@ class Monitoring extends CI_Controller
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
-
+            $post = $this->security->xss_clean($this->input->post());
             $session_kriteria = $this->session->userdata('kriteria_id');
 
             if ($session_kriteria == 1) {
                 $session_lpa = $this->session->userdata('lpa_id');
 
-                $post = $this->input->post();
                 if (!empty($post['tanggal_awal'])) {
                     $tanggal_awal = $post['tanggal_awal'];
                 } else {
@@ -67,7 +66,6 @@ class Monitoring extends CI_Controller
                     'tanggal_akhir' => $tanggal_akhir
                 );
 
-                $post = $this->input->post();
                 if ($post != NULL) {
                     $data['data'] = $this->Model_monitoring->select_monitoring($session_lpa, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes);
                 } else {
@@ -76,7 +74,6 @@ class Monitoring extends CI_Controller
             } else if ($session_kriteria == 5) {
                 $session_lpa = $this->session->userdata('lpa_id');
 
-                $post = $this->input->post();
                 if (!empty($post['tanggal_awal'])) {
                     $tanggal_awal = $post['tanggal_awal'];
                 } else {
@@ -114,14 +111,12 @@ class Monitoring extends CI_Controller
                     'tanggal_awal' => $tanggal_awal,
                     'tanggal_akhir' => $tanggal_akhir
                 );
-                $post = $this->input->post();
                 if ($post != NULL) {
                     $data['data'] = $this->Model_monitoring->select_monitoring($session_lpa, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes);
                 } else {
                     $data['data'] = array();
                 }
             } else if ($session_kriteria == 2) {
-                $post = $this->input->post();
                 if (!empty($post['tanggal_awal'])) {
                     $tanggal_awal = $post['tanggal_awal'];
                 } else {
@@ -164,14 +159,12 @@ class Monitoring extends CI_Controller
                     'lpa_id' => $lpa_id
                 );
 
-                $post = $this->input->post();
                 if ($post != NULL) {
                     $data['data'] = $this->Model_monitoring->select_monitoring($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes);
                 } else {
                     $data['data'] = array();
                 }
             } else if ($session_kriteria == 8) {
-                $post = $this->input->post();
                 if (!empty($post['tanggal_awal'])) {
                     $tanggal_awal = $post['tanggal_awal'];
                 } else {
@@ -216,7 +209,6 @@ class Monitoring extends CI_Controller
                     'lpa_id' => $lpa_id
                 );
 
-                $post = $this->input->post();
                 if ($post != NULL) {
                     $data['data'] = $this->Model_monitoring->select_monitoring($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes);
                 } else {

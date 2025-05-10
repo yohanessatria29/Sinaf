@@ -32,15 +32,15 @@ class Binwas extends CI_Controller
 	public function index()
 	{
 		$this->load->library('form_validation');
-		$this->load->helper('security');		
-		if($this->session->userdata('logged') !=TRUE){
+		$this->load->helper('security');
+		if ($this->session->userdata('logged') != TRUE) {
 			redirect('login/logout');
 		} else {
 			$session_kriteria = $this->session->userdata('kriteria_id');
-			if($session_kriteria == 10){
+			if ($session_kriteria == 10) {
 				$session_lpa = $this->session->userdata('lpa_id');
 
-				$post = $this->input->post();
+				$post = $this->security->xss_clean($this->input->post());
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -48,21 +48,22 @@ class Binwas extends CI_Controller
 				$jenis_fasyankes = !empty($post['jenis_fasyankes']) ? $post['jenis_fasyankes'] : null;
 				$lpa_id = !empty($post['lpa_id']) ? $post['lpa_id'] : null;
 				$status_verifikasi_id = !empty($post['status_verifikasi_id']) ? $post['status_verifikasi_id'] : null;
-				
-				$data = array('content' =>'user_binwas',
-						'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
-						'data' => $this->Model_binwas->select_pengajuan_search($lpa_id,$tanggal_awal,$tanggal_akhir,$propinsi,$kota,$jenis_fasyankes,$status_verifikasi_id),
-						'session_lpa' => $session_lpa,
-						'propinsi'=> $propinsi,
-						'kota'=> $kota,
-						'jenis_fasyankes'=> $jenis_fasyankes,
-						'tanggal_awal'=> $tanggal_awal,
-						'tanggal_akhir'=> $tanggal_akhir,
-						'lpa_id'=>$lpa_id,
-						'status_verifikasi_id'=>$status_verifikasi_id
 
-							);
-				$this->load->view('user_binwas',$data);
+				$data = array(
+					'content' => 'user_binwas',
+					'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
+					'data' => $this->Model_binwas->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
+					'session_lpa' => $session_lpa,
+					'propinsi' => $propinsi,
+					'kota' => $kota,
+					'jenis_fasyankes' => $jenis_fasyankes,
+					'tanggal_awal' => $tanggal_awal,
+					'tanggal_akhir' => $tanggal_akhir,
+					'lpa_id' => $lpa_id,
+					'status_verifikasi_id' => $status_verifikasi_id
+
+				);
+				$this->load->view('user_binwas', $data);
 			}
 		}
 	}
@@ -77,7 +78,6 @@ class Binwas extends CI_Controller
 		} else {
 			$this->load->view('detail_binwas');
 		}
-		
 	}
 
 
@@ -99,7 +99,6 @@ class Binwas extends CI_Controller
 		} else {
 			$this->load->view('binwas');
 		}
-		
 	}
 	public function listBinwas()
 	{
@@ -113,7 +112,7 @@ class Binwas extends CI_Controller
 			if ($session_kriteria == 10) {
 				$session_lpa = $this->session->userdata('lpa_id');
 
-				$post = $this->input->post();
+				$post = $this->security->xss_clean($this->input->post());
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -145,8 +144,9 @@ class Binwas extends CI_Controller
 
 	public function elemen_penilaian_verifikator()
 	{
+		$this->load->helper('security');
 		$session_lpa = $this->session->userdata('lpa_id');
-		$post = $this->input->post();
+		$post = $this->security->xss_clean($this->input->post());
 
 		$bab = !empty($post['bab']) ? $post['bab'] : null;
 		$data_ep = array();
@@ -195,7 +195,7 @@ class Binwas extends CI_Controller
 		$this->load->view('ketualpa/persentase_capaian', $data);
 		$this->load->view('ketualpa/layout/footer');
 	}
-	
+
 
 	// public function detail()
 	// {
@@ -248,33 +248,33 @@ class Binwas extends CI_Controller
 		// echo "tes";
 		$this->load->library('form_validation');
 		$this->load->helper('security');
-		$post = $this->input->post();
+		$post = $this->security->xss_clean($this->input->post());
 		if (!empty($post['bab'])) {
 			$bab = $post['bab'];
 		} else {
 			$bab = null;
 		}
 		$id = $this->uri->segment(3);
-		
+
 		$data_pengajuan = $this->Model_sina->select_pengajuan($id);
 		$surveior = $this->Model_sina->select_surveior_kesepakatan($id);
 		$data_select_pengajuan = $this->Model_sina->select_pengajuan($id);
 		$detail_pengajuan = $this->Model_sina->detail_pengajuan_survei($id);
 		$surveior_lapangan = $this->Model_sina->getdatalapangan($data_pengajuan[0]['penetapan_tanggal_survei_id']);
-                $narahubung = $this->Model_sina->getDataNarahubung($data_pengajuan[0]['fasyankes_id']);
-                if (isset($surveior_lapangan[0]['id_surveior_satu_baru'])) {
-                    $idsuveiorpengganti1 = $surveior_lapangan[0]['id_surveior_satu_baru'];
-                    $keterangnapengganti1 = $surveior_lapangan[0]['keterangan_surveior_satu'];
-                    $surveior_lapangan['datasurveiorpengganti1'] = $this->Model_sina->getdetailsuveior($idsuveiorpengganti1);
-                }
+		$narahubung = $this->Model_sina->getDataNarahubung($data_pengajuan[0]['fasyankes_id']);
+		if (isset($surveior_lapangan[0]['id_surveior_satu_baru'])) {
+			$idsuveiorpengganti1 = $surveior_lapangan[0]['id_surveior_satu_baru'];
+			$keterangnapengganti1 = $surveior_lapangan[0]['keterangan_surveior_satu'];
+			$surveior_lapangan['datasurveiorpengganti1'] = $this->Model_sina->getdetailsuveior($idsuveiorpengganti1);
+		}
 
-                if (isset($surveior_lapangan[0]['id_surveior_dua_baru'])) {
-                    $idsuveiorpengganti2 = $surveior_lapangan[0]['id_surveior_dua_baru'];
-                    $keterangnapengganti2 = $surveior_lapangan[0]['keterangan_surveior_dua'];
-                    $surveior_lapangan['datasurveiorpengganti2'] = $this->Model_sina->getdetailsuveior($idsuveiorpengganti2);
-                }
-        $datasurveiorlapangan = $this->Model_sina->getsurveiorlapangan($data_pengajuan[0]['penetapan_tanggal_survei_id']);
-		
+		if (isset($surveior_lapangan[0]['id_surveior_dua_baru'])) {
+			$idsuveiorpengganti2 = $surveior_lapangan[0]['id_surveior_dua_baru'];
+			$keterangnapengganti2 = $surveior_lapangan[0]['keterangan_surveior_dua'];
+			$surveior_lapangan['datasurveiorpengganti2'] = $this->Model_sina->getdetailsuveior($idsuveiorpengganti2);
+		}
+		$datasurveiorlapangan = $this->Model_sina->getsurveiorlapangan($data_pengajuan[0]['penetapan_tanggal_survei_id']);
+
 		$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
 
 		$trans = array_column($trans, null, "elemen_penilaian_id");
@@ -297,22 +297,20 @@ class Binwas extends CI_Controller
 					'surveior' => $surveior,
 					'detail_pengajuan' => $detail_pengajuan,
 					'surveior_lapangan' => $surveior_lapangan,
-                    'narahubung' => $narahubung,
-                    'data_surveior_lapangan' => $datasurveiorlapangan,
+					'narahubung' => $narahubung,
+					'data_surveior_lapangan' => $datasurveiorlapangan,
 					'datab' => $this->Model_sina->select_ep($bab, $data_pengajuan[0]['jenis_fasyankes']),
 					'trans' => $trans,
-					'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id'],$data_pengajuan[0]['jenis_fasyankes']),
+					'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id'], $data_pengajuan[0]['jenis_fasyankes']),
 					'bab' => $bab,
 					'id' => $id
 				);
 				// $this->load->view('ketualpa/detail', $data);
 				// echo "tes";
 				$this->load->view('detail_binwas', $data);
-			}else{
+			} else {
 				redirect('binwas');
 			}
 		}
 	}
-
-
 }

@@ -78,42 +78,43 @@ class User extends CI_Controller
 
     public function simpanKetuaLPA()
     {
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
         $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
         $pwd = substr(str_shuffle($data), 0, 7);
-        $post = $this->input->post();
 
         $users_id = $this->session->userdata('id');
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf|xls|xlsx';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name'] = TRUE;
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|xls|xlsx';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name'] = TRUE;
 
         $password1 = $pwd;
         $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
         $hashed    = hash('sha256', $password1 . $salt);;
 
         //Upload dokumen_sk_penunjukan
-        if (!empty($_FILES['dokumen_sk_penunjukan']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('dokumen_sk_penunjukan')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
+        // if (!empty($_FILES['dokumen_sk_penunjukan']['name'])) {
+        //     $this->load->library('upload', $config);
+        //     if (!$this->upload->do_upload('dokumen_sk_penunjukan')) {
+        //         print_r($this->upload->display_errors());
+        //         exit;
+        //     }
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
 
-            //$dokumen_sk_penunjukan =  $url.$fileName;
-            $dokumen_sk_penunjukan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_dokumen_sk_penunjukan'])) {
-                $dokumen_sk_penunjukan = $post['old_dokumen_sk_penunjukan'];
-            } else {
-                $dokumen_sk_penunjukan = '';
-            }
-        }
+        //     //$dokumen_sk_penunjukan =  $url.$fileName;
+        //     $dokumen_sk_penunjukan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+        // } else {
+        //     if (isset($post['old_dokumen_sk_penunjukan'])) {
+        //         $dokumen_sk_penunjukan = $post['old_dokumen_sk_penunjukan'];
+        //     } else {
+        //         $dokumen_sk_penunjukan = '';
+        //     }
+        // }
         $datausers = array(
             'nik' => $post['nik'],
             'nama' => $post['nama'],
@@ -157,7 +158,7 @@ class User extends CI_Controller
                 'status_keaktifan' => $post['status_keaktifan'],
                 'tanggal_aktif' => $post['tanggal_aktif'],
                 'tanggal_nonaktif' => $post['tanggal_nonaktif'],
-                'dokumen_sk_penunjukan' => $dokumen_sk_penunjukan
+                'dokumen_sk_penunjukan' => $post['dokumen_sk_penunjukan']
             );
             $this->Model_sina->edit_data('user_ketua_lpa', $where, $datas);
 
@@ -180,7 +181,7 @@ class User extends CI_Controller
                 'status_keaktifan' => $post['status_keaktifan'],
                 'tanggal_aktif' => $post['tanggal_aktif'],
                 'tanggal_nonaktif' => $post['tanggal_nonaktif'],
-                'dokumen_sk_penunjukan' => $dokumen_sk_penunjukan
+                'dokumen_sk_penunjukan' => $post['dokumen_sk_penunjukan']
             );
             $responsed = $this->Model_sina->input_data('user_ketua_lpa', $datas);
 
@@ -453,42 +454,46 @@ class User extends CI_Controller
 
     public function simpanAdminLPA()
     {
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+
         $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
         $pwd = substr(str_shuffle($data), 0, 7);
-        $post = $this->input->post();
 
         $users_id = $this->session->userdata('id');
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf|xls|xlsx';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name'] = TRUE;
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|xls|xlsx';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name'] = TRUE;
 
         $password1 = $pwd;
         $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
         $hashed    = hash('sha256', $password1 . $salt);;
 
         //Upload dokumen_sk_penugasan
-        if (!empty($_FILES['dokumen_sk_penugasan']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('dokumen_sk_penugasan')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
+        // if (!empty($_FILES['dokumen_sk_penugasan']['name'])) {
+        //     $this->load->library('upload', $config);
+        //     if (!$this->upload->do_upload('dokumen_sk_penugasan')) {
+        //         print_r($this->upload->display_errors());
+        //         exit;
+        //     }
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
 
-            //$dokumen_sk_penugasan =  $url.$fileName;
-            $dokumen_sk_penugasan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_dokumen_sk_penugasan'])) {
-                $dokumen_sk_penugasan = $post['old_dokumen_sk_penugasan'];
-            } else {
-                $dokumen_sk_penugasan = '';
-            }
-        }
+        //     //$dokumen_sk_penugasan =  $url.$fileName;
+        //     $dokumen_sk_penugasan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+        // } else {
+        //     if (isset($post['old_dokumen_sk_penugasan'])) {
+        //         $dokumen_sk_penugasan = $post['old_dokumen_sk_penugasan'];
+        //     } else {
+        //         $dokumen_sk_penugasan = '';
+        //     }
+        // }
+
+
         $datausers = array(
             'nik' => $post['nik'],
             'nama' => $post['nama'],
@@ -533,7 +538,7 @@ class User extends CI_Controller
                 'fasyankes_id' => $post['fasyankes_id'],
                 'tanggal_aktif' => $post['tanggal_aktif'],
                 'tanggal_nonaktif' => $post['tanggal_nonaktif'],
-                'dokumen_sk_penugasan' => $dokumen_sk_penugasan
+                'dokumen_sk_penugasan' => $post['dokumen_sk_penugasan']
             );
             $this->Model_sina->edit_data('user_admin_lpa', $where, $datas);
 
@@ -562,7 +567,7 @@ class User extends CI_Controller
                 'status_keaktifan' => $post['status_keaktifan'],
                 'tanggal_aktif' => $post['tanggal_aktif'],
                 'tanggal_nonaktif' => $post['tanggal_nonaktif'],
-                'dokumen_sk_penugasan' => $dokumen_sk_penugasan
+                'dokumen_sk_penugasan' => $post['dokumen_sk_penugasan']
             );
             $responsed = $this->Model_sina->input_data('user_admin_lpa', $datas);
 
@@ -954,18 +959,20 @@ class User extends CI_Controller
 
     public function simpanDirektur()
     {
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+
         $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
         $pwd = substr(str_shuffle($data), 0, 7);
-        $post = $this->input->post();
 
         $users_id = $this->session->userdata('id');
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf|xls|xlsx';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name'] = TRUE;
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|xls|xlsx';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name'] = TRUE;
 
         $password1 = $pwd;
         $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
@@ -1132,42 +1139,45 @@ class User extends CI_Controller
 
     public function simpanKetuatim()
     {
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+
         $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
         $pwd = substr(str_shuffle($data), 0, 7);
-        $post = $this->input->post();
 
         $users_id = $this->session->userdata('id');
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf|xls|xlsx';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name'] = TRUE;
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|xls|xlsx';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name'] = TRUE;
 
         $password1 = $pwd;
         $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
         $hashed    = hash('sha256', $password1 . $salt);;
 
         //Upload dokumen_sk_penunjukan
-        if (!empty($_FILES['dokumen_sk_penunjukan']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('dokumen_sk_penunjukan')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
+        // if (!empty($_FILES['dokumen_sk_penunjukan']['name'])) {
+        //     $this->load->library('upload', $config);
+        //     if (!$this->upload->do_upload('dokumen_sk_penunjukan')) {
+        //         print_r($this->upload->display_errors());
+        //         exit;
+        //     }
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
 
-            //$dokumen_sk_penunjukan =  $url.$fileName;
-            $dokumen_sk_penunjukan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_dokumen_sk_penunjukan'])) {
-                $dokumen_sk_penunjukan = $post['old_dokumen_sk_penunjukan'];
-            } else {
-                $dokumen_sk_penunjukan = '';
-            }
-        }
+        //     //$dokumen_sk_penunjukan =  $url.$fileName;
+        //     $dokumen_sk_penunjukan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+        // } else {
+        //     if (isset($post['old_dokumen_sk_penunjukan'])) {
+        //         $dokumen_sk_penunjukan = $post['old_dokumen_sk_penunjukan'];
+        //     } else {
+        //         $dokumen_sk_penunjukan = '';
+        //     }
+        // }
+
         $datausers = array(
             'nik' => $post['nik'],
             'nama' => $post['nama'],
@@ -1211,7 +1221,7 @@ class User extends CI_Controller
                 'status_keaktifan' => $post['status_keaktifan'],
                 'tanggal_aktif' => $post['tanggal_aktif'],
                 'tanggal_nonaktif' => $post['tanggal_nonaktif'],
-                'dokumen_sk_penunjukan' => $dokumen_sk_penunjukan
+                'dokumen_sk_penunjukan' => $post['dokumen_sk_penunjukan']
             );
             $this->Model_sina->edit_data('user_ketua_tim', $where, $datas);
 
@@ -1239,7 +1249,7 @@ class User extends CI_Controller
                 'status_keaktifan' => $post['status_keaktifan'],
                 'tanggal_aktif' => $post['tanggal_aktif'],
                 'tanggal_nonaktif' => $post['tanggal_nonaktif'],
-                'dokumen_sk_penunjukan' => $dokumen_sk_penunjukan
+                'dokumen_sk_penunjukan' => $post['dokumen_sk_penunjukan']
             );
             $responsed = $this->Model_sina->input_data('user_ketua_tim', $datas);
 
@@ -1428,167 +1438,169 @@ class User extends CI_Controller
     }
 
 
- //Binwas
- public function listBinwas()
- {
-     $this->load->library('form_validation');
-     $this->load->helper('security');
+    //Binwas
+    public function listBinwas()
+    {
+        $this->load->library('form_validation');
+        $this->load->helper('security');
 
-     $id = $this->session->userdata();
-     $data = array(
-         'content' => 'view-profil',
-         'datauser' => $this->Model_profile->Profile_view($id['id']),
-         'databinwas' => $this->Model_user->get_binwas(),
-         'datalpa' => $this->Model_user->get_list_lpa(),
-         'dataotheruser' => $this->Model_profile->Other_view($id['user_id']),
-     );
-     $this->load->view('binwas', $data);
- }
+        $id = $this->session->userdata();
+        $data = array(
+            'content' => 'view-profil',
+            'datauser' => $this->Model_profile->Profile_view($id['id']),
+            'databinwas' => $this->Model_user->get_binwas(),
+            'datalpa' => $this->Model_user->get_list_lpa(),
+            'dataotheruser' => $this->Model_profile->Other_view($id['user_id']),
+        );
+        $this->load->view('binwas', $data);
+    }
 
- public function inputbinwas()
- {
-     $this->load->view('input_binwas');
- }
+    public function inputbinwas()
+    {
+        $this->load->view('input_binwas');
+    }
 
- public function simpanBinwas()
- {
-     $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
-     $pwd = substr(str_shuffle($data), 0, 7);
-     $post = $this->input->post();
+    public function simpanBinwas()
+    {
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
 
-     $users_id = $this->session->userdata('id');
-     $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-     $config['allowed_types']        = 'pdf|xls|xlsx';
-     $config['max_size']             = 2048;
-     $config['max_width']            = 1080;
-     $config['max_height']           = 1080;
-     $config['overwrite']            = true;
-     $config['encrypt_name'] = TRUE;
+        $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
+        $pwd = substr(str_shuffle($data), 0, 7);
 
-     $password1 = $pwd;
-     $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
-     $hashed    = hash('sha256', $password1 . $salt);
+        $users_id = $this->session->userdata('id');
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|xls|xlsx';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name'] = TRUE;
 
-
-     $datausers = array(
-         'nik' => $post['nik'],
-         'nama' => $post['nama'],
-         'email' => $post['email'],
-         'username' => $post['email'],
-         'password' => $pwd,
-         'password_enkripsi' => $hashed,
-         'kriteria_id' => '10',
-
-         'user_status' => '1',
-         'validate' => '2'
-
-     );
-
-     if (!empty($post['id'])) {
-         $where = array(
-             'id' => $post['id'],
-
-         );
-         $wheres = array(
-             'id' => $post['users_id'],
-
-         );
-         $datac = array(
-             //'nik' =>$post['nik'],
-             'nama' => $post['nama'],
-             //'email' =>$post['email'],
-             'username' => $post['email']
-
-         );
-
-         $this->Model_sina->edit_data('users', $where, $datac);
+        $password1 = $pwd;
+        $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
+        $hashed    = hash('sha256', $password1 . $salt);
 
 
-         $this->session->set_flashdata('kode_name', 'success');
-         $this->session->set_flashdata('icon_name', 'check');
-         $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
+        $datausers = array(
+            'nik' => $post['nik'],
+            'nama' => $post['nama'],
+            'email' => $post['email'],
+            'username' => $post['email'],
+            'password' => $pwd,
+            'password_enkripsi' => $hashed,
+            'kriteria_id' => '10',
 
-         redirect('user/listBinwas/' . $post['id']);
-     } else {
-         $responsed =  $this->Model_sina->input_data('users', $datausers);
+            'user_status' => '1',
+            'validate' => '2'
 
-         $this->session->set_flashdata('kode_name', 'success');
-         $this->session->set_flashdata('icon_name', 'check');
-         $this->session->set_flashdata('message_name', 'Sukses Input Data!');
+        );
 
-         if ($responsed == true) {
-             $this->load->helper('date');
-             date_default_timezone_set("Asia/Jakarta");
-             $data = $this->session->flashdata('datapengguna');
-             $emailpengguna = $post['email'];
-             $namapengguna = $post['nama'];
+        if (!empty($post['id'])) {
+            $where = array(
+                'id' => $post['id'],
+
+            );
+            $wheres = array(
+                'id' => $post['users_id'],
+
+            );
+            $datac = array(
+                //'nik' =>$post['nik'],
+                'nama' => $post['nama'],
+                //'email' =>$post['email'],
+                'username' => $post['email']
+
+            );
+
+            $this->Model_sina->edit_data('users', $where, $datac);
 
 
-             $subject = 'Akreditasi Fasyankes ACCOUNT';
+            $this->session->set_flashdata('kode_name', 'success');
+            $this->session->set_flashdata('icon_name', 'check');
+            $this->session->set_flashdata('message_name', 'Sukses Ubah Data!');
 
-             // Compose a simple HTML email message
-             $message = '<html><body>';
-             $message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
-             $message .= '<p>Akun <b>Binwas</b> anda telah aktif, </p>';
-             $message .= '<p>Silahkan login  aplikasi SINAF sinaf.kemkes.go.id.</p>';
-             $message .= '<p><b>Menggunakan: Username : ' . $emailpengguna . '  dan password : ' . $pwd . ' </b></p>';
-             // $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
-             $message .= '<b>===============================================================</b> <br> <br>';
-             $message .= '<b style="color:blue;">Apabila membutuhkan bantuan, silahkan hubungi Tim Admin Kemenkes.</b>';
-             $message .= '</body></html>';
+            redirect('user/listBinwas/' . $post['id']);
+        } else {
+            $responsed =  $this->Model_sina->input_data('users', $datausers);
 
-             $config = [
-                 'mailtype' => 'html',
-                 'charset' => 'iso-8859-1',
-                 'protocol' => 'smtp',
-                //  'smtp_host' => 'ssl://proxy.kemkes.go.id',
-                 'smtp_host' => 'ssl://mail.kemkes.go.id',
-                 'smtp_user' => 'infoyankes@kemkes.go.id',
-                 'smtp_pass' => 'n3nceY@D',
-                 'smtp_port' => 465,
-                 'smtp_timeout' => 60
-             ];
+            $this->session->set_flashdata('kode_name', 'success');
+            $this->session->set_flashdata('icon_name', 'check');
+            $this->session->set_flashdata('message_name', 'Sukses Input Data!');
 
-             $this->load->library('email', $config);
-             $this->email->initialize($config);
+            if ($responsed == true) {
+                $this->load->helper('date');
+                date_default_timezone_set("Asia/Jakarta");
+                $data = $this->session->flashdata('datapengguna');
+                $emailpengguna = $post['email'];
+                $namapengguna = $post['nama'];
 
-             $this->email->from('infoyankes@kemkes.go.id');
-             $this->email->to($emailpengguna);
-             $this->email->subject($subject);
-             $this->email->message($message);
-             $this->email->set_newline("\r\n");
-             $send = $this->email->send();
-             if ($send) {
-                 redirect('user/listBinwas');
-             }
-         }
-     }
- }
 
- public function editbinwas()
- {
-     $id = $this->uri->segment(3);
-     $data = array(
-         'content' => 'edit_binwas',
-         'data' => $this->Model_user->select_binwas($id),
-         'id' => $id
-     );
-     $this->load->view('edit_binwas', $data);
- }
+                $subject = 'Akreditasi Fasyankes ACCOUNT';
 
- public function hapusbinwas()
- {
-     $id = $this->uri->segment(3);
-     $rest = $this->Model_user->delete_binwas($id);
+                // Compose a simple HTML email message
+                $message = '<html><body>';
+                $message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
+                $message .= '<p>Akun <b>Binwas</b> anda telah aktif, </p>';
+                $message .= '<p>Silahkan login  aplikasi SINAF sinaf.kemkes.go.id.</p>';
+                $message .= '<p><b>Menggunakan: Username : ' . $emailpengguna . '  dan password : ' . $pwd . ' </b></p>';
+                // $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
+                $message .= '<b>===============================================================</b> <br> <br>';
+                $message .= '<b style="color:blue;">Apabila membutuhkan bantuan, silahkan hubungi Tim Admin Kemenkes.</b>';
+                $message .= '</body></html>';
 
-     if ($rest == TRUE) {
-         echo '1';
+                $config = [
+                    'mailtype' => 'html',
+                    'charset' => 'iso-8859-1',
+                    'protocol' => 'smtp',
+                    //  'smtp_host' => 'ssl://proxy.kemkes.go.id',
+                    'smtp_host' => 'ssl://mail.kemkes.go.id',
+                    'smtp_user' => 'infoyankes@kemkes.go.id',
+                    'smtp_pass' => 'n3nceY@D',
+                    'smtp_port' => 465,
+                    'smtp_timeout' => 60
+                ];
 
-         redirect('user/listBinwas');
-     } else {
-         echo $rest;
-     }
- }
+                $this->load->library('email', $config);
+                $this->email->initialize($config);
+
+                $this->email->from('infoyankes@kemkes.go.id');
+                $this->email->to($emailpengguna);
+                $this->email->subject($subject);
+                $this->email->message($message);
+                $this->email->set_newline("\r\n");
+                $send = $this->email->send();
+                if ($send) {
+                    redirect('user/listBinwas');
+                }
+            }
+        }
+    }
+
+    public function editbinwas()
+    {
+        $id = $this->uri->segment(3);
+        $data = array(
+            'content' => 'edit_binwas',
+            'data' => $this->Model_user->select_binwas($id),
+            'id' => $id
+        );
+        $this->load->view('edit_binwas', $data);
+    }
+
+    public function hapusbinwas()
+    {
+        $id = $this->uri->segment(3);
+        $rest = $this->Model_user->delete_binwas($id);
+
+        if ($rest == TRUE) {
+            echo '1';
+
+            redirect('user/listBinwas');
+        } else {
+            echo $rest;
+        }
+    }
 
 
 
@@ -1659,7 +1671,4 @@ class User extends CI_Controller
             redirect('profil');
         }
     }
-
-
-
 }

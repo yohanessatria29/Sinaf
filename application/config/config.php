@@ -24,10 +24,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |
 */
 $root  = "http://" . $_SERVER['HTTP_HOST'];
-//$root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+$root .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
 // CONFIG LAMA
-//$config['base_url']    = $root;
-$config['base_url'] = 'http://192.168.67.144/Sinaf/';
+$config['base_url']    = $root;
+// $config['base_url'] = 'http://192.168.67.144/Sinaf/';
 
 // CONFIG BARU
 // $config['base_url']    = 'https://sinaf.kemkes.go.id';
@@ -107,7 +107,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------

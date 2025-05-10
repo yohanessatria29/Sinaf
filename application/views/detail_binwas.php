@@ -1093,22 +1093,34 @@
                                                                 <small class="text-muted"><i>Dokumen PDF, Maks 2MB - </i><a href="https://docs.google.com/document/d/12xidmLJ174G8uDlj167VoibGp-FcEYvL/edit?usp=sharing&ouid=109754320285918165578&rtpof=true&sd=true" target="_blank">Download Contoh</a></small>
                                                                 <fieldset>
                                                                     <div class="input-group">
-                                                                        <input type="file" class="form-control" id="url_surat_rekomendasi_status" name="url_surat_rekomendasi_status" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-
+                                                                        <!-- Input untuk URL Drive (Google Drive) -->
+                                                                        <input type="text" class="form-control" id="url_surat_rekomendasi_status" name="url_surat_rekomendasi_status"
+                                                                            aria-describedby="inputGroupFileAddon04" aria-label="Masukkan Link Google Drive"
+                                                                            placeholder="Masukkan URL Google Drive" value="<?= isset($data[0]['url_surat_rekomendasi_status']) ? $data[0]['url_surat_rekomendasi_status'] : '' ?>">
                                                                     </div>
+
                                                                     <?php
+                                                                    // Mengecek apakah ada URL yang sudah ada (bisa berupa file atau link)
                                                                     if (!empty($data[0]['url_surat_rekomendasi_status'])) {
                                                                         $url_surat_rekomendasi_status = $data[0]['url_surat_rekomendasi_status'];
-                                                                    ?>
-                                                                        <a class="btn btn-success rounded-pill" target="_blank" href="<?php echo $url_surat_rekomendasi_status; ?>">Lihat Dokumen</a>
-                                                                    <?php
+
+                                                                        // Mengecek apakah yang disimpan adalah URL Google Drive
+                                                                        if (filter_var($url_surat_rekomendasi_status, FILTER_VALIDATE_URL) && strpos($url_surat_rekomendasi_status, 'drive.google.com') !== false) {
+                                                                            // Jika URL Google Drive, tampilkan link tersebut
+                                                                            echo '<a class="btn btn-success rounded-pill" target="_blank" href="' . $url_surat_rekomendasi_status . '">Lihat Dokumen (Google Drive)</a>';
+                                                                        } else {
+                                                                            // Jika file masih berupa file, tampilkan link file lama
+                                                                            echo '<a class="btn btn-success rounded-pill" target="_blank" href="' . $url_surat_rekomendasi_status . '">Lihat Dokumen</a>';
+                                                                        }
                                                                     } else {
                                                                         $url_surat_rekomendasi_status = "";
                                                                     }
                                                                     ?>
 
+                                                                    <!-- Menyimpan URL lama -->
                                                                     <input type="hidden" name="old_url_surat_rekomendasi_status" value="<?= $url_surat_rekomendasi_status ?>" id="old_url_surat_rekomendasi_status">
                                                                 </fieldset>
+
                                                             </div>
                                                         </div>
 
@@ -1839,23 +1851,41 @@
 
                                             <fieldset>
                                                 <div class="input-group">
+                                                    <!-- Menyembunyikan field ID dan lainnya -->
                                                     <input type="hidden" class="form-control" id="id" name="id" value="<?= $data[0]['id'] ?>">
                                                     <input type="hidden" class="form-control" id="kelengkapan_berkas_id" name="kelengkapan_berkas_id" value="<?= $data[0]['kelengkapan_berkas_id'] ?>">
                                                     <input type="hidden" class="form-control" id="penetapan_tanggal_survei_id" name="penetapan_tanggal_survei_id" value="<?= $data[0]['penetapan_tanggal_survei_id'] ?>">
-                                                    <input type="file" class="form-control" id="url_dokumen_kontrak" name="url_dokumen_kontrak" aria-describedby="inputGroupFileAddon04" aria-label="Upload" <?= $url_dokumen_kontrak_required; ?>>
 
-                                                    <?php if (!empty($data[0]['url_dokumen_kontrak'])) {
-                                                        $url_dokumen_kontrak = $data[0]['url_dokumen_kontrak'];
-                                                    ?>
-                                                        <a class="btn btn-primary rounded-pill" target="_blank" href="<?php echo $url_dokumen_kontrak; ?>">Lihat Dokumen</a>
-                                                    <?php } else {
-                                                        $url_dokumen_kontrak = "";
-                                                    }
-                                                    ?>
+                                                    <!-- Input untuk URL Dokumen Kontrak -->
+                                                    <input type="text" class="form-control" id="url_dokumen_kontrak" name="url_dokumen_kontrak"
+                                                        aria-describedby="inputGroupFileAddon04" aria-label="Masukkan Link Dokumen Kontrak"
+                                                        placeholder="Masukkan URL Dokumen Kontrak (Google Drive)"
+                                                        value="<?= isset($data[0]['url_dokumen_kontrak']) ? $data[0]['url_dokumen_kontrak'] : '' ?>">
 
-                                                    <input type="hidden" name="old_url_dokumen_kontrak" value="<?= $url_dokumen_kontrak ?>" id="old_url_dokumen_kontrak">
                                                 </div>
+
+                                                <?php
+                                                // Mengecek apakah ada URL yang sudah ada (bisa berupa file atau link)
+                                                if (!empty($data[0]['url_dokumen_kontrak'])) {
+                                                    $url_dokumen_kontrak = $data[0]['url_dokumen_kontrak'];
+
+                                                    // Mengecek apakah URL adalah link Google Drive
+                                                    if (filter_var($url_dokumen_kontrak, FILTER_VALIDATE_URL) && strpos($url_dokumen_kontrak, 'drive.google.com') !== false) {
+                                                        // Jika URL adalah Google Drive, tampilkan link ke Google Drive
+                                                        echo '<a class="btn btn-primary rounded-pill" target="_blank" href="' . $url_dokumen_kontrak . '">Lihat Dokumen (Google Drive)</a>';
+                                                    } else {
+                                                        // Jika URL bukan Google Drive, tampilkan link umum
+                                                        echo '<a class="btn btn-primary rounded-pill" target="_blank" href="' . $url_dokumen_kontrak . '">Lihat Dokumen</a>';
+                                                    }
+                                                } else {
+                                                    $url_dokumen_kontrak = "";
+                                                }
+                                                ?>
+
+                                                <!-- Menyimpan URL lama -->
+                                                <input type="hidden" name="old_url_dokumen_kontrak" value="<?= $url_dokumen_kontrak ?>" id="old_url_dokumen_kontrak">
                                             </fieldset>
+
 
                                             <?php
                                             if (is_null($data[0]['kelengkapan_berkas_id_2'])) {
@@ -2223,22 +2253,36 @@
                                                 <div class="form-group col-md-6">
                                                     <label for="helperText">Surat Tugas</label>
                                                     <div class="input-group">
-                                                        <input type="file" class="form-control" id="url_surat_tugas" name="url_surat_tugas" aria-describedby="inputGroupFileAddon04" aria-label="Upload" <?= $url_surat_tugas_required ?>>
-
-                                                        <?php if (!empty($data[0]['url_surat_tugas'])) {
-                                                            $url_surat_tugas = $data[0]['url_surat_tugas'];
-                                                        ?>
-
-                                                            <a class="btn btn-primary rounded-pill" target="_blank" href="<?php echo $url_surat_tugas; ?>">Lihat Dokumen</a>
-                                                        <?php } else {
-                                                            $url_surat_tugas = "";
-                                                        }
-                                                        ?>
-
-                                                        <input type="hidden" name="old_url_surat_tugas" value="<?= $url_surat_tugas ?>" id="old_url_surat_tugas">
+                                                        <!-- Input untuk URL Surat Tugas -->
+                                                        <input type="text" class="form-control" id="url_surat_tugas" name="url_surat_tugas"
+                                                            aria-describedby="inputGroupFileAddon04" aria-label="Masukkan Link Surat Tugas"
+                                                            placeholder="Masukkan URL Surat Tugas (Google Drive)"
+                                                            value="<?= isset($data[0]['url_surat_tugas']) ? $data[0]['url_surat_tugas'] : '' ?>" <?= $url_surat_tugas_required ?>>
                                                     </div>
+
+                                                    <?php
+                                                    // Mengecek apakah ada URL yang sudah ada (bisa berupa file atau link)
+                                                    if (!empty($data[0]['url_surat_tugas'])) {
+                                                        $url_surat_tugas = $data[0]['url_surat_tugas'];
+
+                                                        // Mengecek apakah URL adalah link Google Drive
+                                                        if (filter_var($url_surat_tugas, FILTER_VALIDATE_URL) && strpos($url_surat_tugas, 'drive.google.com') !== false) {
+                                                            // Jika URL adalah Google Drive, tampilkan link ke Google Drive
+                                                            echo '<a class="btn btn-primary rounded-pill" target="_blank" href="' . $url_surat_tugas . '">Lihat Dokumen (Google Drive)</a>';
+                                                        } else {
+                                                            // Jika URL bukan Google Drive, tampilkan link umum
+                                                            echo '<a class="btn btn-primary rounded-pill" target="_blank" href="' . $url_surat_tugas . '">Lihat Dokumen</a>';
+                                                        }
+                                                    } else {
+                                                        $url_surat_tugas = "";
+                                                    }
+                                                    ?>
+
+                                                    <!-- Menyimpan URL lama -->
+                                                    <input type="hidden" name="old_url_surat_tugas" value="<?= $url_surat_tugas ?>" id="old_url_surat_tugas">
                                                 </div>
                                             </div>
+
 
                                             <!-- <button type="submit" class="btn btn-primary rounded-pill">Submit</button> -->
                                         </form>

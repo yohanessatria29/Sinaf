@@ -50,14 +50,17 @@ class Profil extends CI_Controller
     public function update_profil()
     {
 
-        $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-        $config['allowed_types']        = 'pdf|xls|xlsx';
-        $config['max_size']             = 2048;
-        $config['max_width']            = 1080;
-        $config['max_height']           = 1080;
-        $config['overwrite']            = true;
-        $config['encrypt_name'] = TRUE;
+        // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
+        // $config['allowed_types']        = 'pdf|xls|xlsx';
+        // $config['max_size']             = 2048;
+        // $config['max_width']            = 1080;
+        // $config['max_height']           = 1080;
+        // $config['overwrite']            = true;
+        // $config['encrypt_name'] = TRUE;
 
+        // $post = $this->input->post();
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
 
         $id = $this->session->userdata();
         $surveior = $this->Model_profile->Profile_view($id['user_id']);
@@ -65,32 +68,32 @@ class Profil extends CI_Controller
         $ketualpa = $this->Model_profile->Ketualpa_view($id['user_id']);
         $adminlpa = $this->Model_profile->Adminlpa_view($id['user_id']);
         $adminkemenkes = $this->Model_profile->AdminKemenkes_view($id['user_id']);
-        $post = $this->input->post();
 
 
 
 
-        if (!empty($_FILES['dokumen_sk']['name'])) {
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('dokumen_sk')) {
-                print_r($this->upload->display_errors());
-                exit;
-            }
-            $attachment = $this->upload->data();
-            $fileName = $attachment['file_name'];
+        // if (!empty($_FILES['dokumen_sk']['name'])) {
+        //     $this->load->library('upload', $config);
+        //     if (!$this->upload->do_upload('dokumen_sk')) {
+        //         print_r($this->upload->display_errors());
+        //         exit;
+        //     }
+        //     $attachment = $this->upload->data();
+        //     $fileName = $attachment['file_name'];
 
-            //$dokumen_sk =  $url.$fileName;
-            $dokumen_sk =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-        } else {
-            if (isset($post['old_dokumen_sk'])) {
-                $dokumen_sk = $post['old_dokumen_sk'];
-            } else {
-                $dokumen_sk = '';
-            }
-        }
+        //     //$dokumen_sk =  $url.$fileName;
+        //     $dokumen_sk =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
+        // } else {
+        //     if (isset($post['old_dokumen_sk'])) {
+        //         $dokumen_sk = $post['old_dokumen_sk'];
+        //     } else {
+        //         $dokumen_sk = '';
+        //     }
+        // }
 
         $nama_baru = $this->input->post('nama_baru');
         $nohpbaru = $this->input->post('nohpbaru');
+        $dokumen_sk = $this->input->post('dokumen_sk');
 
 
 

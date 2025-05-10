@@ -28,7 +28,8 @@ class AkreditasiRS extends CI_Controller
             $session_lpa = $this->session->userdata('lpa_id');
             $session_kriteria = $this->session->userdata('kriteria_id');
             $session_users_id = $this->session->userdata('user_id');
-            $post = $this->input->post();
+
+            $post = $this->security->xss_clean($this->input->post());
             if (!empty($post['tanggal_awal'])) {
                 $tanggal_awal = $post['tanggal_awal'];
             } else {

@@ -527,20 +527,28 @@
 
 
                                       <div class="input-group">
-                                        <input type="file" class="form-control" id="dokumen_sk" name="dokumen_sk" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                        <!-- Input untuk URL Dokumen SK -->
+                                        <input type="text" class="form-control" id="dokumen_sk" name="dokumen_sk"
+                                          aria-describedby="inputGroupFileAddon04" aria-label="Masukkan Link Dokumen SK"
+                                          placeholder="Masukkan URL Dokumen SK"
+                                          value="<?= isset($data[0]['dokumen_sk']) ? $data[0]['dokumen_sk'] : '' ?>">
 
                                         <?php
+                                        // Mengecek apakah ada URL yang sudah ada
                                         if (!empty($data[0]['dokumen_sk'])) {
                                           $dokumen_sk = $data[0]['dokumen_sk'];
-                                        ?>
-                                        <?php
+                                          // Menampilkan link dokumen jika URL sudah ada
+                                          echo '<a class="btn btn-primary rounded-pill" target="_blank" href="' . $dokumen_sk . '">Lihat Dokumen</a>';
                                         } else {
                                           $dokumen_sk = "";
                                         }
                                         ?>
 
-                                        <input hidden name="old_dokumen_sk" value="<?= $dokumen_sk ?>" id="old_dokumen_sk">
+                                        <!-- Menyimpan URL lama -->
+                                        <input type="hidden" name="old_dokumen_sk" value="<?= $dokumen_sk ?>" id="old_dokumen_sk">
                                       </div>
+
+
                                     </div>
                                     <div class="modal-footer">
                                       <button type="submit" class="btn btn-success ml-1" data-bs-dismiss="modal">
@@ -584,20 +592,28 @@
                                       <small class="text-muted"> <a target="_blank" href="<?php echo $datum[0]->sk_penugasan; ?>">Download Dokumen Lama</a></small>
 
                                       <div class="input-group">
-                                        <input type="file" class="form-control" id="dokumen_sk" name="dokumen_sk" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                        <!-- Input untuk URL Dokumen SK -->
+                                        <input type="text" class="form-control" id="dokumen_sk" name="dokumen_sk"
+                                          aria-describedby="inputGroupFileAddon04" aria-label="Masukkan Link Dokumen SK"
+                                          placeholder="Masukkan URL Dokumen SK"
+                                          value="<?= isset($data[0]['dokumen_sk']) ? $data[0]['dokumen_sk'] : '' ?>">
 
                                         <?php
+                                        // Mengecek apakah ada URL yang sudah ada
                                         if (!empty($data[0]['dokumen_sk'])) {
                                           $dokumen_sk = $data[0]['dokumen_sk'];
-                                        ?>
-                                        <?php
+                                          // Menampilkan link dokumen jika URL sudah ada
+                                          echo '<a class="btn btn-primary rounded-pill" target="_blank" href="' . $dokumen_sk . '">Lihat Dokumen</a>';
                                         } else {
                                           $dokumen_sk = "";
                                         }
                                         ?>
 
-                                        <input hidden name="old_dokumen_sk" value="<?= $dokumen_sk ?>" id="old_dokumen_sk">
+                                        <!-- Menyimpan URL lama -->
+                                        <input type="hidden" name="old_dokumen_sk" value="<?= $dokumen_sk ?>" id="old_dokumen_sk">
                                       </div>
+
+
                                     </div>
                                     <div class="modal-footer">
                                       <button type="submit" class="btn btn-success ml-1" data-bs-dismiss="modal">

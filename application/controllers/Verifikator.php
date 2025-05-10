@@ -38,10 +38,10 @@ class Verifikator extends CI_Controller
 		} else {
 			$session_kriteria = $this->session->userdata('kriteria_id');
 			if ($session_kriteria == 4) {
+				$post = $this->security->xss_clean($this->input->post());
 				$session_lpa = $this->session->userdata('lpa_id');
 				$session_id = $this->session->userdata('id');
 
-				$post = $this->input->post();
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -72,7 +72,7 @@ class Verifikator extends CI_Controller
 		if ($this->session->userdata('logged') != TRUE) {
 			redirect('login/logout');
 		} else {
-			$post = $this->input->post();
+			$post = $this->security->xss_clean($this->input->post());
 			if (!empty($post['bab'])) {
 				$bab = $post['bab'];
 			} else {
@@ -141,69 +141,70 @@ class Verifikator extends CI_Controller
 		}
 	}
 
-	public function epverifikatorcopy()
-	{
-		$post = $this->input->post();
-		if (!empty($post['bab'])) {
-			$bab = $post['bab'];
-		} else {
-			$bab = null;
-		}
-		$id = $this->uri->segment(3);
+	// public function epverifikatorcopy()
+	// {
+	// 	$post = $this->input->post();
+	// 	if (!empty($post['bab'])) {
+	// 		$bab = $post['bab'];
+	// 	} else {
+	// 		$bab = null;
+	// 	}
+	// 	$id = $this->uri->segment(3);
 
-		$data_pengajuan = $this->Model_sina->select_pengajuan($id);
+	// 	$data_pengajuan = $this->Model_sina->select_pengajuan($id);
 
-		$data_select_pengajuan = $this->Model_sina->select_pengajuan($id);
+	// 	$data_select_pengajuan = $this->Model_sina->select_pengajuan($id);
 
-		if ($data_pengajuan[0]['jenis_survei_id'] == 2) {
-			$data_select_pengajuan_lama = $this->Model_sina->select_pengajuan($data_pengajuan[0]['pengajuan_usulan_survei_id_lama']);
-			$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan_lama[0]['penetapan_tanggal_survei_id']);
-			$trans = array_column($trans, null, "elemen_penilaian_id");
-			$trans_check = $this->Model_sina->select_trans_ep_check($data_select_pengajuan[0]['penetapan_tanggal_survei_id'], $bab);
-			if (!empty($trans_check[0]['skor_capaian_verifikator'])) {
-				$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
-				$trans = array_column($trans, null, "elemen_penilaian_id");
-			}
-		} else {
-			if ($data_pengajuan[0]['jenis_akreditasi_id'] == 3) {
-				$data_select_pengajuan_lama = $this->Model_sina->select_pengajuan($data_pengajuan[0]['pengajuan_usulan_survei_id_lama']);
-				$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan_lama[0]['penetapan_tanggal_survei_id']);
-				$trans = array_column($trans, null, "elemen_penilaian_id");
-				$trans_check = $this->Model_sina->select_trans_ep_check($data_select_pengajuan[0]['penetapan_tanggal_survei_id'], $bab);
-				if (!empty($trans_check[0]['skor_capaian_verifikator'])) {
-					$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
-					$trans = array_column($trans, null, "elemen_penilaian_id");
-				}
-			} else {
-				$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
-				$trans = array_column($trans, null, "elemen_penilaian_id");
-			}
-		}
+	// 	if ($data_pengajuan[0]['jenis_survei_id'] == 2) {
+	// 		$data_select_pengajuan_lama = $this->Model_sina->select_pengajuan($data_pengajuan[0]['pengajuan_usulan_survei_id_lama']);
+	// 		$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan_lama[0]['penetapan_tanggal_survei_id']);
+	// 		$trans = array_column($trans, null, "elemen_penilaian_id");
+	// 		$trans_check = $this->Model_sina->select_trans_ep_check($data_select_pengajuan[0]['penetapan_tanggal_survei_id'], $bab);
+	// 		if (!empty($trans_check[0]['skor_capaian_verifikator'])) {
+	// 			$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
+	// 			$trans = array_column($trans, null, "elemen_penilaian_id");
+	// 		}
+	// 	} else {
+	// 		if ($data_pengajuan[0]['jenis_akreditasi_id'] == 3) {
+	// 			$data_select_pengajuan_lama = $this->Model_sina->select_pengajuan($data_pengajuan[0]['pengajuan_usulan_survei_id_lama']);
+	// 			$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan_lama[0]['penetapan_tanggal_survei_id']);
+	// 			$trans = array_column($trans, null, "elemen_penilaian_id");
+	// 			$trans_check = $this->Model_sina->select_trans_ep_check($data_select_pengajuan[0]['penetapan_tanggal_survei_id'], $bab);
+	// 			if (!empty($trans_check[0]['skor_capaian_verifikator'])) {
+	// 				$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
+	// 				$trans = array_column($trans, null, "elemen_penilaian_id");
+	// 			}
+	// 		} else {
+	// 			$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
+	// 			$trans = array_column($trans, null, "elemen_penilaian_id");
+	// 		}
+	// 	}
 
-		print_r($trans);
+	// 	print_r($trans);
 
-		// $trans2 = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
-		// $trans2 = array_column($trans2, null, "elemen_penilaian_id");
+	// 	// $trans2 = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
+	// 	// $trans2 = array_column($trans2, null, "elemen_penilaian_id");
 
-		// $data = array(
-		// 	'content' => 'elemen_penilaian_surveior',
-		// 	'data' => $data_select_pengajuan,
-		// 	'datab' => $this->Model_sina->select_ep($bab, $data_pengajuan[0]['jenis_fasyankes']),
-		// 	'trans' => $trans,
-		// 	'trans2' => $trans2,
-		// 	'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id'], $data_pengajuan[0]['jenis_fasyankes']),
-		// 	'rows_bab' => $this->Model_sina->count_rows_bab($data_pengajuan[0]['jenis_fasyankes']),
-		// 	'rows_trans' => $this->Model_sina->count_rows_trans_ep_verifikator($data_select_pengajuan[0]['penetapan_tanggal_survei_id']),
-		// 	'bab' => $bab,
-		// 	'id' => $id
-		// );
+	// 	// $data = array(
+	// 	// 	'content' => 'elemen_penilaian_surveior',
+	// 	// 	'data' => $data_select_pengajuan,
+	// 	// 	'datab' => $this->Model_sina->select_ep($bab, $data_pengajuan[0]['jenis_fasyankes']),
+	// 	// 	'trans' => $trans,
+	// 	// 	'trans2' => $trans2,
+	// 	// 	'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id'], $data_pengajuan[0]['jenis_fasyankes']),
+	// 	// 	'rows_bab' => $this->Model_sina->count_rows_bab($data_pengajuan[0]['jenis_fasyankes']),
+	// 	// 	'rows_trans' => $this->Model_sina->count_rows_trans_ep_verifikator($data_select_pengajuan[0]['penetapan_tanggal_survei_id']),
+	// 	// 	'bab' => $bab,
+	// 	// 	'id' => $id
+	// 	// );
 
-		// $this->load->view('elemen_penilaian_verifikator', $data);
-	}
+	// 	// $this->load->view('elemen_penilaian_verifikator', $data);
+	// }
 
 	public function simpanEp()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
 		// $where2 = array(
 		// 	'penetapan_tanggal_survei_id' => $post["penetapan_tanggal_survei_id"]
@@ -245,7 +246,8 @@ class Verifikator extends CI_Controller
 
 	public function final_ep()
 	{
-		$post = $this->input->post();
+		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
 
 		$datas = array(
 			'penetapan_verifikator_id' => $post['penetapan_verifikator_id'],

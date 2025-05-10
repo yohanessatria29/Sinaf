@@ -40,7 +40,7 @@ class Direktur extends CI_Controller
 			if ($session_kriteria == 9) {
 				$session_lpa = $this->session->userdata('lpa_id');
 
-				$post = $this->input->post();
+				$post = $this->security->xss_clean($this->input->post());
 				$tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
 				$tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
 				$propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -85,9 +85,9 @@ class Direktur extends CI_Controller
 	public function setuju()
 	{
 
-		$post = $this->input->post();
-		$this->load->library('form_validation');
 		$this->load->helper('security');
+		$post = $this->security->xss_clean($this->input->post());
+		$this->load->library('form_validation');
 		$id = $this->uri->segment(3);
 
 		$data = array(
@@ -103,7 +103,7 @@ class Direktur extends CI_Controller
 			echo '2';
 		}
 
-		
+
 
 
 		// var_dump($data);
@@ -118,10 +118,10 @@ class Direktur extends CI_Controller
 
 	public function tolak()
 	{
-
-		$post = $this->input->post();
-		$this->load->library('form_validation');
 		$this->load->helper('security');
+		$this->load->library('form_validation');
+		$post = $this->security->xss_clean($this->input->post());
+
 		$id = $this->uri->segment(3);
 
 		$data = array(
@@ -147,5 +147,4 @@ class Direktur extends CI_Controller
 
 		redirect('direktur');
 	}
-
 }
