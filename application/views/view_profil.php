@@ -667,7 +667,7 @@
                                 <form method="post" action="<?php echo base_url() . 'profil/update_pass' ?>">
                                   <div class="col-sm">
                                     <h6 style="text-align: left;">Password Lama</h6>
-                                    <input value="" class="form-control form-control-lg" id="Password" type="Password" name="oldpass" placeholder="Password lama" required>
+                                    <input value="" class="form-control form-control-lg" id="oldpass" type="Password" name="oldpass" placeholder="Password lama" required>
                                   </div>
                                   <br>
                                   <div class="col-sm">
@@ -677,7 +677,7 @@
                                   <br>
                                   <div class="col-sm">
                                     <h6 style="text-align: left;">Konfirmasi Password Baru</h6>
-                                    <input value="" class="form-control form-control-lg" id="Password" type="Password" name="confirmpass" placeholder="Konfirmasi Password" required>
+                                    <input value="" class="form-control form-control-lg" id="confirmpass" type="Password" name="confirmpass" placeholder="Konfirmasi Password" required>
                                   </div>
                                   <p style="font-size: 14px; color:#ff2d03;- margin-top: 1px;"><span style="color: red;">**</span> Password :Minimal 8 karakter, memiliki huruf besar, <br>huruf kecil, angka dan spesial karakter e.g,!@#$%^&()</p>
 
