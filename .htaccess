@@ -22,9 +22,9 @@ RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 </FilesMatch>
 
 # Izinkan akses ke file gambar, pdf dan format lainnya
-# <FilesMatch "\.(jpg|jpeg|png|gif|pdf)$">
-#     Allow from all
-# </FilesMatch>
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf)$">
+    Allow from all
+</FilesMatch>
 
 # Cegah akses langsung ke file .env dan file konfigurasi lainnya
 <Files .env>
