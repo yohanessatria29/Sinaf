@@ -62,8 +62,13 @@ class Kemenkes extends CI_Controller
 
                 // );
 
-                $data_pengajuan = $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id);
-                log_message('debug', 'Data Pengajuan: ' . print_r($data_pengajuan, true));  // Logging output untuk debug
+                $sql = $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id);
+
+                // Menampilkan query yang dijalankan
+                log_message('debug', 'Query: ' . $this->db->last_query());
+
+                // Jika ingin mencetak langsung ke halaman, gunakan:
+                echo $this->db->last_query();
 
                 // $this->load->view('user_kemenkes', $data);
             }
