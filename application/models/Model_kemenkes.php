@@ -134,106 +134,100 @@ class Model_kemenkes extends CI_Model
 		}
 
 		$sql = $this->db->query("SELECT
-				a.*,
-				b.status_usulan_id,
-				b.keterangan,
-				h.nama AS status_usulan,
-				c.nama AS jenis_fasyankes_nama,
-				d.nama AS jenis_survei,
-				e.nama AS jenis_akreditasi,
-				f.nama AS status_akreditasi,
-				g.nama AS lpa,
-				" . $data_select . "
-				i.penerimaan_pengajuan_usulan_survei_id,
-					i.url_surat_permohonan_survei,
-					i.url_profil_fasyankes,
-					i.url_laporan_hasil_penilaian_mandiri,
-					i.url_pps_reakreditasi,
-					i.url_surat_usulan_dinas,
-					i.update_dfo,
-					i.update_aspak,
-					i.update_sisdmk,
-					i.update_inm,
-					i.update_ikp,
-					i.id AS berkas_usulan_survei_id,
-					j.id AS kelengkapan_berkas_id,
-					j.kelengkapan_berkas_usulan,
-					j.kelengkapan_berkas_usulan_catatan,
-					j.kelengkapan_dfo,
-					j.kelengkapan_dfo_catatan,
-					j.kelengkapan_sarpras_alkes,
-					j.kelengkapan_sarpras_alkes_catatan,
-					j.kelengkapan_nakes,
-					j.kelengkapan_nakes_catatan,
-					j.kelengkapan_laporan_inm,
-					j.kelengkapan_laporan_inm_catatan,
-					j.kelengkapan_laporan_ikp,
-					j.kelengkapan_laporan_ikp_catatan,
-					k.kelengkapan_berkas_id as kelengkapan_berkas_id_2,
-					k.id as penetapan_tanggal_survei_id,
-					k.url_dokumen_kontrak,
-					k.url_surat_tugas,
-					k.tanggal_survei,
-					k.metode_survei_id,
-					k.url_dokumen_pendukung_ep,
-					k.surveior_satu,
-					k.status_surveior_satu,
-					k.surveior_dua,
-					k.status_surveior_dua,
-					l.id AS trans_final_ep_surveior_id,
-					l.final AS status_final_ep,
-					m.id AS pengiriman_laporan_survei_id,
-					m.tanggal_survei_satu,
-					m.tanggal_survei_dua,
-					m.tanggal_survei_tiga,
-					m.url_bukti_satu,
-					m.url_bukti_dua,
-					m.url_bukti_tiga,
-					n.id AS penetapan_verifikator_id,
-					n.users_id AS users_verifikator,
-					o.id AS trans_final_ep_verifikator_id,
-					o.final AS status_final_ep_verifikator,
-                    p.id AS pengiriman_rekomendasi_id,
-                    p.url_surat_rekomendasi_status,
-					q.id AS penerbitan_sertifikat_id,
-					q.nomor_sertifikat,
-					q.tanggal_penetapan,
-					q.tanggal_berakhir_berlaku,
-					q.url_dokumen_sertifikat,
-					q.created_at AS tanggal_penerbitan_sertifikat
-			FROM
-				pengajuan_usulan_survei a
-				LEFT OUTER JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
-				LEFT OUTER JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
-				LEFT OUTER JOIN jenis_survei d ON a.jenis_survei_id = d.id
-				LEFT OUTER JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
-				LEFT OUTER JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
-				LEFT OUTER JOIN lpa g ON a.lpa_id = g.id
-				" . $data_join . "
-				LEFT OUTER JOIN status_usulan h ON b.status_usulan_id = h.id 
-				LEFT OUTER JOIN berkas_usulan_survei i on i.penerimaan_pengajuan_usulan_survei_id = b.id
-				LEFT OUTER JOIN kelengkapan_berkas j on j.berkas_usulan_survei_id = i.id
-				LEFT OUTER JOIN penetapan_tanggal_survei k on k.kelengkapan_berkas_id = j.id
-				LEFT OUTER JOIN trans_final_ep_surveior l on l.penetapan_tanggal_survei_id = k.id
-				LEFT OUTER JOIN pengiriman_laporan_survei m on m.penetapan_tanggal_survei_id = k.id
-				LEFT OUTER JOIN penetapan_verifikator n on n.pengiriman_laporan_survei_id = m.id
-				LEFT OUTER JOIN trans_final_ep_verifikator o on o.penetapan_verifikator_id = n.id
-                INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
-				LEFT OUTER JOIN penerbitan_sertifikat q ON q.pengiriman_rekomendasi_id = p.id
+			a.*,
+			b.status_usulan_id,
+			b.keterangan,
+			h.nama AS status_usulan,
+			c.nama AS jenis_fasyankes_nama,
+			d.nama AS jenis_survei,
+			e.nama AS jenis_akreditasi,
+			f.nama AS status_akreditasi,
+			g.nama AS lpa,
+			" . $data_select . "
+			i.penerimaan_pengajuan_usulan_survei_id,
+			i.url_surat_permohonan_survei,
+			i.url_profil_fasyankes,
+			i.url_laporan_hasil_penilaian_mandiri,
+			i.url_pps_reakreditasi,
+			i.url_surat_usulan_dinas,
+			i.update_dfo,
+			i.update_aspak,
+			i.update_sisdmk,
+			i.update_inm,
+			i.update_ikp,
+			i.id AS berkas_usulan_survei_id,
+			j.id AS kelengkapan_berkas_id,
+			j.kelengkapan_berkas_usulan,
+			j.kelengkapan_berkas_usulan_catatan,
+			j.kelengkapan_dfo,
+			j.kelengkapan_dfo_catatan,
+			j.kelengkapan_sarpras_alkes,
+			j.kelengkapan_sarpras_alkes_catatan,
+			j.kelengkapan_nakes,
+			j.kelengkapan_nakes_catatan,
+			j.kelengkapan_laporan_inm,
+			j.kelengkapan_laporan_inm_catatan,
+			j.kelengkapan_laporan_ikp,
+			j.kelengkapan_laporan_ikp_catatan,
+			k.kelengkapan_berkas_id as kelengkapan_berkas_id_2,
+			k.id as penetapan_tanggal_survei_id,
+			k.url_dokumen_kontrak,
+			k.url_surat_tugas,
+			k.tanggal_survei,
+			k.metode_survei_id,
+			k.url_dokumen_pendukung_ep,
+			k.surveior_satu,
+			k.status_surveior_satu,
+			k.surveior_dua,
+			k.status_surveior_dua,
+			l.id AS trans_final_ep_surveior_id,
+			l.final AS status_final_ep,
+			m.id AS pengiriman_laporan_survei_id,
+			m.tanggal_survei_satu,
+			m.tanggal_survei_dua,
+			m.tanggal_survei_tiga,
+			m.url_bukti_satu,
+			m.url_bukti_dua,
+			m.url_bukti_tiga,
+			n.id AS penetapan_verifikator_id,
+			n.users_id AS users_verifikator,
+			o.id AS trans_final_ep_verifikator_id,
+			o.final AS status_final_ep_verifikator,
+			p.id AS pengiriman_rekomendasi_id,
+			p.url_surat_rekomendasi_status,
+			q.id AS penerbitan_sertifikat_id,
+			q.nomor_sertifikat,
+			q.tanggal_penetapan,
+			q.tanggal_berakhir_berlaku,
+			q.url_dokumen_sertifikat,
+			q.created_at AS tanggal_penerbitan_sertifikat
+		FROM
+			pengajuan_usulan_survei a
+			LEFT OUTER JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
+			LEFT OUTER JOIN jenis_fasyankes c ON a.jenis_fasyankes = c.id
+			LEFT OUTER JOIN jenis_survei d ON a.jenis_survei_id = d.id
+			LEFT OUTER JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
+			LEFT OUTER JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
+			LEFT OUTER JOIN lpa g ON a.lpa_id = g.id
+			" . $data_join . "
+			LEFT OUTER JOIN status_usulan h ON b.status_usulan_id = h.id 
+			LEFT OUTER JOIN berkas_usulan_survei i on i.penerimaan_pengajuan_usulan_survei_id = b.id
+			LEFT OUTER JOIN kelengkapan_berkas j on j.berkas_usulan_survei_id = i.id
+			LEFT OUTER JOIN penetapan_tanggal_survei k on k.kelengkapan_berkas_id = j.id
+			LEFT OUTER JOIN trans_final_ep_surveior l on l.penetapan_tanggal_survei_id = k.id
+			LEFT OUTER JOIN pengiriman_laporan_survei m on m.penetapan_tanggal_survei_id = k.id
+			LEFT OUTER JOIN penetapan_verifikator n on n.pengiriman_laporan_survei_id = m.id
+			LEFT OUTER JOIN trans_final_ep_verifikator o on o.penetapan_verifikator_id = n.id
+			INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
+			LEFT OUTER JOIN penerbitan_sertifikat q ON q.pengiriman_rekomendasi_id = p.id
 
-			WHERE 1=1 " . $raw_user_id . " 
-			ORDER BY
-			a.created_at DESC");
+		WHERE 1=1 " . $raw_user_id . " 
+		ORDER BY
+		a.created_at DESC");
 
+		// Mengembalikan hasil query dalam bentuk array
+		return $sql->result_array();  // <--- Perubahan disini
 
-		// return $sql->result_array();
-		$query = $this->db->query($sql);
-		// if (!$query) {
-		// 	log_message('error', 'DB ERROR: ' . $this->db->last_query());
-		// 	log_message('error', 'DB ERROR MESSAGE: ' . $this->db->_error_message()); // < CI 3.1.0
-		// }
-		// return $query->result_array();
-		return $sql;
 	}
 
 	function select_surveior_search($lpa_id, $propinsi, $kota, $keaktifan)
