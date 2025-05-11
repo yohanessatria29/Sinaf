@@ -7,7 +7,7 @@ class Model_kemenkes extends CI_Model
 		parent::__construct();
 	}
 
-    function select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id)
+	function select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id)
 	{
 		if (!empty($lpa_id)) {
 			$lpa_id = " AND a.lpa_id='" . $lpa_id . "'";
@@ -44,7 +44,6 @@ class Model_kemenkes extends CI_Model
 		if (!empty($jenis_fasyankes)) {
 			$jenis_fasyankes2 = " AND a.jenis_fasyankes='" . $jenis_fasyankes . "'";
 		} else {
-			//$jenis_fasyankes2 = " AND a.jenis_fasyankes='99'";
 			$jenis_fasyankes2 = "";
 		}
 
@@ -58,12 +57,10 @@ class Model_kemenkes extends CI_Model
 			$status_verifikasi_id = " AND q.id IS NULL";
 		}
 
-		// $raw_user_id=" and a.jenis_fasyankes='".$jenis_fasyankes."' and dbfaskes.propinsi.id_prop='".$propinsi."' and dbfaskes.kota.id_kota='".$kota."' ";
-		//    $raw_user_id= $propinsi.$kota.$jenis_fasyankes;
 		$raw_user_id = $jenis_fasyankes2 . $lpa_id . $tanggal_awal . $propinsi2 . $kota . $status_verifikasi_id;
 
-		if($jenis_fasyankes==1 || $jenis_fasyankes==null){
-			$data_select ="trans_final.kode_faskes AS kode_faskes,
+		if ($jenis_fasyankes == 1 || $jenis_fasyankes == null) {
+			$data_select = "trans_final.kode_faskes AS kode_faskes,
 			trans_final.id_faskes AS id_faskes,
 			trans_final.kode_faskes AS kode_faskes,
 			trans_final.id_faskes AS id_faskes,
@@ -75,21 +72,19 @@ class Model_kemenkes extends CI_Model
 			kota.id_kota AS id_kota,
 			kota.nama_kota AS nama_kota,";
 
-			$data_join ="LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
+			$data_join = "LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
 			LEFT OUTER JOIN dbfaskes.data_pm ON dbfaskes.trans_final.id_faskes = dbfaskes.data_pm.id_faskes
 			LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_pm.id_prov_pm = dbfaskes.propinsi.id_prop
 			LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_pm.id_kota_pm = dbfaskes.kota.id_kota";
-
-		}else if($jenis_fasyankes==2) {
-			$data_select ="daftar_puskesmas.nama AS nama_fasyankes,
+		} else if ($jenis_fasyankes == 2) {
+			$data_select = "daftar_puskesmas.nama AS nama_fasyankes,
 			daftar_puskesmas.PROV_DAGRI AS provinsi_id,
 			daftar_puskesmas.PROVINSI AS nama_prop,
 			daftar_puskesmas.kode_kabupaten AS kabkota_id,
 			daftar_puskesmas.KABKOTA AS nama_kota,";
-			$data_join ="LEFT OUTER JOIN dbfaskes.daftar_puskesmas ON a.fasyankes_id = daftar_puskesmas.kode_satker";
-			
-		}else if($jenis_fasyankes==3) {
-			$data_select ="trans_final.kode_faskes AS kode_faskes, 
+			$data_join = "LEFT OUTER JOIN dbfaskes.daftar_puskesmas ON a.fasyankes_id = daftar_puskesmas.kode_satker";
+		} else if ($jenis_fasyankes == 3) {
+			$data_select = "trans_final.kode_faskes AS kode_faskes, 
 			trans_final.id_faskes AS id_faskes, 
 			trans_final.kode_faskes AS kode_faskes, 
 			trans_final.id_faskes AS id_faskes,
@@ -100,12 +95,12 @@ class Model_kemenkes extends CI_Model
 			data_klinik.id_kota as kabkota_id,
 			kota.id_kota as id_kota, 
 			kota.nama_kota AS nama_kota,";
-			$data_join ="LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
+			$data_join = "LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
 			LEFT OUTER JOIN dbfaskes.data_klinik ON dbfaskes.trans_final.id_faskes = dbfaskes.data_klinik.id_faskes
 			LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_klinik.id_prov = dbfaskes.propinsi.id_prop
 			LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_klinik.id_kota = dbfaskes.kota.id_kota";
-		}else if($jenis_fasyankes==6) {
-			$data_select ="trans_final.kode_faskes AS kode_faskes,
+		} else if ($jenis_fasyankes == 6) {
+			$data_select = "trans_final.kode_faskes AS kode_faskes,
 			trans_final.id_faskes AS id_faskes,
 			trans_final.kode_faskes AS kode_faskes,
 			trans_final.id_faskes AS id_faskes,
@@ -116,11 +111,11 @@ class Model_kemenkes extends CI_Model
 			data_utd.id_kota AS kabkota_id,
 			kota.id_kota AS id_kota,
 			kota.nama_kota AS nama_kota,";
-			$data_join ="LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
+			$data_join = "LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
 			LEFT OUTER JOIN dbfaskes.data_utd ON dbfaskes.trans_final.id_faskes = dbfaskes.data_utd.id_faskes
 			LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_utd.id_prov = dbfaskes.propinsi.id_prop
 			LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_utd.id_kota = dbfaskes.kota.id_kota";
-		}else if($jenis_fasyankes==7) {
+		} else if ($jenis_fasyankes == 7) {
 			$data_select = "trans_final.kode_faskes AS kode_faskes,
 			trans_final.id_faskes AS id_faskes,
 			trans_final.kode_faskes AS kode_faskes,
@@ -132,11 +127,10 @@ class Model_kemenkes extends CI_Model
 			data_labkes.id_kota AS kabkota_id,
 			kota.id_kota AS id_kota,
 			kota.nama_kota AS nama_kota,";
-			$data_join ="LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
+			$data_join = "LEFT OUTER JOIN dbfaskes.trans_final ON a.fasyankes_id = dbfaskes.trans_final.kode_faskes
 			LEFT OUTER JOIN dbfaskes.data_labkes ON dbfaskes.trans_final.id_faskes = dbfaskes.data_labkes.id_faskes
 			LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_labkes.id_prov = dbfaskes.propinsi.id_prop
 			LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_labkes.id_kota = dbfaskes.kota.id_kota";
-
 		}
 
 		$sql = $this->db->query("SELECT
@@ -149,7 +143,7 @@ class Model_kemenkes extends CI_Model
 				e.nama AS jenis_akreditasi,
 				f.nama AS status_akreditasi,
 				g.nama AS lpa,
-				".$data_select."
+				" . $data_select . "
 				i.penerimaan_pengajuan_usulan_survei_id,
 					i.url_surat_permohonan_survei,
 					i.url_profil_fasyankes,
@@ -215,7 +209,7 @@ class Model_kemenkes extends CI_Model
 				LEFT OUTER JOIN jenis_akreditasi e ON a.jenis_akreditasi_id = e.id
 				LEFT OUTER JOIN status_akreditasi f ON a.status_akreditasi_id = f.id
 				LEFT OUTER JOIN lpa g ON a.lpa_id = g.id
-				".$data_join."
+				" . $data_join . "
 				LEFT OUTER JOIN status_usulan h ON b.status_usulan_id = h.id 
 				LEFT OUTER JOIN berkas_usulan_survei i on i.penerimaan_pengajuan_usulan_survei_id = b.id
 				LEFT OUTER JOIN kelengkapan_berkas j on j.berkas_usulan_survei_id = i.id
@@ -227,36 +221,42 @@ class Model_kemenkes extends CI_Model
                 INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
 				LEFT OUTER JOIN penerbitan_sertifikat q ON q.pengiriman_rekomendasi_id = p.id
 
-			WHERE 1=1 ".$raw_user_id." 
+			WHERE 1=1 " . $raw_user_id . " 
 			ORDER BY
 			a.created_at DESC");
 
 
-		return $sql->result_array();
+		// return $sql->result_array();
+		$query = $this->db->query($sql);
+		if (!$query) {
+			log_message('error', 'DB ERROR: ' . $this->db->last_query());
+			log_message('error', 'DB ERROR MESSAGE: ' . $this->db->_error_message()); // < CI 3.1.0
+		}
+		return $query->result_array();
 	}
 
 	function select_surveior_search($lpa_id, $propinsi, $kota, $keaktifan)
 	{
-		if (!empty($lpa_id)&& $lpa_id!= 9999) {
+		if (!empty($lpa_id) && $lpa_id != 9999) {
 			$lpa_id = " AND user_surveior.lpa_id='" . $lpa_id . "'";
 		} else {
 			$lpa_id = "";
 		}
 
 		if (!empty($propinsi) && $propinsi != 9999) {
-				$propinsi2 = " AND user_surveior.provinsi_id ='" . (int)$propinsi . "'";
+			$propinsi2 = " AND user_surveior.provinsi_id ='" . (int)$propinsi . "'";
 		} else {
 			$propinsi2 = "";
 		}
 
 		if (!empty($kota) && $kota != 9999) {
-				$kota = " AND user_surveior.kabkota_id='" . (int)$kota . "'";
+			$kota = " AND user_surveior.kabkota_id='" . (int)$kota . "'";
 		} else {
 			$kota = "";
 		}
 
 		if (!empty($keaktifan)) {
-				$keaktifan = " AND user_surveior.keaktifan='" . $keaktifan . "'";
+			$keaktifan = " AND user_surveior.keaktifan='" . $keaktifan . "'";
 		} else {
 			$keaktifan = "";
 		}
@@ -298,7 +298,7 @@ class Model_kemenkes extends CI_Model
 			INNER JOIN lpa ON user_surveior.lpa_id = lpa.id
 			INNER JOIN dbfaskes.propinsi ON user_surveior.provinsi_id = dbfaskes.propinsi.id_prop
 			INNER JOIN dbfaskes.kota ON user_surveior.kabkota_id = dbfaskes.kota.id_kota
-			WHERE 1=1 ".$raw_user_id." 
+			WHERE 1=1 " . $raw_user_id . " 
 		
 		GROUP BY user_surveior.id, dbfaskes.kota.id_kota, user_surveior.nama,			
 				user_surveior.nik,
@@ -316,8 +316,9 @@ class Model_kemenkes extends CI_Model
 		return $sql->result_array();
 	}
 
-	function get_data_ukom_surveior($lpa_id) {
-		if (!empty($lpa_id)&& $lpa_id!= 9999) {
+	function get_data_ukom_surveior($lpa_id)
+	{
+		if (!empty($lpa_id) && $lpa_id != 9999) {
 			$lpa_id = " AND a.lpa_id = '" . $lpa_id . "'";
 		} else {
 			$lpa_id = "";
@@ -338,5 +339,4 @@ class Model_kemenkes extends CI_Model
 		WHERE 1 =1 " . $lpa_id . " ");
 		return $sql->result_array();
 	}
-
 }

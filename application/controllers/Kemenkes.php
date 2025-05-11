@@ -50,7 +50,7 @@ class Kemenkes extends CI_Controller
                 $data = array(
                     'content' => 'user_kemenkes',
                     'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
-                    // 'data' => $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
+                    'data' => $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
                     'session_lpa' => $session_lpa,
                     'propinsi' => $propinsi,
                     'kota' => $kota,
@@ -62,7 +62,7 @@ class Kemenkes extends CI_Controller
 
                 );
 
-                print_r($data);
+                print_r($data['data']);
                 // $this->load->view('user_kemenkes', $data);
             }
         }
