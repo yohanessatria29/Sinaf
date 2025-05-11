@@ -64,11 +64,12 @@ class Kemenkes extends CI_Controller
 
                 $sql = $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id);
 
+                print_r($sql);
                 // Menampilkan query yang dijalankan
-                log_message('debug', 'Query: ' . $this->db->last_query());
+                // log_message('debug', 'Query: ' . $this->db->last_query());
 
                 // Jika ingin mencetak langsung ke halaman, gunakan:
-                echo $this->db->last_query();
+                // echo $this->db->last_query();
 
                 // $this->load->view('user_kemenkes', $data);
             }

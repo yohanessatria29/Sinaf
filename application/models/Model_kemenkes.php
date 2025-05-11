@@ -228,11 +228,12 @@ class Model_kemenkes extends CI_Model
 
 		// return $sql->result_array();
 		$query = $this->db->query($sql);
-		if (!$query) {
-			log_message('error', 'DB ERROR: ' . $this->db->last_query());
-			log_message('error', 'DB ERROR MESSAGE: ' . $this->db->_error_message()); // < CI 3.1.0
-		}
-		return $query->result_array();
+		// if (!$query) {
+		// 	log_message('error', 'DB ERROR: ' . $this->db->last_query());
+		// 	log_message('error', 'DB ERROR MESSAGE: ' . $this->db->_error_message()); // < CI 3.1.0
+		// }
+		// return $query->result_array();
+		return $sql;
 	}
 
 	function select_surveior_search($lpa_id, $propinsi, $kota, $keaktifan)
