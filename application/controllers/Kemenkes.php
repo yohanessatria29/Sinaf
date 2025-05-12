@@ -38,7 +38,10 @@ class Kemenkes extends CI_Controller
             $session_kriteria = $this->session->userdata('kriteria_id');
             if ($session_kriteria == 2) {
                 $session_lpa = $this->session->userdata('lpa_id');
-                $post = $this->security->xss_clean($this->input->post());
+
+
+
+                $post = $this->security->xss_clean($this->input->get());
                 $tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
                 $tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
                 $propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -48,7 +51,6 @@ class Kemenkes extends CI_Controller
                 $status_verifikasi_id = !empty($post['status_verifikasi_id']) ? $post['status_verifikasi_id'] : null;
 
                 $data = array(
-                    'content' => 'user_kemenkes',
                     'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
                     'data' => $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
                     'session_lpa' => $session_lpa,
@@ -61,17 +63,7 @@ class Kemenkes extends CI_Controller
                     'status_verifikasi_id' => $status_verifikasi_id
                 );
 
-                // error_reporting(E_ALL);
-                // ini_set('display_errors', 1);
-
-                // $sql = $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id);
-
-                // print_r($sql);
-                // Menampilkan query yang dijalankan
-                // log_message('debug', 'Query: ' . $this->db->last_query());
-
-                // Jika ingin mencetak langsung ke halaman, gunakan:
-                // echo $this->db->last_query();
+                // print_r($data['data']);
 
                 $this->load->view('user_kemenkes', $data);
             }

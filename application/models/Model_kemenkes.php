@@ -10,17 +10,17 @@ class Model_kemenkes extends CI_Model
 	function select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id)
 	{
 
-		if (
-			empty($lpa_id) &&
-			empty($tanggal_awal) &&
-			empty($tanggal_akhir) &&
-			(empty($propinsi) || $propinsi == 9999) &&
-			(empty($kota) || $kota == 9999) &&
-			empty($jenis_fasyankes) &&
-			empty($status_verifikasi_id)
-		) {
-			return [];
-		}
+		// if (
+		// 	empty($lpa_id) &&
+		// 	empty($tanggal_awal) &&
+		// 	empty($tanggal_akhir) &&
+		// 	(empty($propinsi) || $propinsi == 9999) &&
+		// 	(empty($kota) || $kota == 9999) &&
+		// 	empty($jenis_fasyankes) &&
+		// 	empty($status_verifikasi_id)
+		// ) {
+		// 	return [];
+		// }
 
 		if (!empty($lpa_id)) {
 			$lpa_id = " AND a.lpa_id='" . $lpa_id . "'";
@@ -236,8 +236,7 @@ class Model_kemenkes extends CI_Model
 
 		WHERE 1=1 " . $raw_user_id . " 
 		ORDER BY
-		a.created_at DESC
-		LIMIT 10");
+		a.created_at DESC");
 
 		// echo $this->db->last_query(); // Untuk print query mentahnya
 		// exit; // Supaya proses berhenti di sini (tidak lanjut ke controller)
