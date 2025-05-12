@@ -55,13 +55,14 @@ class Forgot_password extends CI_Controller
                 'mailtype' => 'html',
                 'charset' => 'iso-8859-1',
                 'protocol' => 'smtp',
-                // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
-                'smtp_host' => 'ssl://mail.kemkes.go.id',
+                'smtp_host' => 'mail.kemkes.go.id',  // Ganti dengan SMTP server yang benar (tanpa 'ssl://')
                 'smtp_user' => 'infoyankes@kemkes.go.id',
                 'smtp_pass' => 'n3nceY@D',
-                'smtp_port' => 465,
+                'smtp_port' => 465,  // Gunakan port 465 untuk SSL
+                'smtp_crypto' => 'ssl',  // Menambahkan SSL untuk koneksi aman
                 'smtp_timeout' => 60
             ];
+
             $this->load->library('email', $config);
             $this->email->initialize($config);
             $this->email->from('infoyankes@kemkes.go.id');
