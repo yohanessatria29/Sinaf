@@ -9,6 +9,19 @@ class Model_kemenkes extends CI_Model
 
 	function select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id)
 	{
+
+		if (
+			empty($lpa_id) &&
+			empty($tanggal_awal) &&
+			empty($tanggal_akhir) &&
+			(empty($propinsi) || $propinsi == 9999) &&
+			(empty($kota) || $kota == 9999) &&
+			empty($jenis_fasyankes) &&
+			empty($status_verifikasi_id)
+		) {
+			return [];
+		}
+
 		if (!empty($lpa_id)) {
 			$lpa_id = " AND a.lpa_id='" . $lpa_id . "'";
 		} else {
