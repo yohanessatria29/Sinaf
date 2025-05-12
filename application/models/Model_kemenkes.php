@@ -211,7 +211,7 @@ class Model_kemenkes extends CI_Model
 				g.nama AS lpa,
 				" . $data_select . "
 				q.id AS penerbitan_sertifikat_id,
-				q.created_at AS tanggal_penerbitan_sertifikat,
+				q.created_at AS tanggal_penerbitan_sertifikat
 			FROM
 				pengajuan_usulan_survei a
 				LEFT OUTER JOIN penerimaan_pengajuan_usulan_survei b ON a.id = b.pengajuan_usulan_survei_id
