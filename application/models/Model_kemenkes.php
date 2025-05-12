@@ -15,11 +15,12 @@ class Model_kemenkes extends CI_Model
 		) {
 			return [];
 		} else {
-			if (!empty($lpa_id)) {
+			if ($lpa_id !== '9999') {
 				$lpa_id = " AND a.lpa_id='" . $lpa_id . "'";
 			} else {
 				$lpa_id = "";
 			}
+
 
 			if (!empty($tanggal_awal) && !empty($tanggal_akhir)) {
 				$tanggal_awal = " AND (a.tanggal_awal_rencana_survei <='" . $tanggal_akhir . "' AND a.tanggal_akhir_rencana_survei >= '" . $tanggal_awal . "' )";
