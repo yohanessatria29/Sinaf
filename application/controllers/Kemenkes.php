@@ -42,6 +42,13 @@ class Kemenkes extends CI_Controller
 
 
                 $post = $this->security->xss_clean($this->input->get());
+
+                if (empty($post)) {
+                    $find = 0;
+                } else {
+                    $find = 1;
+                }
+
                 $tanggal_awal = !empty($post['tanggal_awal']) ? $post['tanggal_awal'] : null;
                 $tanggal_akhir = !empty($post['tanggal_akhir']) ? $post['tanggal_akhir'] : null;
                 $propinsi = !empty($post['propinsi']) ? $post['propinsi'] : null;
@@ -51,8 +58,8 @@ class Kemenkes extends CI_Controller
                 $status_verifikasi_id = !empty($post['status_verifikasi_id']) ? $post['status_verifikasi_id'] : null;
 
                 $data = array(
-                    'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
-                    'data' => $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
+                    // 'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
+                    'data' => $this->Model_kemenkes->select_pengajuan_search($find, $lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
                     'session_lpa' => $session_lpa,
                     'propinsi' => $propinsi,
                     'kota' => $kota,
