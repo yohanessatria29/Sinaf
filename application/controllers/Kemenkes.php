@@ -47,34 +47,33 @@ class Kemenkes extends CI_Controller
                 $lpa_id = !empty($post['lpa_id']) ? $post['lpa_id'] : null;
                 $status_verifikasi_id = !empty($post['status_verifikasi_id']) ? $post['status_verifikasi_id'] : null;
 
-                // $data = array(
-                //     'content' => 'user_kemenkes',
-                //     'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
-                //     'data' => $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
-                //     'session_lpa' => $session_lpa,
-                //     'propinsi' => $propinsi,
-                //     'kota' => $kota,
-                //     'jenis_fasyankes' => $jenis_fasyankes,
-                //     'tanggal_awal' => $tanggal_awal,
-                //     'tanggal_akhir' => $tanggal_akhir,
-                //     'lpa_id' => $lpa_id,
-                //     'status_verifikasi_id' => $status_verifikasi_id
+                $data = array(
+                    'content' => 'user_kemenkes',
+                    'datab' => $this->Model_viewdata->get_data_pengajuan(1)->result_array(),
+                    'data' => $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id),
+                    'session_lpa' => $session_lpa,
+                    'propinsi' => $propinsi,
+                    'kota' => $kota,
+                    'jenis_fasyankes' => $jenis_fasyankes,
+                    'tanggal_awal' => $tanggal_awal,
+                    'tanggal_akhir' => $tanggal_akhir,
+                    'lpa_id' => $lpa_id,
+                    'status_verifikasi_id' => $status_verifikasi_id
+                );
 
-                // );
+                // error_reporting(E_ALL);
+                // ini_set('display_errors', 1);
 
-                error_reporting(E_ALL);
-                ini_set('display_errors', 1);
+                // $sql = $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id);
 
-                $sql = $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id);
-
-                print_r($sql);
+                // print_r($sql);
                 // Menampilkan query yang dijalankan
                 // log_message('debug', 'Query: ' . $this->db->last_query());
 
                 // Jika ingin mencetak langsung ke halaman, gunakan:
                 // echo $this->db->last_query();
 
-                // $this->load->view('user_kemenkes', $data);
+                $this->load->view('user_kemenkes', $data);
             }
         }
     }

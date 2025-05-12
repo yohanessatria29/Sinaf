@@ -223,7 +223,8 @@ class Model_kemenkes extends CI_Model
 
 		WHERE 1=1 " . $raw_user_id . " 
 		ORDER BY
-		a.created_at DESC");
+		a.created_at DESC
+		LIMIT 10");
 
 		// echo $this->db->last_query(); // Untuk print query mentahnya
 		// exit; // Supaya proses berhenti di sini (tidak lanjut ke controller)
