@@ -16,8 +16,11 @@
 
 
     <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/jquery-ui.css">
+    <script src="<?php echo base_url('assets/temp'); ?>/jquery-3.6.0.js"></script>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script> -->
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -153,7 +156,7 @@
                                                                 if ($data['status'] == 6) {
                                                                     echo '<span class="badge bg-warning">Belum Ditugaskan</span>';
                                                                 } else {
-                                                                    echo '<span class="badge bg-'.$data['badge_color'].'">'.$data['nama'].'</span>';
+                                                                    echo '<span class="badge bg-' . $data['badge_color'] . '">' . $data['nama'] . '</span>';
                                                                 }
 
                                                                 // echo $data['nama'];
@@ -164,7 +167,7 @@
                                                                 if ($data['status'] == 0) {
                                                                     // var_dump($data);
                                                                 ?>
-                                                                    
+
                                                                     <a href="<?php echo base_url('Surveior/delete_date/' . $data['id_jadwal']) ?>" class="btn btn-danger" title="Delete Tanggal"><i class="fas fa-trash"></i></a>
                                                                 <?php
                                                                 } else if ($data['status'] == 6) {

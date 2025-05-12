@@ -15,8 +15,8 @@
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/favicon.png'); ?>" type="image/png">
 
     <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/jquery-ui.css">
-    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/css/jquery.dataTables.min.css">
     <script src="<?php echo base_url('assets/temp'); ?>/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/css/jquery.dataTables.min.css">
 
 </head>
 
