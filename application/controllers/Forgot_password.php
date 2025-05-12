@@ -14,17 +14,7 @@ class Forgot_password extends CI_Controller
 
     public function index()
     {
-        // $this->session->unset_userdata('id_user');
-        // $this->session->unset_userdata('id_verifikator');
-        // $this->session->unset_userdata('namalengkap');
-        // $this->session->unset_userdata('group_pengguna');
-        // $this->session->unset_userdata('kode_rs');
-        // $this->session->unset_userdata('kab_kota_id');
-        // $this->session->unset_userdata('propinsi_id');
-        // $this->session->unset_userdata('logged_in');
-        // $this->load->view('templates/header');
         $this->load->view('lupa_password');
-        // $this->load->view('templates/footer');
     }
 
     public function send_mail()
@@ -80,12 +70,15 @@ class Forgot_password extends CI_Controller
             $this->email->message($message);
             $this->email->set_newline("\r\n");
             $send = $this->email->send();
+            $send = $this->email->send();
             if ($send) {
                 $this->session->set_flashdata('success', 'Email Berhasil Di Kirim.');
                 redirect(base_url('Forgot_password'));
             } else {
+                // Debugging output
+                echo $this->email->print_debugger();
                 $this->session->set_flashdata('warning', 'Gagal Mengirim Email.');
-                redirect(base_url('Forgot_password'));
+                // redirect(base_url('Forgot_password'));
             }
         } else {
             $this->session->set_flashdata('warning', 'Email Tidak Terdaftar.');

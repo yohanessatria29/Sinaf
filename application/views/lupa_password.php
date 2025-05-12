@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'">
 
     <title>Lupa Password - SINAF</title>
     <link rel="stylesheet" href="assets/css/main/app.css">
@@ -19,9 +19,6 @@
         <div class="row h-100">
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
-                    <!-- <div class="auth-logo">
-                <a href="index.html"><img src="assets/images/logo/logo.svg" alt="Logo"></a>
-            </div> -->
                     <div class="row">
                         <div class="col-md-12">
                             <?php if ($this->session->flashdata('success') != '') : ?>
@@ -54,7 +51,6 @@
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Ubah Password</button>
                             </div>
-                            <!-- /.col -->
                         </div>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
