@@ -94,7 +94,7 @@ class Model_kemenkes extends CI_Model
 			puskesmas_pusdatin.provinsi_code AS provinsi_id,
 			puskesmas_pusdatin.provinsi_nama AS nama_prop,
 			puskesmas_pusdatin.kabkot_code AS kabkota_id,
-			puskesmas_pusdatin.kabkota_nama AS nama_kota,";
+			puskesmas_pusdatin.kabkot_nama AS nama_kota,";
 			$data_join = "LEFT OUTER JOIN dbfaskes.puskesmas_pusdatin ON a.fasyankes_id = puskesmas_pusdatin.kode_sarana";
 		} else if ($jenis_fasyankes == 3) {
 			$data_select = "trans_final.kode_faskes AS kode_faskes, 
