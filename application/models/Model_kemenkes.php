@@ -85,7 +85,7 @@ class Model_kemenkes extends CI_Model
 				LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_pm.id_kota_pm = dbfaskes.kota.id_kota";
 			} else if ($jenis_fasyankes == 2) {
 				$data_select = "puskesmas_pusdatin.name AS nama_fasyankes,
-				puskesmas_pusadatin.kode_sarana AS kode_faskes,
+				puskesmas_pusdatin.kode_sarana AS kode_faskes,
 				puskesmas_pusdatin.provinsi_code AS provinsi_id,
 				puskesmas_pusdatin.provinsi_nama AS nama_prop,
 				puskesmas_pusdatin.kabkot_code AS kabkota_id,
