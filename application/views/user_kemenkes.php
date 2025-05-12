@@ -14,6 +14,11 @@
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/favicon.svg'); ?>" type="image/x-icon">
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/favicon.png'); ?>" type="image/png">
 
+
+    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/jquery-ui.css">
+    <script src="<?php echo base_url('assets/temp'); ?>/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/css/jquery.dataTables.min.css">
+
 </head>
 
 <body>
@@ -43,12 +48,6 @@
                                         <div class="form-group row align-items-center">
                                             <?php echo form_open_multipart('Kemenkes') ?>
                                             <form role="form" method="post" class="login-form" name="form_valdation">
-                                                <!-- <div class="col-lg-2 col-3">
-                                        <label class="col-form-label">Tanggal</label>
-                                    </div>
-                                    <div class="col-lg-10 col-6">
-                                        <input type="date" id="date_start" class="form-control" name="date_start" placeholder="Date Start">
-                                    </div> -->
                                                 <div class="row">
                                                     <div class="col-lg-2 col-4">
                                                         <label class="col-form-label">Tanggal</label>
@@ -85,8 +84,6 @@
                                             <div class="col-lg-10 col-9">
 
                                                 <?= form_dropdown('jenis_fasyankes', dropdown_sina_jenis_fasyankes(), $jenis_fasyankes, 'id="jenis_fasyankes"  class="form-select" '); ?>
-                                                <?php //var_dump($data);
-                                                ?>
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -96,8 +93,6 @@
                                             <div class="col-lg-10 col-9">
 
                                                 <?= form_dropdown('lpa_id', dropdown_sina_lpa(), $lpa_id, 'id="lpa_id"  class="form-select"'); ?>
-                                                <?php //var_dump($data);
-                                                ?>
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -107,8 +102,6 @@
                                             <div class="col-lg-10 col-9">
 
                                                 <?= form_dropdown('status_verifikasi_id', array(1 => 'Belum Verifikasi', 2 => 'Sudah Verifikasi'), $status_verifikasi_id, 'id="status_verifikasi_id"  class="form-select"'); ?>
-                                                <?php //var_dump($data);
-                                                ?>
                                             </div>
                                         </div>
                                         <div class="buttons">
@@ -186,7 +179,8 @@
                                                             <td><?= $data['nama_kota']; ?></td>
                                                             <td><?= $date_formated; ?></td>
 
-                                                            <!-- <td><?= $status_admin_lpa; ?></td> -->
+                                                            <!-- <td><? //= $status_admin_lpa; 
+                                                                        ?></td> -->
                                                             <td>
                                                                 <?php
                                                                 if (is_null($data['penerbitan_sertifikat_id']) == 1) {
@@ -260,11 +254,44 @@
     </div>
     </div>
     </div>
-    <script src="assets/js/pages/dashboard.js"></script>
 
-    <script src="assets/js/pages/horizontal-layout.js"></script>
     <script src="<?php echo base_url() ?>assets/js/app.js">
+    </script>
 
+    <script>
+        $('[name="propinsi"]').change(function() {
+            $("#kota_id").removeAttr('readonly'); //turns required off
+            $('#kota_id').val('');
+
+            $.ajax({
+                url: "<?= base_url('pengajuan/dropdown5/') ?>" + $(this).val(),
+                dataType: "json",
+                type: "GET",
+                success: function(data) { //
+                    addOption($('[name="kota"]'), data, 'id_kota', 'nama_kota');
+                }
+            });
+        });
+
+        function addOption(ele, data, key, val) { //alert(data.length);
+            $('option', ele).remove();
+
+            ele.append(new Option('', 9999));
+            $(data).each(function(index) { //alert(eval('data[index].' + nama));
+                ele.append(new Option(eval('data[index].' + val), eval('data[index].' + key)));
+
+            });
+        }
+
+        $('#tanggal_awal').change(function() {
+            $("#tanggal_akhir").removeAttr('readonly'); //turns required off
+            $("#tanggal_akhir").attr('required', ''); //turns required on
+            var tanggal_min = $('#tanggal_awal').val();
+            $('#tanggal_akhir').val("");
+            document.getElementById("tanggal_akhir").setAttribute("min", tanggal_min);
+
+
+        });
     </script>
 
 </body>
