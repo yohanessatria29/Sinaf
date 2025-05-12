@@ -70,9 +70,9 @@ class Kemenkes extends CI_Controller
                     'status_verifikasi_id' => $status_verifikasi_id
                 );
 
-                print_r($data['data']);
+                // print_r($data['data']);
 
-                // $this->load->view('user_kemenkes', $data);
+                $this->load->view('user_kemenkes', $data);
             }
         }
     }
