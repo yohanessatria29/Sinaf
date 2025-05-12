@@ -14,13 +14,8 @@
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/fontawesome/css/fontawesome.min.css">
 
 
-
-    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/jquery-ui.css">
-    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/jquery-ui.css">
-    <script src="<?php echo base_url('assets/temp'); ?>/jquery-3.6.0.js"></script>
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -97,16 +92,7 @@
 
                                             <table class="table" id="tabletanggal">
                                                 <tbody>
-                                                    <!-- <tr>
-                                                        <td style="width: 100px;">
-                                                            Tanggal :
-                                                        </td>
-                                                        <td>
-                                                            <input type="date" name="tanggalkesiapan[]" size="10" value="<?php //echo date('Y-m-d'); 
-                                                                                                                            ?>" min="<?php //echo date('Y-m-d'); 
-                                                                                                                                        ?>" />
-                                                        </td>
-                                                    </tr> -->
+
                                                 </tbody>
                                             </table>
                                             <button class="btn btn-primary" type="button" id="adddates"><i class="far fa-calendar-plus"></i>Tambah Tanggal</button>
@@ -144,13 +130,6 @@
                                                             <td><?= $data['jadwal_kesiapan'] ?></td>
                                                             <td>
                                                                 <?php
-                                                                // if ($data['status'] == 0) {
-                                                                //     echo '<span class="badge bg-success">Belum di Tugaskan</span>';
-                                                                // } else if ($data['status'] == 1) {
-                                                                //     echo '<span class="badge bg-warning">Telah di Tugaskan</span>';
-                                                                // } else if ($data['status'] == 2) {
-                                                                //     echo '<span class="badge bg-warning">Ditugaskan</span>';
-                                                                // }
                                                                 $nama = $data['nama'];
                                                                 $badge_color = $data['badge_color'];
                                                                 if ($data['status'] == 6) {
@@ -158,14 +137,11 @@
                                                                 } else {
                                                                     echo '<span class="badge bg-' . $data['badge_color'] . '">' . $data['nama'] . '</span>';
                                                                 }
-
-                                                                // echo $data['nama'];
                                                                 ?>
                                                             </td>
                                                             <td>
                                                                 <?php
                                                                 if ($data['status'] == 0) {
-                                                                    // var_dump($data);
                                                                 ?>
 
                                                                     <a href="<?php echo base_url('Surveior/delete_date/' . $data['id_jadwal']) ?>" class="btn btn-danger" title="Delete Tanggal"><i class="fas fa-trash"></i></a>
@@ -208,8 +184,7 @@
 
         $("#adddates").click(function() {
             $("#tabletanggal").append(
-                '<tr><td style="width: 100px;">Tanggal :</td><td style="width: 200px;"><input class="form-control" required type="date" name="tanggalkesiapan[]" size="10" value="<?php //echo date('Y-m-d'); 
-                                                                                                                                                                                    ?>" min="<?php echo date('Y-m-d'); ?>" /></td><td><button class="btn btn-danger" onclick="deleterow(this)"><i class="fas fa-times"></i></button></td></tr>');
+                '<tr><td style="width: 100px;">Tanggal :</td><td style="width: 200px;"><input class="form-control" required type="date" name="tanggalkesiapan[]" size="10" value="" min="<?php echo date('Y-m-d'); ?>" /></td><td><button class="btn btn-danger" onclick="deleterow(this)"><i class="fas fa-times"></i></button></td></tr>');
             myCounter++;
             $('#submit_tanggal').show();
         });
