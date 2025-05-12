@@ -225,9 +225,9 @@ class Model_kemenkes extends CI_Model
 		ORDER BY
 		a.created_at DESC");
 
-		// Mengembalikan hasil query dalam bentuk array
-		return $sql->result_array();  // <--- Perubahan disini
-
+		echo $this->db->last_query(); // Untuk print query mentahnya
+		exit; // Supaya proses berhenti di sini (tidak lanjut ke controller)
+		return $sql->result_array();
 	}
 
 	function select_surveior_search($lpa_id, $propinsi, $kota, $keaktifan)
