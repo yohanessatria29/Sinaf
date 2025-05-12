@@ -90,7 +90,7 @@ class Model_kemenkes extends CI_Model
 			LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_pm.id_prov_pm = dbfaskes.propinsi.id_prop
 			LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_pm.id_kota_pm = dbfaskes.kota.id_kota";
 		} else if ($jenis_fasyankes == 2) {
-			$data_select = "puskesmas_pusdatin.nama AS nama_fasyankes,
+			$data_select = "puskesmas_pusdatin.name AS nama_fasyankes,
 			puskesmas_pusdatin.PROV_DAGRI AS provinsi_id,
 			puskesmas_pusdatin.PROVINSI AS nama_prop,
 			puskesmas_pusdatin.kode_kabupaten AS kabkota_id,
