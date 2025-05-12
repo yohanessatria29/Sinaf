@@ -62,6 +62,9 @@ class Kemenkes extends CI_Controller
 
                 // );
 
+                error_reporting(E_ALL);
+                ini_set('display_errors', 1);
+
                 $sql = $this->Model_kemenkes->select_pengajuan_search($lpa_id, $tanggal_awal, $tanggal_akhir, $propinsi, $kota, $jenis_fasyankes, $status_verifikasi_id);
 
                 print_r($sql);
