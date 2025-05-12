@@ -36,7 +36,7 @@ class Model_kemenkes extends CI_Model
 
 		if (!empty($propinsi) && $propinsi != 9999) {
 			if ($jenis_fasyankes == 2) {
-				$propinsi2 = " AND i.PROV_DAGRI='" . (int)$propinsi . "'";
+				$propinsi2 = " AND puskesmas_pusdatin.provinsi_code='" . (int)$propinsi . "'";
 			} else {
 				$propinsi2 = " AND propinsi.id_prop='" . (int)$propinsi . "'";
 			}
@@ -46,7 +46,7 @@ class Model_kemenkes extends CI_Model
 
 		if (!empty($kota) && $kota != 9999) {
 			if ($jenis_fasyankes == 2) {
-				$kota = " AND i.kode_kabupaten='" . (int)$kota . "'";
+				$kota = " AND puskesmas_pusdatin.kabkot_code='" . (int)$kota . "'";
 			} else {
 				$kota = " AND kota.id_kota='" . (int)$kota . "'";
 			}
@@ -90,12 +90,12 @@ class Model_kemenkes extends CI_Model
 			LEFT OUTER JOIN dbfaskes.propinsi ON dbfaskes.data_pm.id_prov_pm = dbfaskes.propinsi.id_prop
 			LEFT OUTER JOIN dbfaskes.kota ON dbfaskes.data_pm.id_kota_pm = dbfaskes.kota.id_kota";
 		} else if ($jenis_fasyankes == 2) {
-			$data_select = "daftar_puskesmas.nama AS nama_fasyankes,
-			daftar_puskesmas.PROV_DAGRI AS provinsi_id,
-			daftar_puskesmas.PROVINSI AS nama_prop,
-			daftar_puskesmas.kode_kabupaten AS kabkota_id,
-			daftar_puskesmas.KABKOTA AS nama_kota,";
-			$data_join = "LEFT OUTER JOIN dbfaskes.daftar_puskesmas ON a.fasyankes_id = daftar_puskesmas.kode_satker";
+			$data_select = "puskesmas_pusdatin.nama AS nama_fasyankes,
+			puskesmas_pusdatin.PROV_DAGRI AS provinsi_id,
+			puskesmas_pusdatin.PROVINSI AS nama_prop,
+			puskesmas_pusdatin.kode_kabupaten AS kabkota_id,
+			puskesmas_pusdatin.KABKOTA AS nama_kota,";
+			$data_join = "LEFT OUTER JOIN dbfaskes.puskesmas_pusdatin ON a.fasyankes_id = puskesmas_pusdatin.kode_sarana";
 		} else if ($jenis_fasyankes == 3) {
 			$data_select = "trans_final.kode_faskes AS kode_faskes, 
 			trans_final.id_faskes AS id_faskes, 
