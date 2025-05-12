@@ -230,7 +230,7 @@ class Model_kemenkes extends CI_Model
 				LEFT OUTER JOIN penetapan_verifikator n on n.pengiriman_laporan_survei_id = m.id
 				LEFT OUTER JOIN trans_final_ep_verifikator o on o.penetapan_verifikator_id = n.id
 				INNER JOIN pengiriman_rekomendasi p ON p.trans_final_ep_verifikator_id = o.id
-				LEFT OUTER JOIN penerbitan_sertifikat q ON q.pengiriman_rekomendasi_id = p.id0
+				LEFT OUTER JOIN penerbitan_sertifikat q ON q.pengiriman_rekomendasi_id = p.id
 			WHERE 1=1 " . $raw_user_id . " 
 			ORDER BY
 			a.created_at DESC");
