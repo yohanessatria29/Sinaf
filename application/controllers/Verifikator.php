@@ -160,6 +160,11 @@ class Verifikator extends CI_Controller
 
 			$data_select_pengajuan = $this->Model_sina->select_pengajuan($id);
 
+			print_r($data_pengajuan);
+			echo 'dataselect';
+			print_r($data_select_pengajuan);
+
+
 			if ($data_pengajuan[0]['jenis_survei_id'] == 2) {
 				$data_select_pengajuan_lama = $this->Model_sina->select_pengajuan($data_pengajuan[0]['pengajuan_usulan_survei_id_lama']);
 				$trans = $this->Model_sina->select_trans_ep($data_select_pengajuan_lama[0]['penetapan_tanggal_survei_id']);
@@ -185,6 +190,9 @@ class Verifikator extends CI_Controller
 				}
 			}
 
+			echo 'trans';
+			print_r($trans);
+			echo 'transcheck';
 			print_r($trans_check);
 
 			// $trans2 = $this->Model_sina->select_trans_ep($data_select_pengajuan[0]['penetapan_tanggal_survei_id']);
