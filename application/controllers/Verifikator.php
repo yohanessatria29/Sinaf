@@ -152,18 +152,13 @@ class Verifikator extends CI_Controller
 			if (!empty($post['bab'])) {
 				$bab = $post['bab'];
 			} else {
-				$bab = null;
+				$bab = 2;
 			}
 			$id = $this->uri->segment(3);
 
 			$data_pengajuan = $this->Model_sina->select_pengajuan($id);
 
 			$data_select_pengajuan = $this->Model_sina->select_pengajuan($id);
-
-			print_r($data_pengajuan);
-			echo 'dataselect';
-			print_r($data_select_pengajuan);
-
 
 			if ($data_pengajuan[0]['jenis_survei_id'] == 2) {
 				$data_select_pengajuan_lama = $this->Model_sina->select_pengajuan($data_pengajuan[0]['pengajuan_usulan_survei_id_lama']);
@@ -192,6 +187,7 @@ class Verifikator extends CI_Controller
 
 			echo 'trans';
 			print_r($trans);
+
 			echo 'transcheck';
 			print_r($trans_check);
 
