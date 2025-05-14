@@ -391,14 +391,15 @@
                                                         </div>
                                                         <div class="form-group" style='display:block;'>
                                                             <label for="disabledInput">Foto Bukti Survei Hari Pertama</label>
-                                                            <i><small class="text-muted"> Maks 2MB / Format (Jpeg/Jpg/Png)</i></small>
+                                                            <!-- <i><small class="text-muted"> Maks 2MB / Format (Jpeg/Jpg/Png)</i></small> -->
                                                             <fieldset>
                                                                 <div class="input-group">
                                                                     <input type="url" class="form-control"
+                                                                        required
                                                                         placeholder="Masukkan link gambar (jpg/png/jpeg) atau URL Drive"
                                                                         id="foto_bukti_survei" name="foto_bukti_survei"
-                                                                        value="<?= $data[0]['url_bukti_satu'] ?? '' ?>"
-                                                                        accept="image/png, image/gif, image/jpeg" />
+                                                                        value="<?= $data[0]['url_bukti_satu'] ?? '' ?>" />
+                                                                    <!-- accept="image/png, image/gif, image/jpeg"  -->
 
                                                                 </div>
 
@@ -426,14 +427,15 @@
                                                         </div>
                                                         <div class="form-group" style='display:block;'>
                                                             <label for="disabledInput">Foto Bukti Survei Hari Kedua</label>
-                                                            <i><small class="text-muted"> Maks 2MB / Format (Jpeg/Jpg/Png)</i></small>
+                                                            <!-- <i><small class="text-muted"> Maks 2MB / Format (Jpeg/Jpg/Png)</i></small> -->
                                                             <fieldset>
                                                                 <div class="input-group">
                                                                     <input type="url" class="form-control"
+                                                                        required
                                                                         placeholder="Masukkan link gambar (jpg/png/jpeg/gif) atau URL Drive"
                                                                         id="foto_bukti_survei2" name="foto_bukti_survei2"
-                                                                        value="<?= $data[0]['url_bukti_dua'] ?? '' ?>"
-                                                                        accept="image/png, image/gif, image/jpeg" />
+                                                                        value="<?= $data[0]['url_bukti_dua'] ?? '' ?>" />
+                                                                    <!-- accept="image/png, image/gif, image/jpeg"  -->
                                                                 </div>
 
                                                                 <?php
