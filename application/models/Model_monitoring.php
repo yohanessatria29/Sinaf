@@ -123,7 +123,7 @@ class Model_monitoring extends CI_Model
 					pr.id as pengiriman_rekomendasi_id_monitor,
 					td.id as penerbitan_sertifikat_id_monitor,
 					sr.nama as status_akreditasi_nama,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
 						IF
 							(
 								b.id IS NULL,
@@ -234,7 +234,7 @@ class Model_monitoring extends CI_Model
 			pr.id as pengiriman_rekomendasi_id_monitor,
 			td.id as penerbitan_sertifikat_id_monitor,
 			sr.nama as status_akreditasi_nama,
-			( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
+			( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
 				IF
 				(
 					b.id IS NULL,
@@ -384,7 +384,7 @@ class Model_monitoring extends CI_Model
 					pr.id as pengiriman_rekomendasi_id_monitor,
 					td.id as penerbitan_sertifikat_id_monitor,
 					sr.nama as status_akreditasi_nama,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']')  FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']')  FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
 					IF
 						(
 							b.id IS NULL,
@@ -537,7 +537,7 @@ class Model_monitoring extends CI_Model
 					pr.id as pengiriman_rekomendasi_id_monitor,
 					td.id as penerbitan_sertifikat_id_monitor,
 					sr.nama as status_akreditasi_nama,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
 					IF
 						(
 							b.id IS NULL,
@@ -691,7 +691,7 @@ class Model_monitoring extends CI_Model
 					pr.id as pengiriman_rekomendasi_id_monitor,
 					td.id as penerbitan_sertifikat_id_monitor,
 					sr.nama as status_akreditasi_nama,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
 					IF
 						(
 							b.id IS NULL,
@@ -843,7 +843,7 @@ class Model_monitoring extends CI_Model
 					pr.id as pengiriman_rekomendasi_id_monitor,
 					td.id as penerbitan_sertifikat_id_monitor,
 					sr.nama as status_akreditasi_nama,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
 					IF
 						(
 							b.id IS NULL,
@@ -978,7 +978,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						CASE
 						WHEN ppus.id IS NULL THEN 'Pengajuan Usulan Survei'
 						WHEN bus.id IS NULL THEN 'Respon LPA'
@@ -1084,7 +1084,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						CASE
 						WHEN ppus.id IS NULL THEN 'Pengajuan Usulan Survei'
 						WHEN bus.id IS NULL THEN 'Respon LPA'
@@ -1186,7 +1186,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						CASE
 						WHEN ppus.id IS NULL THEN 'Pengajuan Usulan Survei'
 						WHEN bus.id IS NULL THEN 'Respon LPA'
@@ -1290,7 +1290,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						CASE
 						WHEN ppus.id IS NULL THEN 'Pengajuan Usulan Survei'
 						WHEN bus.id IS NULL THEN 'Respon LPA'
@@ -1394,7 +1394,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						CASE
 						WHEN ppus.id IS NULL THEN 'Pengajuan Usulan Survei'
 						WHEN bus.id IS NULL THEN 'Respon LPA'
@@ -1540,7 +1540,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						IF(ppus.id IS NULL,'Pengajuan Usulan Survei',
 						IF(bus.id IS NULL,'Respon LPA',
 						IF(kb.id IS NULL,'Kesiapan Survei',
@@ -1644,7 +1644,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						IF(ppus.id IS NULL,'Pengajuan Usulan Survei',
 						IF(bus.id IS NULL,'Respon LPA',
 						IF(kb.id IS NULL,'Kesiapan Survei',
@@ -1744,7 +1744,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						IF(ppus.id IS NULL,'Pengajuan Usulan Survei',
 						IF(bus.id IS NULL,'Respon LPA',
 						IF(kb.id IS NULL,'Kesiapan Survei',
@@ -1846,7 +1846,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						IF(ppus.id IS NULL,'Pengajuan Usulan Survei',
 						IF(bus.id IS NULL,'Respon LPA',
 						IF(kb.id IS NULL,'Kesiapan Survei',
@@ -1948,7 +1948,7 @@ class Model_monitoring extends CI_Model
 					pus.tanggal_pengajuan,
 					pus.created_at,
 					pus.status_admin_lpa,
-					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
+					( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pusd.pengajuan_usulan_survei_id = pus.id ) AS tanggal_survei,
 						IF(ppus.id IS NULL,'Pengajuan Usulan Survei',
 						IF(bus.id IS NULL,'Respon LPA',
 						IF(kb.id IS NULL,'Kesiapan Survei',
@@ -2219,7 +2219,7 @@ class Model_monitoring extends CI_Model
 // 			pr.id as pengiriman_rekomendasi_id_monitor,
 // 			td.id as penerbitan_sertifikat_id_monitor,
 // 			sr.nama as status_akreditasi_nama,
-// 			( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
+// 			( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
 // 				IF
 // 				(
 // 					b.id IS NULL,
@@ -2363,7 +2363,7 @@ class Model_monitoring extends CI_Model
 // 			pr.id as pengiriman_rekomendasi_id_monitor,
 // 			td.id as penerbitan_sertifikat_id_monitor,
 // 			sr.nama as status_akreditasi_nama,
-// 			( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR)), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
+// 			( SELECT CONCAT('[', GROUP_CONCAT(JSON_QUOTE(CAST(tanggal_survei AS CHAR))), ']') FROM pengajuan_usulan_survei_detail pusd WHERE pengajuan_usulan_survei_id = a.id ) AS tanggal_survei,
 // 				IF
 // 				(
 // 					b.id IS NULL,
