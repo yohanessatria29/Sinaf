@@ -21,7 +21,7 @@ class Monitoring extends CI_Controller
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
-            $post = $this->security->xss_clean($this->input->post());
+            $post = $this->security->xss_clean($this->input->get());
             $session_kriteria = $this->session->userdata('kriteria_id');
 
             if ($session_kriteria == 1) {
@@ -217,6 +217,8 @@ class Monitoring extends CI_Controller
             }
 
             $this->load->view('monitoring_proses', $data);
+
+            // print_r($data['data']);
         }
     }
 

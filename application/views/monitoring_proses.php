@@ -79,10 +79,7 @@
     include('template/sidebar.php');
     ?>
     <section class="section">
-        <!-- <div class="row"> -->
-        <!-- <div class="col-md-12"> -->
         <div class="card">
-            <!-- <div class="container"> -->
             <div class="card-body">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -98,8 +95,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="container">
-                                            <?php echo form_open_multipart('Monitoring/proses') ?>
-                                            <form role="form" method="post" class="login-form" name="form_valdation">
+                                            <?php //echo form_open_multipart('Monitoring/proses') 
+                                            ?>
+                                            <form role="form" method="get" action="<?= base_url() ?>Monitoring/proses" class="login-form" name="form_valdation">
                                                 <div class="form-group row align-items-center">
                                                     <div class="col-lg-2 col-4">
                                                         <label class="col-form-label">Tanggal</label>
