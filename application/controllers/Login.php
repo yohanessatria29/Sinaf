@@ -224,9 +224,4 @@ class Login extends CI_Controller
 		$url = base_url('login');
 		redirect($url);
 	}
-
-	function getserver()
-	{
-		print_r($_SERVER);
-	}
 }
