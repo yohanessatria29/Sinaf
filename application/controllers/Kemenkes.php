@@ -89,10 +89,10 @@ class Kemenkes extends CI_Controller
         }
         $id = $this->uri->segment(3);
 
-        $data_kemenkes = $this->Model_sina->select_kemenkes($id);
-        $data_kemenkes_detail = $this->Model_sina->select_kemenkes_detail($id);
+        $data_kemenkes = $this->Model_sina->select_pengajuan($id);
+        $data_kemenkes_detail = $this->Model_sina->select_pengajuan($id);
 
-        $data_select_kemenkes = $this->Model_sina->select_kemenkes($id);
+        $data_select_kemenkes = $this->Model_sina->select_pengajuan($id);
 
         $trans = $this->Model_sina->select_trans_ep($data_select_kemenkes[0]['penetapan_tanggal_survei_id']);
 
@@ -107,16 +107,11 @@ class Kemenkes extends CI_Controller
             'trans' => $trans,
             'count_trans' => $this->Model_sina->select_count_trans_ep($data_select_kemenkes[0]['penetapan_tanggal_survei_id'], $data_kemenkes[0]['jenis_fasyankes']),
             'bab' => $bab,
-            // 'datab'=> $this->Model_sina->select_ep($bab,6),
-            //'datab'=> $this->Model_sina->select_ep(1,2),
             'data_sertifikat' => $this->Model_sina->getDataSertifikat($data_kemenkes[0]['fasyankes_id']),
             'ds' => $this->Model_sina->viwDataSertifikat($id),
             'id' => $id
         );
         $this->load->view('pengirimanlaporan_kemenkes', $data);
-        // print_r($data_kemenkes);
-        // var_dump($data_select_kemenkes[0]);
-        // var_dump($data_kemenkes[0]['jenis_fasyankes']);
     }
 
     public function detail()
