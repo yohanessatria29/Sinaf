@@ -29,7 +29,8 @@ class Mlogin extends CI_Model
 
     public function insert_log($user_id, $status = 'SUCCESS')
     {
-        $ip         = $this->input->ip_address();
+        // $ip         = $this->input->ip_address();
+        $ip = $this->get_real_ip();
         $user_agent = $this->input->user_agent();
         $location   = $this->get_location_by_ip($ip);
 
@@ -78,5 +79,18 @@ class Mlogin extends CI_Model
         }
 
         return null;
+    }
+
+
+    private function get_real_ip()
+    {
+        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            return $_SERVER['HTTP_CF_CONNECTING_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            // Ambil IP pertama jika ada banyak (dipisah koma)
+            return explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0];
+        } else {
+            return $_SERVER['REMOTE_ADDR'];
+        }
     }
 }
