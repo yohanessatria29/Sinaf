@@ -61,141 +61,283 @@
                                                         </div>
                                                     </div>
                                                     <div class="buttons">
-                                                        <!-- <a href="#" class="btn btn-success rounded-pill">Tampilkan</a> -->
                                                         <button type="submit" class="btn btn-success me-1 mb-1">Cari</button>
-                                                        <!-- <a href="#" class="btn btn-light rounded-pill">Bersihkan</a> -->
                                                     </div>
                                                 </form>
 
                                                 <?php echo form_open_multipart('verifikator/simpanEp/') ?>
                                                 <form role="form" method="post" class="login-form" name="form_valdation">
-                                                    <div class="table-responsive">
-                                                        <table class="table" id="table1" style="color: black; width:125%;">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>No</th>
-                                                                    <th>Bab</th>
-                                                                    <th>Standar</th>
-                                                                    <th>Kriteria</th>
-                                                                    <th>Elemen Penilaian</th>
-                                                                    <th>Uraian</th>
-                                                                    <th>SKOR Capaian Surveior</th>
-                                                                    <th>SKOR Maksimal</th>
-                                                                    <th>Persentase Capaian Surveior</th>
-                                                                    <th class="">FAKTA DAN ANALISIS</th>
-                                                                    <th class="">REKOMENDASI Hasil Survei</th>
-                                                                    <th>SKOR Capaian Verifikator</th>
-                                                                    <th>Persentase Capaian Verifikator</th>
-                                                                    <th class="w-25">Keterangan</th>
-                                                                    <!-- <th>Nama Verifikator</th> -->
-
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php
-                                                                $n = 1;
-                                                                foreach ($datab as $datab) {
-                                                                    $key = $datab['id'];    //echo $data[0]['status_final_ep_verifikator'];
-                                                                    // echo $key;
-
-                                                                    if ($data[0]['status_final_ep_verifikator'] != '1') {
-                                                                        $nilai = 0;
-                                                                    } else {
-                                                                        $nilai = 1;
-                                                                    }
-                                                                ?>
-                                                                    <input type="hidden" class="form-control" id="test" name="test" value="<?= $nilai; ?>">
-                                                                    <tr>
-                                                                        <td><?= $n; ?></td>
-                                                                        <td><?= $datab['bab'] ?></td>
-                                                                        <td><?= $datab['standar'] ?></td>
-                                                                        <td><?= $datab['kriteria'] ?></td>
-                                                                        <td><?= $datab['elemen'] ?></td>
-                                                                        <td><?= $datab['keterangan_elemen'] ?></td>
-
-
-                                                                        <td><?= (!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : 0) ?> </td>
-                                                                        <?php
-                                                                        if ((!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : '') == "TDD") {
-                                                                        ?>
-                                                                            <td>TDD</td>
-                                                                        <?php
-                                                                        } else {
-                                                                        ?>
-                                                                            <td><?= $datab['skor_maksimal'] ?> </td>
-                                                                        <?php
-                                                                        }
-                                                                        ?>
-
-                                                                        <td><?= (!empty($trans[$key]['persentase_capaian_surveior']) ? $trans[$key]['persentase_capaian_surveior'] : 0) ?></td>
-                                                                        <td><?= (!empty($trans[$key]['fakta_dan_analisis']) ? $trans[$key]['fakta_dan_analisis'] : '') ?></td>
-                                                                        <td><?= (!empty($trans[$key]['rekomendasi']) ? $trans[$key]['rekomendasi'] : '') ?></td>
-
-                                                                        <?php
-                                                                        if ($data[0]['status_final_ep_verifikator'] == '1') { ?>
-                                                                            <td><?= $trans[$key]['skor_capaian_verifikator']; ?></td>
-                                                                            <td><?= $trans[$key]['persentase_capaian_verifikator']; ?></td>
-                                                                            <td><?= $trans[$key]['keterangan']; ?></td>
-                                                                            <?php
-                                                                        } else {
-                                                                            if ($trans[$key]['skor_capaian_verifikator'] == (!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : 0)) {
-                                                                                $required_text = "";
-                                                                            } else {
-                                                                                $required_text = "required";
-                                                                            }
-
-
-                                                                            if ((!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : '') == "TDD") {
-                                                                                $required_text = "";
-                                                                            ?>
-                                                                                <td>
-                                                                                    <select class="form-select skor_capaian_verifikator" id="skor_capaian_verifikator" name="skor_capaian_verifikator[<?= $key; ?>]">
-                                                                                        <option value='TDD'>TDD</option>
-                                                                                    </select>
-                                                                                </td>
-                                                                                <td><input type="text" class="form-control" id="persentase_capaian_verifikator<?= $n ?>" name="persentase_capaian_verifikator" value="TDD" readonly></td>
-                                                                            <?php
-                                                                            } else {
-                                                                            ?>
-                                                                                <td>
-                                                                                    <select class="form-select skor_capaian_verifikator" id="skor_capaian_verifikator" name="skor_capaian_verifikator[<?= $key; ?>]">
-                                                                                        <option value='0' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "0") echo "selected" ?>>0</option>
-                                                                                        <option value='5' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "5") echo "selected" ?>>5</option>
-                                                                                        <option value='10' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "10") echo "selected" ?>>10</option>
-                                                                                        <!-- <option value='TDD' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "TDD") echo "selected" ?>>TDD</option> -->
-                                                                                    </select>
-                                                                                    <!-- <input type="text" class="form-control" id="tesssss<?= $n ?>" name="tesssss" value="<?= (!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : 0) ?>" readonly> -->
-                                                                                </td>
-                                                                                <td><input type="text" class="form-control" id="persentase_capaian_verifikator<?= $n ?>" name="persentase_capaian_verifikator" value="<?= (!empty($trans[$key]['persentase_capaian_verifikator']) ? $trans[$key]['persentase_capaian_verifikator'] : 0) ?>" readonly></td>
-                                                                            <?php
-                                                                            } ?>
-
-                                                                            <td><textarea class="form-control" data-toggle="tooltip" data-placement="top" title="Minimal 30 Karakter" rows="4" cols="50" id="keterangan<?= $n ?>" minlength="30" name="keterangan[<?= $key; ?>]" <?= $required_text; ?>><?= (!empty($trans[$key]['keterangan']) ? $trans[$key]['keterangan'] : '') ?></textarea></td>
-                                                                        <?php
-                                                                        }
-                                                                        ?>
-
-
-
-                                                                        <!-- <td><input type="text" class="form-control" id="nama_verifikator" name="nama_verifikator" value="" readonly></td> -->
-
-                                                                        <input type="hidden" name="trans_ep_id[<?= $key; ?>]" value="<?= (!empty($trans2[$key]['id']) ? $trans2[$key]['id'] : '') ?>"></td>
-                                                                        <input type="hidden" name="skor_maksimal[<?= $key; ?>]" value="<?= $datab['skor_maksimal']; ?>">
-                                                                        <input type="hidden" name="id_ep[]" value="<?= $key; ?>">
-                                                                    </tr>
-                                                                <?php
-                                                                    $n++;
+                                                    <div class="table-responsive" style="overflow-x:auto; width: 100%;">
+                                                        <?php
+                                                        if ((int)$jenis_akreditasi === 3) {
+                                                        ?>
+                                                            <style>
+                                                                /* Ensure the table width is 100% */
+                                                                table#table1 {
+                                                                    width: 100%;
                                                                 }
-                                                                ?>
-                                                            </tbody>
-                                                        </table>
+
+                                                                /* Apply custom width to the header and data cells for 'Keterangan' */
+                                                                th.keterangan-column,
+                                                                td.keterangan-column {
+                                                                    width: 300px !important;
+                                                                    /* You can adjust this as needed */
+                                                                }
+
+                                                                /* Optional: If you want the textarea inside the cell to expand and take up full width */
+                                                                td.keterangan-column textarea {
+                                                                    width: 100%;
+                                                                }
+                                                            </style>
+                                                            <table class="table table-bordered table-striped" id="table1">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" class="text-center">No</th>
+                                                                        <th scope="col" class="text-center">Bab</th>
+                                                                        <th scope="col" class="text-center">Standar</th>
+                                                                        <th scope="col" class="text-center">Kriteria</th>
+                                                                        <th scope="col" class="text-center">Elemen Penilaian</th>
+                                                                        <th scope="col" class="w-25">Uraian</th>
+                                                                        <th scope="col" class="text-center">SKOR Capaian Surveior</th>
+                                                                        <th scope="col" class="text-center">SKOR Maksimal</th>
+                                                                        <th scope="col" class="text-center">Persentase Capaian Surveior</th>
+
+                                                                        <th scope="col" class="w-25">FAKTA DAN ANALISIS Pengajuan Lama</th>
+                                                                        <th scope="col" class="w-25">REKOMENDASI Hasil Survei Pengajuan Lama</th>
+
+                                                                        <th scope="col" class="w-25">FAKTA DAN ANALISIS Pengajuan Saat ini</th>
+                                                                        <th scope="col" class="w-25">REKOMENDASI Hasil Survei Pengajuan Saat ini</th>
+
+                                                                        <th scope="col" class="text-center">SKOR Capaian Verifikator</th>
+                                                                        <th scope="col" class="text-center">Persentase Capaian Verifikator</th>
+                                                                        <th scope="col" class="keterangan-column text-center">Keterangan</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php
+                                                                    $n = 1;
+                                                                    foreach ($datab as $datab) {
+                                                                        $key = $datab['id'];
+
+                                                                        if ($data[0]['status_final_ep_verifikator'] != '1') {
+                                                                            $nilai = 0;
+                                                                        } else {
+                                                                            $nilai = 1;
+                                                                        }
+                                                                    ?>
+                                                                        <input type="hidden" class="form-control" id="test" name="test" value="<?= $nilai; ?>">
+                                                                        <tr>
+                                                                            <td><?= $n; ?></td>
+                                                                            <td>
+                                                                                <?= $datab['bab'] ?>
+                                                                            </td>
+                                                                            <td><?= $datab['standar'] ?></td>
+                                                                            <td><?= $datab['kriteria'] ?></td>
+                                                                            <td><?= $datab['elemen'] ?></td>
+                                                                            <td><?= $datab['keterangan_elemen'] ?></td>
+
+
+                                                                            <td><?= (!empty($trans2[$key]['skor_capaian_surveior']) ? $trans2[$key]['skor_capaian_surveior'] : 0) ?> </td>
+                                                                            <?php
+                                                                            if ((!empty($trans2[$key]['skor_capaian_surveior']) ? $trans2[$key]['skor_capaian_surveior'] : '') == "TDD") {
+                                                                            ?>
+                                                                                <td>TDD</td>
+                                                                            <?php
+                                                                            } else {
+                                                                            ?>
+                                                                                <td><?= $datab['skor_maksimal'] ?> </td>
+                                                                            <?php
+                                                                            }
+                                                                            ?>
+
+                                                                            <td><?= (!empty($trans2[$key]['persentase_capaian_surveior']) ? $trans2[$key]['persentase_capaian_surveior'] : 0) ?></td>
+
+                                                                            <td><?= (!empty($trans[$key]['fakta_dan_analisis']) ? $trans[$key]['fakta_dan_analisis'] : '') ?></td>
+                                                                            <td><?= (!empty($trans[$key]['rekomendasi']) ? $trans[$key]['rekomendasi'] : '') ?></td>
+
+
+                                                                            <td><?= (!empty($trans2[$key]['fakta_dan_analisis']) ? $trans2[$key]['fakta_dan_analisis'] : '') ?></td>
+                                                                            <td><?= (!empty($trans2[$key]['rekomendasi']) ? $trans2[$key]['rekomendasi'] : '') ?></td>
+
+                                                                            <?php
+                                                                            if ($data[0]['status_final_ep_verifikator'] == '1') { ?>
+                                                                                <td><?= $trans[$key]['skor_capaian_verifikator']; ?></td>
+                                                                                <td><?= $trans[$key]['persentase_capaian_verifikator']; ?></td>
+                                                                                <td><?= $trans[$key]['keterangan']; ?></td>
+                                                                                <?php
+                                                                            } else {
+                                                                                if ($trans[$key]['skor_capaian_verifikator'] == (!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : 0)) {
+                                                                                    $required_text = "";
+                                                                                } else {
+                                                                                    $required_text = "required";
+                                                                                }
+
+
+                                                                                if ((!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : '') == "TDD") {
+                                                                                    $required_text = "";
+                                                                                ?>
+                                                                                    <td>
+                                                                                        <select class="form-select skor_capaian_verifikator" id="skor_capaian_verifikator" name="skor_capaian_verifikator[<?= $key; ?>]">
+                                                                                            <option value='TDD'>TDD</option>
+                                                                                        </select>
+                                                                                    </td>
+                                                                                    <td><input type="text" class="form-control" id="persentase_capaian_verifikator<?= $n ?>" name="persentase_capaian_verifikator" value="TDD" readonly></td>
+                                                                                <?php
+                                                                                } else {
+                                                                                ?>
+                                                                                    <td>
+                                                                                        <select class="form-select skor_capaian_verifikator" id="skor_capaian_verifikator" name="skor_capaian_verifikator[<?= $key; ?>]">
+                                                                                            <option value='0' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "0") echo "selected" ?>>0</option>
+                                                                                            <option value='5' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "5") echo "selected" ?>>5</option>
+                                                                                            <option value='10' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "10") echo "selected" ?>>10</option>
+                                                                                            <!-- <option value='TDD' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "TDD") echo "selected" ?>>TDD</option> -->
+                                                                                        </select>
+                                                                                        <!-- <input type="text" class="form-control" id="tesssss<?= $n ?>" name="tesssss" value="<?= (!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : 0) ?>" readonly> -->
+                                                                                    </td>
+                                                                                    <td><input type="text" class="form-control" id="persentase_capaian_verifikator<?= $n ?>" name="persentase_capaian_verifikator" value="<?= (!empty($trans[$key]['persentase_capaian_verifikator']) ? $trans[$key]['persentase_capaian_verifikator'] : 0) ?>" readonly></td>
+                                                                                <?php
+                                                                                } ?>
+
+                                                                                <td><textarea class="form-control" data-toggle="tooltip" data-placement="top" title="Minimal 30 Karakter" rows="4" cols="50" id="keterangan<?= $n ?>" minlength="30" name="keterangan[<?= $key; ?>]" <?= $required_text; ?> placeholder="Enter at least 30 characters"><?= (!empty($trans[$key]['keterangan']) ? $trans[$key]['keterangan'] : '') ?></textarea></td>
+                                                                            <?php
+                                                                            }
+                                                                            ?>
+
+                                                                            <input type="hidden" name="trans_ep_id[<?= $key; ?>]" value="<?= (!empty($trans2[$key]['id']) ? $trans2[$key]['id'] : '') ?>"></td>
+                                                                            <input type="hidden" name="skor_maksimal[<?= $key; ?>]" value="<?= $datab['skor_maksimal']; ?>">
+                                                                            <input type="hidden" name="id_ep[]" value="<?= $key; ?>">
+                                                                        </tr>
+                                                                    <?php
+                                                                        $n++;
+                                                                    }
+                                                                    ?>
+                                                                </tbody>
+                                                            </table>
+                                                        <?php
+                                                        } else {
+                                                        ?>
+                                                            <table class="table table-bordered table-striped" id="table1">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" class="text-center">No</th>
+                                                                        <th scope="col" class="text-center">Bab</th>
+                                                                        <th scope="col" class="text-center">Standar</th>
+                                                                        <th scope="col" class="text-center">Kriteria</th>
+                                                                        <th scope="col" class="text-center">Elemen Penilaian</th>
+                                                                        <th scope="col" class="w-25">Uraian</th>
+                                                                        <th scope="col" class="text-center">SKOR Capaian Surveior</th>
+                                                                        <th scope="col" class="text-center">SKOR Maksimal</th>
+                                                                        <th scope="col" class="text-center">Persentase Capaian Surveior</th>
+                                                                        <th scope="col" class="w-25">FAKTA DAN ANALISIS</th>
+                                                                        <th scope="col" class="w-25">REKOMENDASI Hasil Survei</th>
+                                                                        <th scope="col" class="text-center">SKOR Capaian Verifikator</th>
+                                                                        <th scope="col" class="text-center">Persentase Capaian Verifikator</th>
+                                                                        <th scope="col" class="w-25">Keterangan</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php
+                                                                    $n = 1;
+                                                                    foreach ($datab as $datab) {
+                                                                        $key = $datab['id'];
+
+                                                                        if ($data[0]['status_final_ep_verifikator'] != '1') {
+                                                                            $nilai = 0;
+                                                                        } else {
+                                                                            $nilai = 1;
+                                                                        }
+                                                                    ?>
+                                                                        <input type="hidden" class="form-control" id="test" name="test" value="<?= $nilai; ?>">
+                                                                        <tr>
+                                                                            <td><?= $n; ?></td>
+                                                                            <td><?= $datab['bab'] ?></td>
+                                                                            <td><?= $datab['standar'] ?></td>
+                                                                            <td><?= $datab['kriteria'] ?></td>
+                                                                            <td><?= $datab['elemen'] ?></td>
+                                                                            <td><?= $datab['keterangan_elemen'] ?></td>
+
+
+                                                                            <td><?= (!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : 0) ?> </td>
+                                                                            <?php
+                                                                            if ((!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : '') == "TDD") {
+                                                                            ?>
+                                                                                <td>TDD</td>
+                                                                            <?php
+                                                                            } else {
+                                                                            ?>
+                                                                                <td><?= $datab['skor_maksimal'] ?> </td>
+                                                                            <?php
+                                                                            }
+                                                                            ?>
+
+                                                                            <td><?= (!empty($trans[$key]['persentase_capaian_surveior']) ? $trans[$key]['persentase_capaian_surveior'] : 0) ?></td>
+                                                                            <td><?= (!empty($trans[$key]['fakta_dan_analisis']) ? $trans[$key]['fakta_dan_analisis'] : '') ?></td>
+                                                                            <td><?= (!empty($trans[$key]['rekomendasi']) ? $trans[$key]['rekomendasi'] : '') ?></td>
+
+                                                                            <?php
+                                                                            if ($data[0]['status_final_ep_verifikator'] == '1') { ?>
+                                                                                <td><?= $trans[$key]['skor_capaian_verifikator']; ?></td>
+                                                                                <td><?= $trans[$key]['persentase_capaian_verifikator']; ?></td>
+                                                                                <td><?= $trans[$key]['keterangan']; ?></td>
+                                                                                <?php
+                                                                            } else {
+                                                                                if ($trans[$key]['skor_capaian_verifikator'] == (!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : 0)) {
+                                                                                    $required_text = "";
+                                                                                } else {
+                                                                                    $required_text = "required";
+                                                                                }
+
+
+                                                                                if ((!empty($trans[$key]['skor_capaian_surveior']) ? $trans[$key]['skor_capaian_surveior'] : '') == "TDD") {
+                                                                                    $required_text = "";
+                                                                                ?>
+                                                                                    <td>
+                                                                                        <select class="form-select skor_capaian_verifikator" id="skor_capaian_verifikator" name="skor_capaian_verifikator[<?= $key; ?>]">
+                                                                                            <option value='TDD'>TDD</option>
+                                                                                        </select>
+                                                                                    </td>
+                                                                                    <td><input type="text" class="form-control" id="persentase_capaian_verifikator<?= $n ?>" name="persentase_capaian_verifikator" value="TDD" readonly></td>
+                                                                                <?php
+                                                                                } else {
+                                                                                ?>
+                                                                                    <td>
+                                                                                        <select class="form-select skor_capaian_verifikator" id="skor_capaian_verifikator" name="skor_capaian_verifikator[<?= $key; ?>]">
+                                                                                            <option value='0' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "0") echo "selected" ?>>0</option>
+                                                                                            <option value='5' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "5") echo "selected" ?>>5</option>
+                                                                                            <option value='10' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "10") echo "selected" ?>>10</option>
+                                                                                            <!-- <option value='TDD' <?php if ((!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : '')  == "TDD") echo "selected" ?>>TDD</option> -->
+                                                                                        </select>
+                                                                                        <!-- <input type="text" class="form-control" id="tesssss<?= $n ?>" name="tesssss" value="<?= (!empty($trans[$key]['skor_capaian_verifikator']) ? $trans[$key]['skor_capaian_verifikator'] : 0) ?>" readonly> -->
+                                                                                    </td>
+                                                                                    <td><input type="text" class="form-control" id="persentase_capaian_verifikator<?= $n ?>" name="persentase_capaian_verifikator" value="<?= (!empty($trans[$key]['persentase_capaian_verifikator']) ? $trans[$key]['persentase_capaian_verifikator'] : 0) ?>" readonly></td>
+                                                                                <?php
+                                                                                } ?>
+
+                                                                                <td><textarea class="form-control" data-toggle="tooltip" data-placement="top" title="Minimal 30 Karakter" rows="4" cols="50" id="keterangan<?= $n ?>" minlength="30" name="keterangan[<?= $key; ?>]" <?= $required_text; ?>><?= (!empty($trans[$key]['keterangan']) ? $trans[$key]['keterangan'] : '') ?></textarea></td>
+                                                                            <?php
+                                                                            }
+                                                                            ?>
+
+                                                                            <input type="hidden" name="trans_ep_id[<?= $key; ?>]" value="<?= (!empty($trans2[$key]['id']) ? $trans2[$key]['id'] : '') ?>"></td>
+                                                                            <input type="hidden" name="skor_maksimal[<?= $key; ?>]" value="<?= $datab['skor_maksimal']; ?>">
+                                                                            <input type="hidden" name="id_ep[]" value="<?= $key; ?>">
+                                                                        </tr>
+                                                                    <?php
+                                                                        $n++;
+                                                                    }
+                                                                    ?>
+                                                                </tbody>
+                                                            </table>
+                                                        <?php
+                                                        }
+                                                        ?>
                                                     </div>
                                             </div>
                                             <input type="hidden" name="penetapan_tanggal_survei_id" value="<?= $data[0]['penetapan_tanggal_survei_id']; ?>">
                                             <input type="hidden" name="id_pengajuan" value="<?= $id; ?>">
 
                                             <?php
-                                            // var_dump($trans2);
                                             if ((!empty($data[0]['status_final_ep_verifikator']) ? $data[0]['status_final_ep_verifikator'] : '') != '1') {
                                             ?>
                                                 <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
@@ -222,13 +364,9 @@
                                             </div>
                                             <?php echo form_open_multipart('verifikator/final_ep/') ?>
                                             <form role="form" method="post" class="login-form" name="form_valdation">
-                                                <!-- <div class="row"> -->
                                                 <div class="card-body">
                                                     </br>
                                                     <div class="row">
-                                                        <?php
-                                                        // var_dump($count_trans);
-                                                        ?>
                                                         <table class="table table-striped" id="table2">
                                                             <thead>
                                                                 <tr>
