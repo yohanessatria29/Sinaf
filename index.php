@@ -304,3 +304,9 @@ define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
  * And away we go...
  */
 require_once BASEPATH . 'core/CodeIgniter.php';
+
+
+if (file_exists('maintenance.html')) {
+	readfile('maintenance.html');
+	exit;
+}
