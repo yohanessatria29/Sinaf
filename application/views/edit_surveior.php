@@ -50,264 +50,267 @@
         $status_aktif = 'unchecked';
         $is_disabled = 'disabled';
     }
-    // var_dump($data[0]['keaktifan']);
     ?>
     <section class="section">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="container">
-                    <?php
-                    // var_dump($this->session->flashdata());
-                    if ($this->session->flashdata('kode_name') == 'Failed') : ?>
-                        <div class="alert alert-danger" id="warning">
-                            <h5><strong>ALERT !</strong></h5>
-                            <?= $this->session->flashdata('message_name'); ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($this->session->flashdata('kode_name') == 'success') : ?>
-                        <div class="alert alert-success" id="warning">
-                            <h5><strong>Success !</strong></h5>
-                            <?= $this->session->flashdata('message_name'); ?>
-                        </div>
-                    <?php endif; ?>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="container-fluid">
+                        <?php
+                        // var_dump($this->session->flashdata());
+                        if ($this->session->flashdata('kode_name') == 'Failed') : ?>
+                            <div class="alert alert-danger" id="warning">
+                                <h5><strong>ALERT !</strong></h5>
+                                <?= $this->session->flashdata('message_name'); ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($this->session->flashdata('kode_name') == 'success') : ?>
+                            <div class="alert alert-success" id="warning">
+                                <h5><strong>Success !</strong></h5>
+                                <?= $this->session->flashdata('message_name'); ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="container">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Edit Data Surveior</h4>
-                        </div>
-                        <?php echo form_open_multipart('Pengajuan/simpanSurveior') ?>
-                        <form role="form" method="post" class="login-form" name="form_valdation">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label for="nik">NIK</label>
-                                            <?php //var_dump($data);
-                                            ?>
-                                            <input type="text" class="form-control" id="nik" name="nik" onchange="checkniksurveior(this.value, this.id)" placeholder="Masukkan NIK" value="<?= $data[0]['nik'] ?>" disabled>
-                                            <input type="hidden" class="form-control" id="id" name="id" value="<?= $data[0]['id'] ?>">
-                                            <input type="hidden" class="form-control" id="users_id" name="users_id" value="<?= $data[0]['users_id'] ?>">
-                                            <input type="hidden" class="form-control" id="nik" name="nik" value="<?= $data[0]['nik'] ?>">
-                                            <input type="hidden" class="form-control" id="id_user_surveior" name="id_user_surveior" value="<?= $datac[1]['id_user_surveior'] ?>">
-                                            <input type="hidden" class="form-control" id="lpa_id" name="lpa_id" value="<?= $data[0]['lpa_id'] ?>">
-                                        </div>
+                <div class="col-md-12">
+                    <div class="container-fluid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Edit Data Surveior</h4>
+                            </div>
+                            <?php echo form_open_multipart('Pengajuan/simpanSurveior') ?>
+                            <form role="form" method="post" class="login-form" name="form_valdation">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="nik">NIK</label>
 
-                                        <div class="form-group">
-                                            <label for="nama">Nama</label>
-                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama" value="<?= $data[0]['nama'] ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="email">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email" onchange="checkemail(this.value, this.id)" placeholder="Masukkan Email" value="<?= $data[0]['email'] ?>">
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lpa">LPA</label>
-                                            <input type="text" class="form-control" id="lpa" name="lpa_id" value="<?= $data[0]['nama_lpa'] ?>" disabled>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="no_hp">No Hp</label>
-                                            <input type="text" class="form-control" id="no_hp" name="no_hp" value="<?= $data[0]['no_hp'] ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="provinsi">Provinsi</label>
-
-                                            <?= form_dropdown('propinsi', dropdown_sina_propinsi(), $provinsi_id, 'id="provinsi_id"  class="form-select" required disabled'); ?>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="kabkota">Kab/Kota</label>
-                                            <input type="hidden" class="form-control" id="kabkota" name="kabkota" placeholder="Masukkan No HP" value="<?= $data[0]['kabkota_id'] ?>">
-                                            <?= form_dropdown('kota', dropdown_sina_kab_kota($provinsi_id), $kota_id, 'id="kabkota_id"  class="form-select" required disabled'); ?>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="keaktifan">Status</label>
-                                            <?= form_dropdown('keaktifan', array('1' => 'PNS', '2' => 'SWASTA', '3' => 'Purna Tugas'), $keaktifan, 'id="keaktifan"  class="form-select" '); ?>
-                                        </div>
-                                        <div class="form-group col-md-12">
-                                            <div class="form-group col-md-12">
-                                                <label for="helperText">Sertifikat Surveior</label>
-                                                <div class="input-group">
-                                                    <!-- Input Link -->
-                                                    <input type="url" class="form-control" id="url_sertifikat_surveior" name="url_sertifikat_surveior"
-                                                        placeholder="Masukkan link Google Drive atau URL PDF"
-                                                        value="<?= $data[0]['url_sertifikat_surveior'] ?? '' ?>">
-
-                                                    <?php
-                                                    $url_sertifikat_surveior = $data[0]['url_sertifikat_surveior'] ?? '';
-                                                    if (!empty($url_sertifikat_surveior)) {
-                                                        // Deteksi apakah ini link eksternal (https://) atau file PDF lokal
-                                                        $is_external = preg_match('#^https?://#i', $url_sertifikat_surveior);
-                                                        $is_pdf = preg_match('/\.pdf$/i', $url_sertifikat_surveior);
-
-                                                        if ($is_external || $is_pdf) {
-                                                            echo '<a class="btn btn-primary rounded-pill ms-2" target="_blank" href="' . $url_sertifikat_surveior . '">Lihat Dokumen</a>';
-                                                        }
-                                                    }
-                                                    ?>
-                                                    <input type="hidden" name="old_url_sertifikat_surveior" value="<?= $url_sertifikat_surveior ?>" id="old_url_sertifikat_surveior">
-                                                </div>
+                                                <input type="text" class="form-control" id="nik" name="nik" onchange="checkniksurveior(this.value, this.id)" placeholder="Masukkan NIK" value="<?= $data[0]['nik'] ?>" disabled>
+                                                <input type="hidden" class="form-control" id="id" name="id" value="<?= $data[0]['id'] ?>">
+                                                <input type="hidden" class="form-control" id="users_id" name="users_id" value="<?= $data[0]['users_id'] ?>">
+                                                <input type="hidden" class="form-control" id="nik" name="nik" value="<?= $data[0]['nik'] ?>">
+                                                <input type="hidden" class="form-control" id="id_user_surveior" name="id_user_surveior" value="<?= $datac[1]['id_user_surveior'] ?>">
+                                                <input type="hidden" class="form-control" id="lpa_id" name="lpa_id" value="<?= $data[0]['lpa_id'] ?>">
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="nama">Nama</label>
+                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama" value="<?= $data[0]['nama'] ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email" onchange="checkemail(this.value, this.id)" placeholder="Masukkan Email" value="<?= $data[0]['email'] ?>">
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="lpa">LPA</label>
+                                                <input type="text" class="form-control" id="lpa" name="lpa_id" value="<?= $data[0]['nama_lpa'] ?>" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="no_hp">No Hp</label>
+                                                <input type="text" class="form-control" id="no_hp" name="no_hp" value="<?= $data[0]['no_hp'] ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="provinsi">Provinsi</label>
+
+                                                <?= form_dropdown('propinsi', dropdown_sina_propinsi(), $provinsi_id, 'id="provinsi_id"  class="form-select" required disabled'); ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="kabkota">Kab/Kota</label>
+                                                <input type="hidden" class="form-control" id="kabkota" name="kabkota" placeholder="Masukkan No HP" value="<?= $data[0]['kabkota_id'] ?>">
+                                                <?= form_dropdown('kota', dropdown_sina_kab_kota($provinsi_id), $kota_id, 'id="kabkota_id"  class="form-select" required disabled'); ?>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="keaktifan">Status</label>
+                                                <?= form_dropdown('keaktifan', array('1' => 'PNS', '2' => 'SWASTA', '3' => 'Purna Tugas'), $keaktifan, 'id="keaktifan"  class="form-select" '); ?>
+                                            </div>
                                             <div class="form-group col-md-12">
                                                 <div class="form-group col-md-12">
-                                                    <label for="helperText">Surat Keputusan Keanggotaan dari Lembaga</label>
+                                                    <label for="helperText">Sertifikat Surveior</label>
                                                     <div class="input-group">
                                                         <!-- Input Link -->
-                                                        <input type="url" class="form-control" id="url_surat_keputusan_keanggotaan" name="url_surat_keputusan_keanggotaan"
+                                                        <input type="url" class="form-control" id="url_sertifikat_surveior" name="url_sertifikat_surveior"
                                                             placeholder="Masukkan link Google Drive atau URL PDF"
-                                                            value="<?= $data[0]['url_surat_keputusan_keanggotaan'] ?? '' ?>">
+                                                            value="<?= $data[0]['url_sertifikat_surveior'] ?? '' ?>">
 
                                                         <?php
-                                                        $url_surat_keputusan_keanggotaan = $data[0]['url_surat_keputusan_keanggotaan'] ?? '';
-                                                        if (!empty($url_surat_keputusan_keanggotaan)) {
-                                                            $is_external = preg_match('#^https?://#i', $url_surat_keputusan_keanggotaan);
-                                                            $is_pdf = preg_match('/\.pdf$/i', $url_surat_keputusan_keanggotaan);
+                                                        $url_sertifikat_surveior = $data[0]['url_sertifikat_surveior'] ?? '';
+                                                        if (!empty($url_sertifikat_surveior)) {
+                                                            // Deteksi apakah ini link eksternal (https://) atau file PDF lokal
+                                                            $is_external = preg_match('#^https?://#i', $url_sertifikat_surveior);
+                                                            $is_pdf = preg_match('/\.pdf$/i', $url_sertifikat_surveior);
 
                                                             if ($is_external || $is_pdf) {
-                                                                echo '<a class="btn btn-primary rounded-pill ms-2" target="_blank" href="' . $url_surat_keputusan_keanggotaan . '">Lihat Dokumen</a>';
+                                                                echo '<a class="btn btn-primary rounded-pill ms-2" target="_blank" href="' . $url_sertifikat_surveior . '">Lihat Dokumen</a>';
                                                             }
                                                         }
                                                         ?>
-                                                        <input type="hidden" name="old_url_surat_keputusan_keanggotaan" value="<?= $url_surat_keputusan_keanggotaan ?>" id="old_url_surat_keputusan_keanggotaan">
+                                                        <input type="hidden" name="old_url_sertifikat_surveior" value="<?= $url_sertifikat_surveior ?>" id="old_url_sertifikat_surveior">
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                    </div>
-                                    <div class="col-md-7">
-                                        <?php echo form_open_multipart('Pengajuan/simpanSurveiorDetail') ?>
-                                        <form role="form" method="post" class="login-form" name="form_valdation">
-                                            <table class="table table-striped" id="table1">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Fasyankes</th>
-                                                        <th>Bidang</th>
-                                                        <th>Action</th>
-                                                        <!-- <th>Cek Kelulusan</th> -->
-                                                        <th>Status Ukom</th>
-                                                        <th>Tgl Akhir</th>
-
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    <?php
-                                                    $n = 1;
-                                                    foreach ($datab as $data) {
-                                                        $key = $data['id'];
-                                                        $bidang = $data['fasyankes_id'];
-                                                        $bidangid = $data['id'];
-                                                        $namafasyankes = $data['nama'];
-                                                    ?>
-                                                        <tr>
-                                                            <td><?= $n++ ?></td>
-                                                            <td><?= $data['nama'] ?></td>
-                                                            <td><?= $data['bidang'] ?></td>
-
-                                                            <input type="hidden" id="id_bidang[<?= $key; ?>]" name="id_bidang[<?= $key; ?>]" value="<?= $data['id'] ?>">
-                                                            <input type="hidden" id="nama_bidang[]" name="nama_bidang[<?= $key; ?>]" value="<?= $data['bidang'] ?>">
-
-                                                            <input type="hidden" id="fasyankes[<?= $key; ?>]" name="fasyankes[<?= $key; ?>]" value="<?= $data['fasyankes_id'] ?>">
-                                                            <input type="hidden" name="id_bidang[]" id="id_bidang[]" value="<?= $key; ?>">
+                                                <div class="form-group col-md-12">
+                                                    <div class="form-group col-md-12">
+                                                        <label for="helperText">Surat Keputusan Keanggotaan dari Lembaga</label>
+                                                        <div class="input-group">
+                                                            <!-- Input Link -->
+                                                            <input type="url" class="form-control" id="url_surat_keputusan_keanggotaan" name="url_surat_keputusan_keanggotaan"
+                                                                placeholder="Masukkan link Google Drive atau URL PDF"
+                                                                value="<?= $data[0]['url_surat_keputusan_keanggotaan'] ?? '' ?>">
 
                                                             <?php
-                                                            foreach ($datac as $databidang) {
-                                                                if ($databidang['id_bidang'] == $bidangid) {
-                                                                    if ($databidang['is_checked'] == "1") {
+                                                            $url_surat_keputusan_keanggotaan = $data[0]['url_surat_keputusan_keanggotaan'] ?? '';
+                                                            if (!empty($url_surat_keputusan_keanggotaan)) {
+                                                                $is_external = preg_match('#^https?://#i', $url_surat_keputusan_keanggotaan);
+                                                                $is_pdf = preg_match('/\.pdf$/i', $url_surat_keputusan_keanggotaan);
 
-                                                                        if ($databidang['status_ukom'] == NULL) {
-                                                                            $status_ukom = 'Belum Cek';
-                                                                        } elseif ($databidang['status_ukom'] == 1) {
-                                                                            $status_ukom = 'Lulus';
-                                                                        } else {
-                                                                            $status_ukom = 'Tidak Lulus';
-                                                                        }
-                                                            ?>
-                                                                        <td><input type="radio" id="bidang[]" name="fasyankes_id[<?php echo $bidang ?>]" value="<?php echo $bidangid ?>" checked disabled></th>
-                                                                        <td><?= $status_ukom ?></td>
-                                                                        <td><?= $databidang['tgl_berlaku_sertifikat'] ?></td>
-                                                                    <?php
-                                                                    } else {
-                                                                    ?>
-                                                                        <td><input type="radio" id="bidang[]" name="fasyankes_id[<?php echo $bidang ?>]" value="<?php echo $bidangid ?>" disabled></td>
-                                                                    <?php
-                                                                    }
-                                                                    ?>
-                                                            <?php
+                                                                if ($is_external || $is_pdf) {
+                                                                    echo '<a class="btn btn-primary rounded-pill ms-2" target="_blank" href="' . $url_surat_keputusan_keanggotaan . '">Lihat Dokumen</a>';
                                                                 }
                                                             }
                                                             ?>
+                                                            <input type="hidden" name="old_url_surat_keputusan_keanggotaan" value="<?= $url_surat_keputusan_keanggotaan ?>" id="old_url_surat_keputusan_keanggotaan">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-7">
+                                            <?php echo form_open_multipart('Pengajuan/simpanSurveiorDetail') ?>
+                                            <form role="form" method="post" class="login-form" name="form_valdation">
+                                                <table class="table table-striped" id="table1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Fasyankes</th>
+                                                            <th>Bidang</th>
+                                                            <th>Action</th>
+                                                            <!-- <th>Cek Kelulusan</th> -->
+                                                            <th>Status Ukom</th>
+                                                            <th>Tgl Akhir</th>
 
                                                         </tr>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                    <td><button type="button" onclick="checkbidang()" class="btn btn-primary" style="width: 80px;">Cek Ukom</button></td>
+                                                    </thead>
 
-                                                </tbody>
+                                                    <tbody>
+                                                        <?php
+                                                        $n = 1;
+                                                        foreach ($datab as $data) {
+                                                            $key = $data['id'];
+                                                            $bidang = $data['fasyankes_id'];
+                                                            $bidangid = $data['id'];
+                                                            $namafasyankes = $data['nama'];
+                                                        ?>
+                                                            <tr>
+                                                                <td><?= $n++ ?></td>
+                                                                <td><?= $data['nama'] ?></td>
+                                                                <td><?= $data['bidang'] ?></td>
 
-                                            </table>
+                                                                <input type="hidden" id="id_bidang[<?= $key; ?>]" name="id_bidang[<?= $key; ?>]" value="<?= $data['id'] ?>">
+                                                                <input type="hidden" id="nama_bidang[]" name="nama_bidang[<?= $key; ?>]" value="<?= $data['bidang'] ?>">
 
-                                            <div class="container">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h5 class="card-tittle">
-                                                            Sertifikat Surveior
-                                                        </h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="container">
-                                                            <div class="row">
-                                                                <div class="container">
-                                                                    <div class="col-md-12">
-                                                                        <button type="button" onclick="checksertifikat()" class="btn btn-primary" style="width: 80px;">Cek</button>
-                                                                        <button type="button" id="no_sertifikat" class="btn btn-outline-primary" style="width: 200px; margin-left: 5px;" name="no_sertifikat" hidden disabled></button>
-                                                                        <?php
-                                                                        if ($url_serti_refreshing != NULL) {
-                                                                        ?>
-                                                                            <a class="btn btn-primary rounded-pill" id="link_sertifikat_surveior" target="_blank" href="<?php echo $url_serti_refreshing ?>">Lihat Sertifikat</a>
+                                                                <input type="hidden" id="fasyankes[<?= $key; ?>]" name="fasyankes[<?= $key; ?>]" value="<?= $data['fasyankes_id'] ?>">
+                                                                <input type="hidden" name="id_bidang[]" id="id_bidang[]" value="<?= $key; ?>">
+
+                                                                <?php
+                                                                foreach ($datac as $databidang) {
+                                                                    if ($databidang['id_bidang'] == $bidangid) {
+                                                                        if ($databidang['is_checked'] == "1") {
+
+                                                                            if ($databidang['status_ukom'] == NULL) {
+                                                                                $status_ukom = 'Belum Cek';
+                                                                            } elseif ($databidang['status_ukom'] == 1) {
+                                                                                $status_ukom = 'Lulus';
+                                                                            } else {
+                                                                                $status_ukom = 'Tidak Lulus';
+                                                                            }
+                                                                ?>
+                                                                            <td><input type="radio" id="bidang[]" name="fasyankes_id[<?php echo $bidang ?>]" value="<?php echo $bidangid ?>" checked disabled></th>
+                                                                            <td><?= $status_ukom ?></td>
+                                                                            <td><?= $databidang['tgl_berlaku_sertifikat'] ?></td>
                                                                         <?php
                                                                         } else {
                                                                         ?>
-                                                                            <a class="btn disabled" id="notif_belum_upload" href="#" hidden>Surveior Belum Mengupload Dokumen</a>
+                                                                            <td><input type="radio" id="bidang[]" name="fasyankes_id[<?php echo $bidang ?>]" value="<?php echo $bidangid ?>" disabled></td>
                                                                         <?php
                                                                         }
                                                                         ?>
+                                                                <?php
+                                                                    }
+                                                                }
+                                                                ?>
+
+                                                            </tr>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                        <td><button type="button" onclick="checkbidang()" class="btn btn-primary" style="width: 80px;">Cek Ukom</button></td>
+
+                                                    </tbody>
+
+                                                </table>
+
+                                                <div class="container">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5 class="card-tittle">
+                                                                Sertifikat Surveior
+                                                            </h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="container">
+                                                                        <div class="col-md-12">
+                                                                            <button type="button" onclick="checksertifikat()" class="btn btn-primary" style="width: 80px;">Cek</button>
+                                                                            <button type="button" id="no_sertifikat" class="btn btn-outline-primary" style="width: 200px; margin-left: 5px;" name="no_sertifikat" hidden disabled></button>
+                                                                            <?php
+                                                                            if ($url_serti_refreshing != NULL) {
+                                                                            ?>
+                                                                                <a class="btn btn-primary rounded-pill" id="link_sertifikat_surveior" target="_blank" href="<?php echo $url_serti_refreshing ?>">Lihat Sertifikat</a>
+                                                                            <?php
+                                                                            } else {
+                                                                            ?>
+                                                                                <a class="btn disabled" id="notif_belum_upload" href="#" hidden>Surveior Belum Mengupload Dokumen</a>
+                                                                            <?php
+                                                                            }
+                                                                            ?>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="row pt-3">
+                                                                    <p style="font-size: 10px;">* Surveior sebelum 2023 menggunakan Sertifikat Refreshing, sesudah 2023 menggunakan Sertifikat Pelatihan Surveior</p>
+                                                                </div>
                                                             </div>
-                                                            <div class="row pt-3">
-                                                                <p style="font-size: 10px;">* Surveior sebelum 2023 menggunakan Sertifikat Refreshing, sesudah 2023 menggunakan Sertifikat Pelatihan Surveior</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="container" id="form_keaktifan" name="form_keaktifan">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-check form-switch" style="padding-left:0px;width: 200px;">
-                                                                        <label for="">Keaktifan Surveior</label>
-                                                                        <input style="float: right;" class="form-check-input btn-lg" <?php echo $status_aktif; ?> type="checkbox" role="switch" name="keaktifan_surveior" id="keaktifan_surveior" <?php echo $is_disabled ?>>
+                                                            <div class="container" id="form_keaktifan" name="form_keaktifan">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-check form-switch" style="padding-left:0px;width: 200px;">
+                                                                            <label for="">Keaktifan Surveior</label>
+                                                                            <input style="float: right;" class="form-check-input btn-lg" <?php echo $status_aktif; ?> type="checkbox" role="switch" name="keaktifan_surveior" id="keaktifan_surveior" <?php echo $is_disabled ?>>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
+
+                                    <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary me-1 mb-1">Edit</button>
-                            </div>
-
-                        </form>
+                            </form>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
     </section>
 
 
@@ -413,9 +416,6 @@
                         "param1": inputnik,
                     },
                     success: function(data) {
-                        // do something
-                        // console.log(data);
-
                         if (data === undefined || data.length == 0) {
                             alert('Tidak ada Sertifikat');
                             document.getElementById("no_sertifikat").hidden = true;
@@ -425,17 +425,6 @@
                         } else {
                             var no_sertifikat = data[0].no_sertifikat;
                             var button_sertifikat = document.getElementById("no_sertifikat");
-                            // var nama_sertifikat = data[0].nama_sertifikat;
-
-                            // if (nama_sertifikat != null) {
-                            //     var a = document.getElementById('link_sertifikat_surveior'); //or grab it by tagname etc
-                            //     a.removeAttribute('hidden');
-                            //     a.href = '<?php //echo base_url('/assets/uploads/berkas_akreditasi/') 
-                                                ?>' + nama_sertifikat
-                            // } else {
-                            //     console.log('kosong');
-                            // }
-
                             button_sertifikat.removeAttribute('hidden');
                             button_sertifikat.innerHTML = no_sertifikat;
                             document.getElementById('keaktifan_surveior').disabled = false;

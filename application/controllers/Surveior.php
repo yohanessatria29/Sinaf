@@ -11,6 +11,11 @@ class Surveior extends CI_Controller
 		$this->load->model('Model_sina');
 		$this->load->model('Model_viewdata');
 		define('MB', 1048576);
+		$this->load->library('form_validation');
+		$this->load->helper('security');
+		if ($this->session->userdata('logged') != TRUE) {
+			redirect('login/logout');
+		}
 	}
 	/**
 	 * Index Page for this controller.
@@ -660,7 +665,8 @@ class Surveior extends CI_Controller
 		$data = array(
 			'tanggal' => $jadwal
 		);
-		// var_dump($getsurveior);
+
+
 		$this->load->view('jadwal_surveior', $data);
 	}
 
@@ -675,15 +681,36 @@ class Surveior extends CI_Controller
 		$surveior_id = $getsurveior[0]['id'];
 
 		if (!empty($tanggal)) {
+			$success = true;
 			foreach ($tanggal as $key => $value) {
 				$data['user_surveior_id'] = $surveior_id;
 				$data['jadwal_kesiapan'] = $value;
-				// $this->Model_sina->input_date('jadwal_surveior', $data);
 				$query = $this->Model_sina->input_date('jadwal_surveior', $data);
+
+				if (!$query) { // Jika ada error input
+					$success = false;
+					break;
+				}
 			}
+
+			if ($success) {
+				$this->session->set_flashdata('message_name', 'Data tanggal berhasil disimpan.');
+				$this->session->set_flashdata('kode_name', 'success');  // alert-success
+				$this->session->set_flashdata('icon_name', 'check-circle'); // icon fa-check-circle
+			} else {
+				$this->session->set_flashdata('message_name', 'Gagal menyimpan data tanggal.');
+				$this->session->set_flashdata('kode_name', 'danger');  // alert-danger
+				$this->session->set_flashdata('icon_name', 'times-circle'); // icon fa-times-circle
+			}
+		} else {
+			$this->session->set_flashdata('message_name', 'Tidak ada tanggal yang disimpan.');
+			$this->session->set_flashdata('kode_name', 'warning');  // alert-warning
+			$this->session->set_flashdata('icon_name', 'exclamation-triangle'); // icon fa-exclamation-triangle
 		}
+
 		redirect('Surveior/jadwal_surveior');
 	}
+
 	public function delete_date($id)
 	{
 		$userid = $this->session->userdata('user_id');

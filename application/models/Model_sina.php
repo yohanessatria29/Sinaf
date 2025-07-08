@@ -352,11 +352,28 @@ class Model_sina extends CI_Model
 		return $sql->result_array();
 	}
 
+	// function select_data_jadwal($table, $where)
+	// {
+	// 	// return $this->db->order_by("jadwal_kesiapan", "ASC")->get_where($table, $where);
+	// 	return $this->db->select('*, jadwal_surveior.id id_jadwal,  status_kesiapan_surveior.nama, status_kesiapan_surveior.badge_color')->join('status_kesiapan_surveior', 'status_kesiapan_surveior.id = jadwal_surveior.status')->order_by("jadwal_kesiapan", "ASC")->get_where($table, $where);
+	// }
+
 	function select_data_jadwal($table, $where)
 	{
-		// return $this->db->order_by("jadwal_kesiapan", "ASC")->get_where($table, $where);
-		return $this->db->select('*, jadwal_surveior.id id_jadwal,  status_kesiapan_surveior.nama, status_kesiapan_surveior.badge_color')->join('status_kesiapan_surveior', 'status_kesiapan_surveior.id = jadwal_surveior.status')->order_by("jadwal_kesiapan", "ASC")->get_where($table, $where);
+		$today = date('Y-m-d');
+
+		$this->db->group_start(); // buka kurung untuk grouping OR
+		$this->db->where('jadwal_kesiapan >=', $today);
+		$this->db->or_where('status !=', 0);
+		$this->db->group_end(); // tutup kurung
+
+		return $this->db
+			->select('*, jadwal_surveior.id id_jadwal, status_kesiapan_surveior.nama, status_kesiapan_surveior.badge_color')
+			->join('status_kesiapan_surveior', 'status_kesiapan_surveior.id = jadwal_surveior.status')
+			->order_by("jadwal_kesiapan", "ASC")
+			->get_where($table, $where);
 	}
+
 
 	function select_jadwal_surveior($user_id, $tanggal_awal, $tanggal_akhir)
 	{
@@ -439,21 +456,23 @@ class Model_sina extends CI_Model
 
 	function input_date($table, $data)
 	{
-		// return $this->db->insert($table, $data);
 		try {
 			$this->db->trans_start(FALSE);
 			$this->db->insert($table, $data);
 			$this->db->trans_complete();
+
 			$db_error = $this->db->error();
-			if (!empty($db_error)) {
-				throw new Exception('Database error! Error Code [' . $db_error['code'] . '] Error: ' . $db_error['message']);
-				return false; // unreachable retrun statement !!!
+
+			if ($db_error['code'] != 0) {
+				throw new Exception('Database error! Code [' . $db_error['code'] . '] Message: ' . $db_error['message']);
 			}
+
 			return TRUE;
 		} catch (Exception $e) {
-			// return $e;
+			return FALSE;
 		}
 	}
+
 
 	function edit_data($table, $where, $data)
 	{
@@ -2553,6 +2572,17 @@ IF
 		// $this->db->where($data);
 
 		// $query = $this->db->get();
+		return $query->result_array();
+	}
+
+	function checksertifikatukom($nik)
+	{
+		$this->db->from('ukom_surveior us');
+		$this->db->where('us.nik', $nik);
+		$this->db->where('us.id_faskes', '4');
+		$this->db->where('us.status_ukom', '1');
+
+		$query = $this->db->get();
 		return $query->result_array();
 	}
 

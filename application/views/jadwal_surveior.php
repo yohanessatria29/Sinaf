@@ -13,9 +13,12 @@
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/fontawesome/css/fontawesome.min.css">
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url('assets/temp'); ?>/jquery-3.6.0.js"></script>
+    <script src="<?php echo base_url('assets/temp'); ?>/jquery-ui.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/jquery-ui.css">
+    <link rel="stylesheet" href="<?php echo base_url('assets/temp'); ?>/css/jquery.dataTables.min.css">
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -68,7 +71,8 @@
     ?>
         <div class="alert alert-<?= $this->session->flashdata('kode_name'); ?> alert-dismissible">
             <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true"> </button>
-                            <h4><i class="icon fa fa-<?= $this->session->flashdata('icon_name'); ?>"></i> Alert!</h4> -->
+                            <h4><i class="icon fa fa-<? //= $this->session->flashdata('icon_name'); 
+                                                        ?>"></i> Alert!</h4> -->
             <?= $this->session->flashdata('message_name'); ?>
         </div>
     <?php
@@ -111,7 +115,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row justify-content-center">
-                                            <table class="table" id="tablelisttanggal" style="width: 50%;">
+                                            <table class="table" id="tablelisttanggal" style="width: 100%;">
                                                 <thead>
                                                     <tr>
                                                         <th>No.</th>
@@ -176,6 +180,8 @@
 
 </html>
 <script src="<?php echo base_url() ?>assets/js/app.js"></script>
+<script src="<?php echo base_url('assets/temp/js_x'); ?>/jquery.dataTables.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function() {
 
@@ -197,5 +203,29 @@
             }
         }
 
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#tablelisttanggal').DataTable({
+            pageLength: 10, // Berapa baris per halaman
+            lengthChange: false, // Sembunyikan opsi 'Show X entries'
+            ordering: true, // Aktifkan sort per kolom
+            info: true, // Tampilkan "Showing 1 to X of Y entries"
+            autoWidth: false,
+            responsive: true,
+            language: {
+                search: "Cari:",
+                paginate: {
+                    previous: "Sebelumnya",
+                    next: "Berikutnya"
+                },
+                zeroRecords: "Tidak ditemukan data",
+                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                infoEmpty: "Tidak ada data",
+                infoFiltered: "(difilter dari _MAX_ total data)"
+            }
+        });
     });
 </script>

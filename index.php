@@ -1,5 +1,17 @@
 <?php
 
+// Ambil query string mentah dari URL
+$raw_query = $_SERVER['QUERY_STRING'] ?? '';
+
+// Hitung jumlah parameter (perkiraan dengan hitung tanda '=')
+$param_count = substr_count($raw_query, '=');
+
+// Batasi maksimal parameter, misal 100
+if ($param_count > 100) {
+	http_response_code(400);
+	exit('Terlalu banyak parameter.');
+}
+
 /**
  * CodeIgniter
  *
@@ -54,7 +66,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
 
 /*
  *---------------------------------------------------------------
@@ -308,5 +320,8 @@ define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 // 	readfile('maintenance.html');
 // 	exit;
 // }
+
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
 
 require_once BASEPATH . 'core/CodeIgniter.php';

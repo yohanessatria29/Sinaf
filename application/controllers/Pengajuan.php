@@ -2255,61 +2255,32 @@ class Pengajuan extends CI_Controller
             redirect('login/logout');
         } else {
             $post = $this->security->xss_clean($this->input->post());
+
             if ($this->input->post('keaktifan_surveior') != NULL && $this->input->post('keaktifan_surveior') === 'on') {
-                $keaktifan_surveior = 1;
+                $check = $this->Model_sina->checksertifikatsurveior($post['nik']);
+                if (empty($check)) {
+                    $check = $this->Model_sina->checksertifikatukom($post['nik']);
+                }
+
+                // Jika hasil check tidak kosong, baru izinkan aktif
+                if (!empty($check)) {
+                    $keaktifan_surveior = 1;
+                } else {
+                    $keaktifan_surveior = 0;
+                }
             } else {
                 $keaktifan_surveior = 0;
             }
+
+            // echo $keaktifan_surveior;
+            // exit;
             $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
             $pwd = substr(str_shuffle($data), 0, 7);
             $users_id = $this->session->userdata('id');
-            // $config['upload_path']          = 'assets/uploads/berkas_akreditasi/';
-            // $config['allowed_types']        = 'pdf|xls|xlsx';
-            // $config['max_size']             = 2048;
-            // $config['max_width']            = 1080;
-            // $config['max_height']           = 1080;
-            // $config['overwrite']            = true;
-            // $config['encrypt_name'] = TRUE;
 
             $password1 = $pwd;
             $salt      = '1m_@_SaLT_f0R_4kreD!t4$i';
             $hashed    = hash('sha256', $password1 . $salt);
-
-            //Upload url_sertifikat_surveior
-            // if (!empty($_FILES['url_sertifikat_surveior']['name'])) {
-            //     $this->load->library('upload', $config);
-            //     if (!$this->upload->do_upload('url_sertifikat_surveior')) {
-            //         print_r($this->upload->display_errors());
-            //         exit;
-            //     }
-            //     $attachment = $this->upload->data();
-            //     $fileName = $attachment['file_name'];
-            //     $url_sertifikat_surveior =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-            // } else {
-            //     if (isset($post['old_url_sertifikat_surveior'])) {
-            //         $url_sertifikat_surveior = $post['old_url_sertifikat_surveior'];
-            //     } else {
-            //         $url_sertifikat_surveior = '';
-            //     }
-            // }
-
-            //Upload url_surat_keputusan_keanggotaan
-            // if (!empty($_FILES['url_surat_keputusan_keanggotaan']['name'])) {
-            //     $this->load->library('upload', $config);
-            //     if (!$this->upload->do_upload('url_surat_keputusan_keanggotaan')) {
-            //         print_r($this->upload->display_errors());
-            //         exit;
-            //     }
-            //     $attachment = $this->upload->data();
-            //     $fileName = $attachment['file_name'];
-            //     $url_surat_keputusan_keanggotaan =  base_url('assets/uploads/berkas_akreditasi/' . $fileName);
-            // } else {
-            //     if (isset($post['old_url_surat_keputusan_keanggotaan'])) {
-            //         $url_surat_keputusan_keanggotaan = $post['old_url_surat_keputusan_keanggotaan'];
-            //     } else {
-            //         $url_surat_keputusan_keanggotaan = '';
-            //     }
-            // }
 
             $datab = array(
                 'nik' => $post['nik'],
@@ -2552,7 +2523,6 @@ class Pengajuan extends CI_Controller
                 'datac' => $trans,
                 'id' => $id
             );
-            // var_dump($data);
             $this->load->view('edit_surveior', $data);
         }
     }
@@ -3430,7 +3400,30 @@ class Pengajuan extends CI_Controller
             // show_404();
         } else {
             $nik = $this->input->post('param1');
+
+            // Cek dari sumber pertama
             $check = $this->Model_sina->checksertifikatsurveior($nik);
+
+            // Jika kosong, cek sumber kedua
+            if (empty($check)) {
+                $check = $this->Model_sina->checksertifikatukom($nik);
+
+                // Jika hasil sumber kedua ada, tambahkan keterangan sertifikat
+                if (!empty($check)) {
+                    // Jika $check hanya 1 record (array asosiatif)
+                    if (isset($check[0]) && is_array($check[0])) {
+                        // Tambahkan ke setiap record (kalau hasil berupa banyak data)
+                        foreach ($check as &$row) {
+                            $row['no_sertifikat'] = 'Lulus Ukom untuk Faskes RS';
+                        }
+                    } else {
+                        // Kalau hasil hanya satu array (bukan array of array)
+                        $check['no_sertifikat'] = 'Lulus Ukom untuk Faskes RS';
+                    }
+                }
+            }
+
+            // Keluarkan hasil sebagai JSON
             echo json_encode($check);
         }
     }
