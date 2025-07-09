@@ -2591,6 +2591,8 @@ IF
 		$this->db->select('usbd.id, usbd.id_fasyankes_surveior, usbd.id_bidang');
 		$this->db->from('user_surveior us');
 		$this->db->join('user_surveior_bidang_detail usbd', 'usbd.id_user_surveior = us.id', 'left');
+		$this->db->join('lpa l', 'l.id = us.lpa_id', 'left');
+		$this->db->where('l.id_jenis_faskes_lpa', '2');
 		$this->db->where('us.nik', $nik);
 		$this->db->where('us.lpa_id', $lpaid);
 		$this->db->where('usbd.is_checked', '1');

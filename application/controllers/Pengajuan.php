@@ -3406,10 +3406,10 @@ class Pengajuan extends CI_Controller
 
     public function checksertifikatsurveior()
     {
-        // if (!$this->input->is_ajax_request()) {
-        //     exit('No direct script access allowed');
-        //     // show_404();
-        // }
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+            // show_404();
+        }
         if ($this->session->userdata('kriteria_id') != 1) {
             // Langsung balikan array kosong kalau bukan kriteria 1
             echo json_encode([]);
