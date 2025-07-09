@@ -12,6 +12,9 @@ class Pengajuan extends CI_Controller
         $this->load->model('Model_viewdata');
         $this->load->model('Model_monitoring');
         define('MB', 1048576);
+        if ($this->session->userdata('logged') != TRUE) {
+            redirect('login/logout');
+        }
     }
     /**
      * Index Page for this controller.
@@ -2254,12 +2257,20 @@ class Pengajuan extends CI_Controller
         if ($this->session->userdata('logged') != TRUE) {
             redirect('login/logout');
         } else {
+            if ($this->session->userdata('kriteria_id') != 1) {
+                $this->session->set_flashdata('kode_name', 'Failed');
+                $this->session->set_flashdata('icon_name', 'cross');
+                $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
+                redirect('pengajuan/inputsurveior');
+            }
             $post = $this->security->xss_clean($this->input->post());
 
             if ($this->input->post('keaktifan_surveior') != NULL && $this->input->post('keaktifan_surveior') === 'on') {
+                $lpa_id = $this->session->userdata('lpa_id');
                 $check = $this->Model_sina->checksertifikatsurveior($post['nik']);
                 if (empty($check)) {
-                    $check = $this->Model_sina->checksertifikatukom($post['nik']);
+                    // $check = $this->Model_sina->checksertifikatukom($post['nik']);
+                    $check = $this->Model_sina->checkbidanguser($post['nik'], $lpa_id);
                 }
 
                 // Jika hasil check tidak kosong, baru izinkan aktif
@@ -2272,8 +2283,6 @@ class Pengajuan extends CI_Controller
                 $keaktifan_surveior = 0;
             }
 
-            // echo $keaktifan_surveior;
-            // exit;
             $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
             $pwd = substr(str_shuffle($data), 0, 7);
             $users_id = $this->session->userdata('id');
@@ -2295,6 +2304,7 @@ class Pengajuan extends CI_Controller
                 'password_enkripsi' => $hashed
 
             );
+
 
             if (!empty($post['id'])) {
                 $wheres = array(
@@ -2523,6 +2533,7 @@ class Pengajuan extends CI_Controller
                 'datac' => $trans,
                 'id' => $id
             );
+
             $this->load->view('edit_surveior', $data);
         }
     }
@@ -2859,17 +2870,17 @@ class Pengajuan extends CI_Controller
         }
     }
 
-    public function searchbyNIK()
-    {
-        // if (!$this->input->is_ajax_request()) {
-        //     exit('No direct script access allowed');
-        // } else {
-        //     $nik = $this->input->post('param1');
-        //     $check = $this->Model_sina->checksertifikatsurveior($nik);
-        //     echo json_encode($check);
-        // }
-        var_dump($_POST);
-    }
+    // public function searchbyNIK()
+    // {
+    //     // if (!$this->input->is_ajax_request()) {
+    //     //     exit('No direct script access allowed');
+    //     // } else {
+    //     //     $nik = $this->input->post('param1');
+    //     //     $check = $this->Model_sina->checksertifikatsurveior($nik);
+    //     //     echo json_encode($check);
+    //     // }
+    //     var_dump($_POST);
+    // }
 
     public function hapusverifikator()
     {
@@ -3395,150 +3406,183 @@ class Pengajuan extends CI_Controller
 
     public function checksertifikatsurveior()
     {
-        if (!$this->input->is_ajax_request()) {
-            exit('No direct script access allowed');
-            // show_404();
-        } else {
-            $nik = $this->input->post('param1');
-
-            // Cek dari sumber pertama
-            $check = $this->Model_sina->checksertifikatsurveior($nik);
-
-            // Jika kosong, cek sumber kedua
-            if (empty($check)) {
-                $check = $this->Model_sina->checksertifikatukom($nik);
-
-                // Jika hasil sumber kedua ada, tambahkan keterangan sertifikat
-                if (!empty($check)) {
-                    // Jika $check hanya 1 record (array asosiatif)
-                    if (isset($check[0]) && is_array($check[0])) {
-                        // Tambahkan ke setiap record (kalau hasil berupa banyak data)
-                        foreach ($check as &$row) {
-                            $row['no_sertifikat'] = 'Lulus Ukom untuk Faskes RS';
-                        }
-                    } else {
-                        // Kalau hasil hanya satu array (bukan array of array)
-                        $check['no_sertifikat'] = 'Lulus Ukom untuk Faskes RS';
-                    }
-                }
-            }
-
-            // Keluarkan hasil sebagai JSON
-            echo json_encode($check);
-        }
-    }
-    public function checkbidang()
-    {
         // if (!$this->input->is_ajax_request()) {
         //     exit('No direct script access allowed');
         //     // show_404();
-        // } else {
-        $nik = $this->input->post('param1');
-        $lpa = $this->input->post('param2');
-        $user = $this->input->post('param3');
-        // $bidang = $this->input->post('param4');
-        // $faskes = $this->input->post('param5');
-
-        $getbidang = $this->Model_sina->checkuserbidang($user);
-        // echo json_encode($getbidang);
-
-        foreach ($getbidang as $value) {
-            // print_r($value['is_checked']);
-            // echo json_encode($value);
-
-            // if($value['is_checked'] == 1){
-            $nik = $value['nik'];
-            $lpa = $value['lpa_id'];
-            $user = $value['id'];
-            $check = $this->Model_sina->checkbidang($nik, $lpa);
-            $data = array();
-            $tgl = array();
-
-            if (!empty($check)) {
-                foreach ($check as $value) {
-                    // $data[] = [
-                    //     'id' => $value['id']
-                    // ];
-                    // $tgl[] = [
-                    //     'tgl_berlaku_sertifikat' => $value['tgl_berakhir_ukom']
-                    // ];
-
-                    array_push($data, $user);
-                    array_push($tgl, $value['tgl_berakhir_ukom']);
-                }
-
-                $update = $this->Model_sina->updateUkom($data, $tgl);
-            } else {
-                //             echo "Tes";
-                //             echo $user;
-                // echo json_encode($getbidang);
-                // echo $check;
-
-                // $user = 9500;
-                foreach ($getbidang as $value) {
-                    //     // $data[] = [
-                    //     //     'id' => $value['id']
-                    //     // ];
-                    //     // $tgl[] = [
-                    //     //     'tgl_berlaku_sertifikat' => $value['tgl_berakhir_ukom']
-                    //     // ];
-                    // print_r($value);
-
-                    array_push($data, $user);
-                    // array_push($tgl, $value['tgl_berakhir_ukom']);
-                }
-
-                $update = $this->Model_sina->updateUkomSalah($data);
-                // print_r($data);
-            }
-
-
-
-            // }
+        // }
+        if ($this->session->userdata('kriteria_id') != 1) {
+            // Langsung balikan array kosong kalau bukan kriteria 1
+            echo json_encode([]);
+            return; // pastikan fungsi berhenti di sini
         }
 
+        $nik = $this->input->post('param1');
+
+        // Cek dari sumber pertama
+        $check = $this->Model_sina->checksertifikatsurveior($nik);
+
+        // Jika kosong, cek sumber kedua
+        if (empty($check)) {
+            // $check = $this->Model_sina->checksertifikatukom($nik);
 
 
-        // echo json_encode($check);
+            $lpa_id = $this->session->userdata('lpa_id');
+            $check = $this->Model_sina->checkbidanguser($nik, $lpa_id);
+            // print_r($check);
 
-        // $data = array();
-        // $tgl = array();
+            // Jika hasil sumber kedua ada, tambahkan keterangan sertifikat
+            if (!empty($check)) {
+                // Jika $check hanya 1 record (array asosiatif)
+                if (isset($check[0]) && is_array($check[0])) {
+                    // Tambahkan ke setiap record (kalau hasil berupa banyak data)
+                    foreach ($check as &$row) {
+                        // $row['no_sertifikat'] = 'Lulus Ukom untuk Faskes RS';
+                        $row['no_sertifikat'] = '-';
+                    }
+                } else {
+                    // Kalau hasil hanya satu array (bukan array of array)
+                    // $check['no_sertifikat'] = 'Lulus Ukom untuk Faskes RS';
+                    $check['no_sertifikat'] = '-';
+                }
+            }
+        }
 
-        // if(!empty($check)){
-        //     foreach ($check as $value) {
-        //         // $data[] = [
-        //         //     'id' => $value['id']
-        //         // ];
-        //         // $tgl[] = [
-        //         //     'tgl_berlaku_sertifikat' => $value['tgl_berakhir_ukom']
-        //         // ];
-
-        //         array_push($data, $value['id']);
-        //         array_push($tgl, $value['tgl_berakhir_ukom']);
-        //     }
-
-        //     $update = $this->Model_sina->updateUkom($data, $tgl);
-        // }else{
-        //     foreach ($check as $value) {
-        //         // $data[] = [
-        //         //     'id' => $value['id']
-        //         // ];
-        //         // $tgl[] = [
-        //         //     'tgl_berlaku_sertifikat' => $value['tgl_berakhir_ukom']
-        //         // ];
-
-        //         array_push($data, $value['id']);
-        //         array_push($tgl, $value['tgl_berakhir_ukom']);
-        //     }
-
-        //     $update = $this->Model_sina->updateUkomSalah($data, $tgl);
-        // }
-
-        // print_r($update);
-
-
-        // }
+        // Keluarkan hasil sebagai JSON
+        echo json_encode($check);
     }
+
+    // public function checkbidang()
+    // {
+    //     if (!$this->input->is_ajax_request()) {
+    //         exit('No direct script access allowed');
+    //         // show_404();
+    //     } else {
+    //         $nik = $this->input->post('param1');
+    //         $lpa = $this->input->post('param2');
+    //         $user = $this->input->post('param3');
+    //         // $bidang = $this->input->post('param4');
+    //         // $faskes = $this->input->post('param5');
+
+    //         $getbidang = $this->Model_sina->checkuserbidang($user);
+
+    //         foreach ($getbidang as $value) {
+    //             $nik = $value['nik'];
+    //             $lpa = $value['lpa_id'];
+    //             $user = $value['id'];
+    //             $check = $this->Model_sina->checkbidang($nik, $lpa);
+    //             $data = array();
+    //             $tgl = array();
+
+    //             if (!empty($check)) {
+    //                 foreach ($check as $value) {
+    //                     array_push($data, $user);
+    //                     array_push($tgl, $value['tgl_berakhir_ukom']);
+    //                 }
+
+    //                 $this->Model_sina->updateUkom($data, $tgl);
+    //             } else {
+    //                 foreach ($getbidang as $value) {
+    //                     array_push($data, $user);
+    //                 }
+
+    //                 $this->Model_sina->updateUkomSalah($data);
+    //             }
+    //         }
+    //     }
+
+    //     echo json_encode(1); // Atau status apa pun yang kamu perlukan
+    //     return;
+
+
+
+    //     // echo json_encode($check);
+
+    //     // $data = array();
+    //     // $tgl = array();
+
+    //     // if(!empty($check)){
+    //     //     foreach ($check as $value) {
+    //     //         // $data[] = [
+    //     //         //     'id' => $value['id']
+    //     //         // ];
+    //     //         // $tgl[] = [
+    //     //         //     'tgl_berlaku_sertifikat' => $value['tgl_berakhir_ukom']
+    //     //         // ];
+
+    //     //         array_push($data, $value['id']);
+    //     //         array_push($tgl, $value['tgl_berakhir_ukom']);
+    //     //     }
+
+    //     //     $update = $this->Model_sina->updateUkom($data, $tgl);
+    //     // }else{
+    //     //     foreach ($check as $value) {
+    //     //         // $data[] = [
+    //     //         //     'id' => $value['id']
+    //     //         // ];
+    //     //         // $tgl[] = [
+    //     //         //     'tgl_berlaku_sertifikat' => $value['tgl_berakhir_ukom']
+    //     //         // ];
+
+    //     //         array_push($data, $value['id']);
+    //     //         array_push($tgl, $value['tgl_berakhir_ukom']);
+    //     //     }
+
+    //     //     $update = $this->Model_sina->updateUkomSalah($data, $tgl);
+    //     // }
+
+    //     // print_r($update);
+
+
+    //     // }
+    // }
+
+    public function checkbidang()
+    {
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        }
+
+        $nik  = $this->input->post('param1');
+        $lpa  = $this->input->post('param2');
+        $user = $this->input->post('param3');
+
+        $getbidang = $this->Model_sina->checkuserbidang($user);
+
+        foreach ($getbidang as $value) {
+            $nik  = $value['nik'];
+            $lpa  = $value['lpa_id'];
+            $idbidang = $value['id'];
+
+            $check = $this->Model_sina->checkbidang($nik, $lpa, $idbidang);
+
+            $data = [];
+            $tgl  = [];
+
+            if (!empty($check)) {
+                foreach ($check as $val) {
+                    $data[] = $val['id'];
+                    $tgl[]  = $val['tgl_berakhir_ukom'];
+                }
+                $this->Model_sina->updateUkom($data, $tgl);
+                // exit;
+            } else {
+                // foreach ($getbidang as $val) {
+                $data[] = $idbidang;
+                // }
+                // print_r($data);
+                $this->Model_sina->updateUkomSalah($data);
+                // exit;
+            }
+        }
+
+        // Kirim response JSON dengan content-type
+        ob_clean();
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode(['status' => true, 'message' => 'Update berhasil']));
+    }
+
 
     public function penolakanpengajuan()
     {

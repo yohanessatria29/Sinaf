@@ -505,7 +505,7 @@ class Model_sina extends CI_Model
 
 		$sql = $this->db->query("SELECT
 		a.*,
-		b.id,
+		b.id as user_id,
 		c.nama AS nama_lpa,
 		propinsi.nama_prop AS nama_prop,
 		kota.`nama_kota` AS nama_kota
@@ -2586,6 +2586,21 @@ IF
 		return $query->result_array();
 	}
 
+	function checkbidanguser($nik, $lpaid)
+	{
+		$this->db->select('usbd.id, usbd.id_fasyankes_surveior, usbd.id_bidang');
+		$this->db->from('user_surveior us');
+		$this->db->join('user_surveior_bidang_detail usbd', 'usbd.id_user_surveior = us.id', 'left');
+		$this->db->where('us.nik', $nik);
+		$this->db->where('us.lpa_id', $lpaid);
+		$this->db->where('usbd.is_checked', '1');
+		$this->db->where('usbd.id_fasyankes_surveior', '4'); // tambahan filter
+
+
+		$query = $this->db->get();
+		return $query->result_array(); // atau ->result() kalau mau object
+	}
+
 
 
 	public function getIkp($kode_faskes, $tahun)
@@ -2890,7 +2905,7 @@ IF
 		return $query->result_array();
 	}
 
-	function checkbidang($nik, $lpa)
+	function checkbidang($nik, $lpa, $idbidang)
 	{
 		$data = array(
 			'ukom_surveior.nik' => $nik,
@@ -2928,7 +2943,8 @@ IF
 			user_surveior_bidang_detail usbd ON usbd.id_user_surveior = us2.id 
 		WHERE 
 		-- 	jf.id = '2'
-		-- AND 
+			usbd.id = '" . $idbidang . "'
+		AND 
 			us.status_ukom = '1'
 		AND
 			usbd.id_bidang = us.id_bidang 
@@ -2946,24 +2962,37 @@ IF
 
 	public function updateUkom($id_usbd, $tgl)
 	{
-		$this->db->trans_begin();
-		foreach ($id_usbd as $key => $value) {
+		$queries = []; // untuk simpan query-query
 
+		$this->db->trans_begin();
+
+		foreach ($id_usbd as $key => $value) {
 			$where = array('id' => $value);
-			$update = array('status_ukom' => '1', 'is_checked' => '1', 'tgl_berlaku_sertifikat' => $tgl[$key]);
+			$update = array(
+				'status_ukom' => '1',
+				'is_checked' => '1',
+				'tgl_berlaku_sertifikat' => $tgl[$key]
+			);
 			$this->db->where($where);
 			$this->db->update('user_surveior_bidang_detail', $update);
+
+			// Simpan query terakhir
+			$queries[] = $this->db->last_query();
 		}
+
 		if ($this->db->trans_status() === FALSE) {
 			$this->db->trans_rollback();
-			echo '0';
-			return '0';
+			// echo json_encode(['status' => false, 'queries' => $queries]);
+			echo json_encode(['status' => false, 'message' => 'Update Gagal']);
+			return;
 		} else {
 			$this->db->trans_commit();
-			echo '1';
-			return '1';
+			echo json_encode(['status' => true, 'message' => 'Update berhasil']);
+			// echo json_encode(['status' => true, 'queries' => $queries]);
+			return;
 		}
 	}
+
 
 	public function updateUkomSalah($id_usbd)
 	{
@@ -2976,12 +3005,12 @@ IF
 		}
 		if ($this->db->trans_status() === FALSE) {
 			$this->db->trans_rollback();
-			echo '1';
-			return '1';
+			echo json_encode(['status' => false, 'message' => 'Update Gagal']);
+			return;
 		} else {
 			$this->db->trans_commit();
-			echo '0';
-			return '0';
+			echo json_encode(['status' => true, 'message' => 'Update berhasil']);
+			return;
 		}
 	}
 }

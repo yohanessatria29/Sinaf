@@ -90,7 +90,7 @@
                                                 <input type="hidden" class="form-control" id="id" name="id" value="<?= $data[0]['id'] ?>">
                                                 <input type="hidden" class="form-control" id="users_id" name="users_id" value="<?= $data[0]['users_id'] ?>">
                                                 <input type="hidden" class="form-control" id="nik" name="nik" value="<?= $data[0]['nik'] ?>">
-                                                <input type="hidden" class="form-control" id="id_user_surveior" name="id_user_surveior" value="<?= $datac[1]['id_user_surveior'] ?>">
+                                                <input type="hidden" class="form-control" id="id_user_surveior" name="id_user_surveior" value="<?= $data[0]['id'] ?>">
                                                 <input type="hidden" class="form-control" id="lpa_id" name="lpa_id" value="<?= $data[0]['lpa_id'] ?>">
                                             </div>
 
@@ -461,41 +461,14 @@
                         // "param5": inputfaskes,
                     },
                     success: function(data) {
-                        // do something
-                        // console.log(data);
-
-                        if (data == 1) {
-                            alert('Update Sertifikat Ukom');
-                            location.reload();
-                            // return;
-                        } else {
-                            // foreach ($data as $value){
-                            alert('Update Sertifikat UKOM');
-                            location.reload();
-
-
-                            // }
-                            // var no_sertifikat = data[0].no_sertifikat;
-                            // var button_sertifikat = document.getElementById("no_sertifikat");
-                            // var nama_sertifikat = data[0].nama_sertifikat;
-
-                            // if (nama_sertifikat != null) {
-                            //     var a = document.getElementById('link_sertifikat_surveior'); //or grab it by tagname etc
-                            //     a.removeAttribute('hidden');
-                            //     a.href = '<?php //echo base_url('/assets/uploads/berkas_akreditasi/') 
-                                                ?>' + nama_sertifikat
-                            // } else {
-                            //     console.log('kosong');
-                            // }
-
-                            // button_sertifikat.removeAttribute('hidden');
-                            // button_sertifikat.innerHTML = no_sertifikat;
-                            // document.getElementById('keaktifan_surveior').disabled = false;
-                        }
-
+                        alert(data.message);
+                        location.reload();
                     },
-                    error: function(data) {
-                        console.log(data);
+                    error: function(xhr, status, error) {
+                        console.log("AJAX Error:");
+                        console.log("XHR: ", xhr.responseText);
+                        console.log("Status: ", status);
+                        console.log("Error: ", error);
                     }
                 });
             } else {
@@ -515,7 +488,7 @@
                 type: "GET",
                 success: function(data) { //
                     addOption($('[name="kota"]'), data, 'id_kota', 'nama_kota');
-                    console.log(data)
+                    // console.log(data)
                 }
             });
         });
