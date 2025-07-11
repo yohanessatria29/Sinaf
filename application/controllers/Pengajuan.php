@@ -2311,7 +2311,7 @@ class Pengajuan extends CI_Controller
                     'id' => $post['users_id'],
                 );
                 $wheref = array(
-                    'users_id' => $post['id'],
+                    'users_id' => $post['users_id'],
                 );
                 $datac = array(
                     'nama' => $post['nama'],
