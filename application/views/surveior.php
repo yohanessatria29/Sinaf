@@ -117,10 +117,18 @@
                                                                     <td><?= $data['nama_lpa']; ?></td>
                                                                     <td>
                                                                         <?php
-                                                                        $masked = substr($data['no_hp'], 0, 4) . str_repeat('*', strlen($data['no_hp']) - 8) . substr($data['no_hp'], -4);
+                                                                        $no_hp = $data['no_hp'] ?? ''; // jika null, jadi empty string
+
+                                                                        if (strlen($no_hp) >= 8) {
+                                                                            $masked = substr($no_hp, 0, 4)
+                                                                                . str_repeat('*', strlen($no_hp) - 8)
+                                                                                . substr($no_hp, -4);
+                                                                        } else {
+                                                                            // Bisa tampilkan default, atau langsung tampilkan apa adanya
+                                                                            $masked = $no_hp ?: '-';
+                                                                        }
+
                                                                         echo $masked;
-                                                                        ?>
-                                                                        <? //= $data['no_hp']; 
                                                                         ?>
                                                                     </td>
                                                                     <td><?= $data['nama_provinsi']; ?></td>
