@@ -7,6 +7,14 @@ class Model_sina extends CI_Model
 		parent::__construct();
 	}
 
+	function check_email($email)
+	{
+		$this->db->where('email', $email);
+		$query = $this->db->get('users');
+		$result = $query->row(); // atau row_array()
+		return $result;
+	}
+
 	function select_data($table, $where)
 	{
 		$this->db->get_where($table, $where);

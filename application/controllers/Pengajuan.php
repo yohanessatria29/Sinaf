@@ -2382,128 +2382,137 @@ class Pengajuan extends CI_Controller
                 }
             } else {
                 if (isset($post['fasyankes_id'])) {
-                    $this->Model_sina->input_data('users', $datab);
-                    $users_id = $this->db->insert_id();
-                    $no = 1;
-                    $datas = array(
-                        'nik' => $post['nik'],
-                        'users_id' => $users_id,
-                        'nama' => $post['nama'],
-                        'email' => $post['email'],
-                        'no_hp' => $post['no_hp'],
-                        'lpa_id' => $this->session->userdata('lpa_id'),
-                        'provinsi_id' => $post['propinsi'],
-                        'kabkota_id' => $post['kota'],
-                        'keaktifan' => $post['keaktifan'],
-                        'fasyankes_id' => $no,
-                        'bidang_id'        => $no,
-                        'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
-                        'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
-                        'status_aktif' => $keaktifan_surveior
-                    );
-                    $this->Model_sina->input_data('user_surveior', $datas);
-                    $id_user_surveior = $this->db->insert_id();
-                    $fasyankes_id = $this->db->insert_id();
-                    $bidang_id = $this->db->insert_id();
-                    // SCIRPT INPUT BIDANG ZK
-                    $uniqfasyankes = [];
-                    $uniqfasyankes = array_unique($post['fasyankes']);
-                    $count = 0;
-                    $query = [];
-                    foreach ($post['id_bidang'] as $bidangid) {
-                        $choose = "";
-                        $where = array(
-                            'id_bidang' => $bidangid
-                        );
-                        foreach ($uniqfasyankes as $fasyankesid) {
-                            if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
-                                $choose = 'true';
-                            }
-                        }
-                        if ($choose == true) {
-                            $databi = array(
-                                'is_checked' => '1'
-                            );
-                        } else {
-                            $databi = array(
-                                'is_checked' => '0'
-                            );
-                            $count++;
-                        }
 
-                        $query[] = array(
-                            'id_user_surveior' => $id_user_surveior,
-                            'users_id' => $users_id,
-                            'id_fasyankes_surveior' => $post['fasyankes'][$bidangid],
-                            'id_bidang' => $bidangid,
-                            'nama_bidang' => $post['nama_bidang'][$bidangid],
-                            'is_checked' => $databi['is_checked']
-                        );
-                    }
-                    if ($count < 10) {
-                        foreach ($query as $query) {
-                            $this->Model_sina->input_data('user_surveior_bidang_detail', $query);
-                        }
-
-                        $this->load->helper('date');
-                        date_default_timezone_set("Asia/Jakarta");
-                        $data = $this->session->flashdata('datapengguna');
-
-                        $emailpengguna = $post['email'];
-                        $namapengguna = $post['nama'];
-                        $notelp = $post['no_hp'];
-
-                        $subject = 'Akreditasi Fasyankes ACCOUNT';
-
-                        // Compose a simple HTML email message
-                        $message = '<html><body>';
-                        $message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
-                        $message .= '<p>Account Surveior Lembaga anda telah di validasi, </p>';
-                        $message .= '<p>Silahkan login pada halaman website : sinaf.kemkes.go.id .</p>';
-                        $message .= '<p><b>Menggunakan Username : ' . $emailpengguna . '  dan Menggunakan password : ' . $pwd . ' </b></p>';
-                        // $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
-                        $message .= '<b>===============================================================</b> <br> <br>';
-                        $message .= '<b style="color:blue;">If you need help, please contact the site administrator.</b>';
-                        $message .= '</body></html>';
-
-
-                        $config = [
-                            'mailtype' => 'html',
-                            'charset' => 'iso-8859-1',
-                            'protocol' => 'smtp',
-                            // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
-                            'smtp_host' => 'ssl://mail.kemkes.go.id',
-                            'smtp_user' => 'infoyankes@kemkes.go.id',
-                            'smtp_pass' => 'n3nceY@D',
-                            'smtp_port' => 465,
-                            'smtp_timeout' => 60
-                        ];
-
-                        $this->load->library('email', $config);
-                        $this->email->initialize($config);
-
-                        $this->email->from('infoyankes@kemkes.go.id');
-                        $this->email->to($emailpengguna);
-                        $this->email->subject($subject);
-                        $this->email->message($message);
-                        $this->email->set_newline("\r\n");
-                        $send = $this->email->send();
-                        if ($send) {
-                            // SUCCESS REDIRECT KEMANA ?????
-                            $this->session->set_flashdata('kode_name', 'success');
-                            $this->session->set_flashdata('icon_name', 'check');
-                            $this->session->set_flashdata('message_name', 'Sukses Input Data Surveior!');
-                            redirect('pengajuan/surveior');
-                        }
-                        // SUCCESS REDIRECT KEMANA ?????
-
-                    } else {
+                    $checkemail = $this->Model_sina->check_email($post['email']);
+                    if ($checkemail) {
                         $this->session->set_flashdata('kode_name', 'Failed');
                         $this->session->set_flashdata('icon_name', 'cross');
-                        $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
+                        $this->session->set_flashdata('message_name', 'Gagal Input Data, Email Sudah Terdaftar!');
                         redirect('pengajuan/inputsurveior');
+                    } else {
+                        $this->Model_sina->input_data('users', $datab);
+                        $users_id = $this->db->insert_id();
+                        $no = 1;
+                        $datas = array(
+                            'nik' => $post['nik'],
+                            'users_id' => $users_id,
+                            'nama' => $post['nama'],
+                            'email' => $post['email'],
+                            'no_hp' => $post['no_hp'],
+                            'lpa_id' => $this->session->userdata('lpa_id'),
+                            'provinsi_id' => $post['propinsi'],
+                            'kabkota_id' => $post['kota'],
+                            'keaktifan' => $post['keaktifan'],
+                            'fasyankes_id' => $no,
+                            'bidang_id'        => $no,
+                            'url_sertifikat_surveior' => $post['url_sertifikat_surveior'],
+                            'url_surat_keputusan_keanggotaan' => $post['url_surat_keputusan_keanggotaan'],
+                            'status_aktif' => $keaktifan_surveior
+                        );
+                        $this->Model_sina->input_data('user_surveior', $datas);
+                        $id_user_surveior = $this->db->insert_id();
+                        $fasyankes_id = $this->db->insert_id();
+                        $bidang_id = $this->db->insert_id();
+                        // SCIRPT INPUT BIDANG ZK
+                        $uniqfasyankes = [];
+                        $uniqfasyankes = array_unique($post['fasyankes']);
+                        $count = 0;
+                        $query = [];
+                        foreach ($post['id_bidang'] as $bidangid) {
+                            $choose = "";
+                            $where = array(
+                                'id_bidang' => $bidangid
+                            );
+                            foreach ($uniqfasyankes as $fasyankesid) {
+                                if (isset($post['fasyankes_id'][$fasyankesid]) && $post['fasyankes_id'][$fasyankesid] == $bidangid) {
+                                    $choose = 'true';
+                                }
+                            }
+                            if ($choose == true) {
+                                $databi = array(
+                                    'is_checked' => '1'
+                                );
+                            } else {
+                                $databi = array(
+                                    'is_checked' => '0'
+                                );
+                                $count++;
+                            }
+
+                            $query[] = array(
+                                'id_user_surveior' => $id_user_surveior,
+                                'users_id' => $users_id,
+                                'id_fasyankes_surveior' => $post['fasyankes'][$bidangid],
+                                'id_bidang' => $bidangid,
+                                'nama_bidang' => $post['nama_bidang'][$bidangid],
+                                'is_checked' => $databi['is_checked']
+                            );
+                        }
+                        if ($count < 10) {
+                            foreach ($query as $query) {
+                                $this->Model_sina->input_data('user_surveior_bidang_detail', $query);
+                            }
+
+                            $this->load->helper('date');
+                            date_default_timezone_set("Asia/Jakarta");
+                            $data = $this->session->flashdata('datapengguna');
+
+                            $emailpengguna = $post['email'];
+                            $namapengguna = $post['nama'];
+                            $notelp = $post['no_hp'];
+
+                            $subject = 'Akreditasi Fasyankes ACCOUNT';
+
+                            // Compose a simple HTML email message
+                            $message = '<html><body>';
+                            $message .= '<h4>Hallo, ' . $namapengguna . '!</h4>';
+                            $message .= '<p>Account Surveior Lembaga anda telah di validasi, </p>';
+                            $message .= '<p>Silahkan login pada halaman website : sinaf.kemkes.go.id .</p>';
+                            $message .= '<p><b>Menggunakan Username : ' . $emailpengguna . '  dan Menggunakan password : ' . $pwd . ' </b></p>';
+                            // $message .= '<b style="color:red;">After logging in, please change your password at profile.</b> <br><br>';
+                            $message .= '<b>===============================================================</b> <br> <br>';
+                            $message .= '<b style="color:blue;">If you need help, please contact the site administrator.</b>';
+                            $message .= '</body></html>';
+
+
+                            $config = [
+                                'mailtype' => 'html',
+                                'charset' => 'iso-8859-1',
+                                'protocol' => 'smtp',
+                                // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
+                                'smtp_host' => 'ssl://mail.kemkes.go.id',
+                                'smtp_user' => 'infoyankes@kemkes.go.id',
+                                'smtp_pass' => 'n3nceY@D',
+                                'smtp_port' => 465,
+                                'smtp_timeout' => 60
+                            ];
+
+                            $this->load->library('email', $config);
+                            $this->email->initialize($config);
+
+                            $this->email->from('infoyankes@kemkes.go.id');
+                            $this->email->to($emailpengguna);
+                            $this->email->subject($subject);
+                            $this->email->message($message);
+                            $this->email->set_newline("\r\n");
+                            $send = $this->email->send();
+                            if ($send) {
+                                // SUCCESS REDIRECT KEMANA ?????
+                                $this->session->set_flashdata('kode_name', 'success');
+                                $this->session->set_flashdata('icon_name', 'check');
+                                $this->session->set_flashdata('message_name', 'Sukses Input Data Surveior!');
+                                redirect('pengajuan/surveior');
+                            }
+                            // SUCCESS REDIRECT KEMANA ?????
+
+                        } else {
+                            $this->session->set_flashdata('kode_name', 'Failed');
+                            $this->session->set_flashdata('icon_name', 'cross');
+                            $this->session->set_flashdata('message_name', 'Gagal Input Data, Pilih Salah Satu Bidang!');
+                            redirect('pengajuan/inputsurveior');
+                        }
+                        // SCRIPT INPUT BIDANG ZK
                     }
-                    // SCRIPT INPUT BIDANG ZK
                 } else {
                     $this->session->set_flashdata('kode_name', 'Failed');
                     $this->session->set_flashdata('icon_name', 'cross');
