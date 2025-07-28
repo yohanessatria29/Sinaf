@@ -23,11 +23,12 @@ class Primer extends CI_Controller
         } else {
 
             $session_kriteria = $this->session->userdata('kriteria_id');
+            // $post = $this->security->xss_clean($this->input->post());
+            $post = $this->input->post(null, true);
 
             if ($session_kriteria == 1) {
                 $session_lpa = $this->session->userdata('lpa_id');
 
-                $post = $this->security->xss_clean($this->input->post());
                 if (!empty($post['tanggal_awal'])) {
                     $tanggal_awal = $post['tanggal_awal'];
                 } else {
