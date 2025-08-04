@@ -51,17 +51,31 @@ class Forgot_password extends CI_Controller
             $message .= '<p>Apabila anda tidak melakukan perubahan ini mohon hubungi site administrator.</p>';
             $message .= '<p>Terima kasih atas perhatiannya.</p>';
             $message .= '</body></html>';
-            $config = [
-                'mailtype' => 'html',
-                'charset' => 'iso-8859-1',
-                'protocol' => 'smtp',
-                // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
-                'smtp_host' => 'ssl://mail.kemkes.go.id',
-                'smtp_user' => 'infoyankes@kemkes.go.id',
-                'smtp_pass' => 'n3nceY@D',
-                'smtp_port' => 465,
-                'smtp_timeout' => 60
-            ];
+            // $config = [
+            //     'mailtype' => 'html',
+            //     'charset' => 'iso-8859-1',
+            //     'protocol' => 'smtp',
+            //     // 'smtp_host' => 'ssl://proxy.kemkes.go.id',
+            //     'smtp_host' => 'ssl://mail.kemkes.go.id',
+            //     'smtp_user' => 'infoyankes@kemkes.go.id',
+            //     'smtp_pass' => 'n3nceY@D',
+            //     'smtp_port' => 465,
+            //     'smtp_timeout' => 60
+            // ];
+
+            $config = array(
+                'protocol'     => 'smtp',
+                'smtp_host'    => 'mail.kemkes.go.id',
+                'smtp_port'    => 587,
+                'smtp_user'    => 'infoyankes@kemkes.go.id',
+                'smtp_pass'    => 'n3nceY@D',
+                'smtp_crypto'  => 'tls',
+                'mailtype'     => 'html',
+                'charset'      => 'utf-8',
+                'smtp_timeout' => 30,
+                'newline'      => "\r\n",   // ← WAJIB ADA
+                'crlf'         => "\r\n"    // ← HARUS COCOK
+            );
             $this->load->library('email', $config);
             $this->email->initialize($config);
             $this->email->from('infoyankes@kemkes.go.id', 'Info Yankes');
