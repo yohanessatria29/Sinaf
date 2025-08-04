@@ -75,9 +75,9 @@ class Forgot_password extends CI_Controller
                 redirect(base_url('Forgot_password'));
             } else {
                 // Debugging output
-                echo $this->email->print_debugger();
+                // echo $this->email->print_debugger();
                 $this->session->set_flashdata('warning', 'Gagal Mengirim Email.');
-                // redirect(base_url('Forgot_password'));
+                redirect(base_url('Forgot_password'));
             }
         } else {
             $this->session->set_flashdata('warning', 'Email Tidak Terdaftar.');
